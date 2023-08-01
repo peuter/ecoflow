@@ -11,11 +11,10 @@ from dotenv import load_dotenv
 from model.ecoflow.auth import EcoflowAuthentication
 from model.ecoflow.mqtt_client import init_client, get_client
 from model.ecoflow.powerstream import Ecoflow_Powerstream
+from model.ecoflow.smart_plug import Ecoflow_Smartplug
 
 
 load_dotenv()
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s') 
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -24,6 +23,14 @@ parser.add_argument('--nc-show', dest='ncurses_show',
                     help='serial number of device that should be shown in ncurses console screen.')
 
 args = parser.parse_args()
+
+handlers=[logging.StreamHandler()]
+if args.ncurses_show is not None:
+    handlers = [logging.FileHandler("logs/ecoflow-bridge.log")]
+                              
+
+logging.basicConfig(level=logging.INFO, handlers=handlers,
+                    format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s') 
 
 def main(stdscr=None):
     user = os.getenv("EF_USERNAME")
@@ -45,6 +52,8 @@ def main(stdscr=None):
                     continue
                 if device["type"] == "powerstream":
                     client = Ecoflow_Powerstream(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None, log_file=f)
+                elif device["type"] == "smart-plug":
+                    client = Ecoflow_Smartplug(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None, log_file=f)
                 else:
                     _LOGGER.error("unsupported device type: %s" % device["type"])
             # start run loop

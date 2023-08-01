@@ -1,36 +1,37 @@
-import os
 import json
-from model.homie.powerstream import Device_Powerstream
+import os
 
-class PowerStream:
-    def __init__(self, serial, screen):
+class BaseConnector:
+    def __init__(self, serial, type, screen):
         self.serial = serial
         self.units = {}
         self.screen = screen
-
+        self.sums = {}
         self.start_x = 60
         self.start_y = 0
 
-        mqtt_settings = {
+        self.mqtt_settings = {
             "MQTT_BROKER": os.getenv("HOMIE_MQTT"),
             "MQTT_PORT": int(os.getenv("HOMIE_MQTT_PORT")),
             "MQTT_SHARE_CLIENT": True
         }
-        if mqtt_settings["MQTT_BROKER"] is not None:
-            self.homie_device = Device_Powerstream(device_id=serial.lower(), name='Powerstream', mqtt_settings=mqtt_settings)
-        else:
-            self.homie_device = None
 
-        self.sums = {
-            "pvTotal": ["pv1InputWatts", "pv2InputWatts"]
-        }
         try:
             with open("configs/ncurses.json") as f:
                 ncurses_config = json.load(f)
-                self.screen_settings = ncurses_config["powerstream"]
+                if type in ncurses_config:
+                    self.screen_settings = ncurses_config[type]
+                else:
+                    self.screen_settings = {}
         except Exception as err:
             self.screen_settings = {}
             raise
+
+    def init_homie_device(self):
+        pass
+
+    def update_homie(self, name, value):
+        pass
 
     def close(self):
         if self.homie_device:
@@ -56,7 +57,7 @@ class PowerStream:
         if unit is not None:
             value = "%s %s" % (value, unit)
         return value
-        
+    
     def update(self, name: str, value, unit=None):
         setattr(self, name, value)
         if unit is not None:
@@ -80,29 +81,7 @@ class PowerStream:
             if name in self.sums[sum_name]:
                 self.update_sum(sum_name)
 
-        if self.homie_device is not None:
-            if name == "pv1InputWatts":
-                self.homie_device.update_pv1_input_watts(value)
-            elif name == "pv2InputWatts":
-                self.homie_device.update_pv2_input_watts(value)
-            elif name == "pvTotal":
-                self.homie_device.update_pv_input_watts(value)
-            elif name == "permanentWatts":
-                self.homie_device.update_permanent_watts(value)
-            elif name == "dynamicWatts":
-                self.homie_device.update_dynamic_watts(value)
-            elif name == "invOutputWatts":
-                self.homie_device.update_inverter_output_watts(value)
-            elif name == "batSoc":
-                self.homie_device.update_soc(value)
-            elif name == "pv1Temp:":
-                self.homie_device.update_pv1_temperature(value)
-            elif name == "pv2Temp:":
-                self.homie_device.update_pv2_temperature(value)                                
-            elif name == "batTemp":
-                self.homie_device.update_battery_temperature(value)
-            elif name == "batSoc":
-                self.homie_device.update_soc(value)                
+        self.update_homie(name, value)           
 
     def update_sum(self, sum_name):
         sum = 0

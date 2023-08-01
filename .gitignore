@@ -4,5 +4,5 @@ venv/
 .env
 *.js
 config.json
-
-*/__pycache__/*
+logs/
+__pycache__/
