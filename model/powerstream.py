@@ -1,6 +1,6 @@
 import os
 import json
-from model.homie_powerstream import Device_Powerstream
+from model.homie.powerstream import Device_Powerstream
 
 class PowerStream:
     def __init__(self, serial, screen):
@@ -61,18 +61,20 @@ class PowerStream:
         setattr(self, name, value)
         if unit is not None:
             self.set_unit(name, unit)
-        if name not in self.screen_settings:
-            # find a free spot
-            settings = {
-                "x": self.start_x,
-                "y": self.start_y,
-                "name": name
-            }
-            self.start_y += 1
-            self.screen_settings[name] = settings
+        
+        if self.screen is not None:
+            if name not in self.screen_settings:
+                # find a free spot
+                settings = {
+                    "x": self.start_x,
+                    "y": self.start_y,
+                    "name": name
+                }
+                self.start_y += 1
+                self.screen_settings[name] = settings
 
-        settings = self.screen_settings[name]
-        self.screen.addstr(settings["y"], settings["x"], "%s: %s     " % (settings["name"], self.value_string(name)))
+            settings = self.screen_settings[name]
+            self.screen.addstr(settings["y"], settings["x"], "%s: %s     " % (settings["name"], self.value_string(name)))
 
         for sum_name in self.sums.keys():
             if name in self.sums[sum_name]:
@@ -115,4 +117,5 @@ class PowerStream:
         self.update(sum_name, round(sum, 1), unit)
             
     def end_update(self):
-        self.screen.refresh()
+        if self.screen is not None:
+            self.screen.refresh()
