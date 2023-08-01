@@ -1,0 +1,5 @@
+paho-mqtt
+requests
+protobuf==3.20.0
+python-dotenv
+Homie4

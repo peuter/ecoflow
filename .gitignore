@@ -1,0 +1,8 @@
+raw_data.txt
+example*
+venv/
+.env
+*.js
+config.json
+
+*/__pycache__/*
