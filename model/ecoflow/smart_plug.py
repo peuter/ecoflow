@@ -19,14 +19,6 @@ class Ecoflow_Smartplug(EcoflowDevice):
 
         self.add_cmd_id_handler(self.handle_heartbeat, [1, 134])
         #self.add_cmd_id_handler(self.handle_pdata, ["unhandled"])
-        self.pdata_decoders = {
-            1: wn511.plug_heartbeat_pack(),
-            #11: powerstream.SetValue(),
-            32: platform.BatchEnergyTotalReport(),
-            134: wn511.plug_heartbeat_pack(),
-            #136: powerstream.SetValue(),
-            138: wn511.PowerPack()
-        }  
 
     def init_subscriptions(self):        
         super().init_subscriptions()

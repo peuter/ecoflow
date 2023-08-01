@@ -38,7 +38,7 @@ def main(stdscr=None):
    
     if user is not None and passwd is not None:
         config = {"devices": []}
-        with open('config.json') as c:
+        with open('configs/config.json') as c:
             config = json.load(c)
         _LOGGER.info("start authorizing")
         auth = EcoflowAuthentication(user, passwd)

@@ -17,15 +17,7 @@ class Ecoflow_Powerstream(EcoflowDevice):
 
         self.powerstream = PowerstreamConnector(self.device_sn, stdscr)
 
-        self.add_cmd_id_handler(self.handle_heartbeat, [1, 134])
-        self.pdata_decoders = {
-            1: powerstream.InverterHeartbeat(),
-            11: powerstream.SetValue(),
-            32: platform.BatchEnergyTotalReport(),
-            134: powerstream.InverterHeartbeat(),
-            136: powerstream.SetValue(),
-            138: wn511.PowerPack()
-        }       
+        self.add_cmd_id_handler(self.handle_heartbeat, [1, 134])    
 
     def init_subscriptions(self):        
         super().init_subscriptions()

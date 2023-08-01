@@ -7,6 +7,7 @@ import model.protos.wn511_socket_sys_pb2 as wn511
 from model.ecoflow.mqtt_client import get_client
 
 _LOGGER = logging.getLogger(__name__)
+_LOGGER.setLevel(logging.DEBUG)
 
 class EcoflowDevice:
     def __init__(self, serial: str, user_id=str, stdscr=None, log_file=None):
@@ -16,7 +17,25 @@ class EcoflowDevice:
         self.device_sn = serial
 
         self.handlers = {}
-        self.pdata_decoders = {}
+        self.pdata_decoders = {
+            2: {
+                1: wn511.plug_heartbeat_pack(),
+                134: wn511.plug_heartbeat_pack(),
+            },
+            20: {
+                1: powerstream.InverterHeartbeat(),
+                129: powerstream.SetValue(),
+                134: powerstream.InverterHeartbeat(),
+            },
+            32: {
+                11: powerstream.SetValue(),
+            },
+            254: {
+                32: platform.BatchEnergyTotalReport()
+            },            
+            # 136: powerstream.SetValue(),
+            # 138: wn511.PowerPack()
+        }   
 
         self._data_topic = f"/app/device/property/{self.device_sn}"
         self._set_topic = f"/app/{user_id}/{self.device_sn}/thing/property/set"
@@ -67,8 +86,9 @@ class EcoflowDevice:
             self.handlers[cmd_id].append(handler)
 
     def get_pdata_decoder(self, header):
-        if header.cmd_id in self.pdata_decoders:
-            return self.pdata_decoders[header.cmd_id]
+        if header.cmd_func in self.pdata_decoders:
+            if header.cmd_id in self.pdata_decoders[header.cmd_func]:
+                return self.pdata_decoders[header.cmd_func][header.cmd_id]
 
     def decode_message(self, payload, log_prefix=None):
         try:
@@ -87,6 +107,7 @@ class EcoflowDevice:
                 pdata = self.get_pdata_decoder(message)                
 
                 if pdata is not None:
+                    _LOGGER.debug(f"{self.device_sn} decoder found for cmd_func {message.cmd_func} cmd_id {message.cmd_id}")
                     pdata.ParseFromString(message.pdata)
                 handled = False
                 if message.cmd_id in self.handlers:
@@ -102,7 +123,7 @@ class EcoflowDevice:
                     for handler in self.handlers["*"]:
                         handler(pdata, message)
                 if not handled:
-                    _LOGGER.info(f"no handler registered for cmd_id {message.cmd_id}")
+                    _LOGGER.info(f"{self.device_sn} no handler registered for cmd_func {message.cmd_func} cmd_id {message.cmd_id}")
                 
         except Exception as err:
             self.log_raw(f"Unexpected {err=}, {type(err)=}", payload)
