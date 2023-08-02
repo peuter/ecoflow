@@ -12,8 +12,8 @@ from datetime import datetime
 _LOGGER = logging.getLogger(__name__)
 
 class Ecoflow_Powerstream(EcoflowDevice):
-    def __init__(self, serial: str, user_id: str, stdscr=None, log_file=None):
-        super().__init__(serial, user_id, stdscr, log_file)
+    def __init__(self, serial: str, user_id: str, stdscr=None):
+        super().__init__(serial, user_id, stdscr)
 
         self.powerstream = PowerstreamConnector(self.device_sn, stdscr)
 
@@ -44,32 +44,13 @@ class Ecoflow_Powerstream(EcoflowDevice):
     def handle_heartbeat(self, pdata, header):
         for descriptor in pdata.DESCRIPTOR.fields:
             val = getattr(pdata, descriptor.name)
-            if val != 0:
-                raw_unit = re.sub(r"([A-Z])", r" \1", descriptor.name).split()[-1].lower()
-                unit = ""
-                divisor = 1
-                if raw_unit == "watts" or raw_unit == "power":
-                    divisor = 10
-                    unit = "W"
-                elif raw_unit == "cur":
-                    divisor = 10
-                    unit = "A"
-                elif raw_unit == "temp":
-                    divisor = 10
-                    unit = "°C"
-                elif raw_unit == "volt":
-                    divisor = 10 # ???
-                    unit = "V"
-                elif raw_unit == "brightness":
-                    divisor = 10
-                    unit = "%"
-                elif raw_unit == "time":
+            if val is not None:
+                [unit, divisor, special_handler] = self.get_param_settings(descriptor.name)
+                if special_handler == "time":
                     # time in minutes
                     h = math.floor(val/60)
                     m = val % 60
                     val = "%02d:%02d" % (h, m)
-                elif descriptor.name in ["batSoc", "lowerLimit", "upperLimit"]:
-                    unit = "%"
                 if divisor != 1:
                     val = val / divisor
                 self.powerstream.update(descriptor.name, val, unit)

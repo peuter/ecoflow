@@ -1,20 +1,24 @@
 import logging
-
+import json
+import re
 import model.protos.platform_pb2 as platform
 import model.protos.powerstream_pb2 as powerstream
 import model.protos.wn511_socket_sys_pb2 as wn511
 
 from model.ecoflow.mqtt_client import get_client
+from model.utils.message_logger import MessageLogger
 
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.DEBUG)
 
 class EcoflowDevice:
-    def __init__(self, serial: str, user_id=str, stdscr=None, log_file=None):
+    def __init__(self, serial: str, user_id=str, stdscr=None):
         self.screen = stdscr
-        self.raw_file = log_file
         self.client = get_client()
         self.device_sn = serial
+        self._param_settings_cache = {}
+
+        self.message_logger: MessageLogger = None
 
         self.handlers = {}
         self.pdata_decoders = {
@@ -45,6 +49,42 @@ class EcoflowDevice:
 
         self.init_subscriptions()
 
+    def get_param_settings(self, name):
+        if name not in self._param_settings_cache:
+            self._param_settings_cache[name] = self.detect_param_settings(name)
+        return self._param_settings_cache[name]
+                    
+    def detect_param_settings(self, name) -> dict:
+        raw_unit = re.sub(r"([A-Z])", r" \1", name).split()[-1].lower()
+        unit = ""
+        special_handler = None
+        divisor = 1
+        if raw_unit == "watts" or raw_unit == "power":
+            divisor = 10
+            unit = "W"
+        elif raw_unit == "cur":
+            divisor = 10
+            unit = "A"
+        elif raw_unit == "temp":
+            divisor = 10
+            unit = "°C"
+        elif raw_unit == "volt":
+            divisor = 10 # ???
+            unit = "V"
+        elif raw_unit == "brightness":
+            divisor = 10
+            unit = "%"
+        elif raw_unit == "time":
+            # time in minutes
+            special_handler = "time"
+        elif name in ["batSoc", "lowerLimit", "upperLimit"]:
+            unit = "%"
+        return {
+            "unit": unit,
+            "divisor": divisor,
+            "special_handler": special_handler
+        }
+
 
     def init_subscriptions(self):
         self.client.subscribe(self._data_topic, self)
@@ -53,6 +93,9 @@ class EcoflowDevice:
         self.client.subscribe(self._get_topic, self)
         self.client.subscribe(self._get_reply_topic, self)
         _LOGGER.info("subscriptions initialized")
+
+    def set_message_logger(self, logger: MessageLogger):
+        self.message_logger = logger
 
     def request_data(self):
         message = powerstream.SendHeaderMsg()
@@ -64,13 +107,15 @@ class EcoflowDevice:
     def on_message(self, client, userdata, mqtt_message):
         try:
             if mqtt_message.topic == self._data_topic:
-                self.decode_message(mqtt_message.payload)
+                self.decode_message(mqtt_message.payload, log_prefix="DATA")
             elif mqtt_message.topic == self._set_topic:
                 self.decode_message(mqtt_message.payload, log_prefix="SET")
             elif mqtt_message.topic == self._set_reply_topic:
-                self.log_raw("SET REPLY", mqtt_message.payload)
+                if self.message_logger is not None:
+                    self.message_logger.log_message(mqtt_message.payload, handled=False, prefix="SET_REPLY")
             elif mqtt_message.topic == self._get_topic:
-                self.log_raw("GET", mqtt_message.payload)                
+                if self.message_logger is not None:
+                    self.message_logger.log_message(mqtt_message.payload, handled=False, prefix="GET")
             elif mqtt_message.topic == self._get_reply_topic:
                 self.decode_message(mqtt_message.payload, log_prefix="GET REPLY")
             else:
@@ -93,8 +138,24 @@ class EcoflowDevice:
     def decode_message(self, payload, log_prefix=None):
         try:
             msg = payload.decode("utf-8")
-            if log_prefix is not None:
-                self.raw_file.write("%s:\n%s\n" % (log_prefix, msg))
+            message = json.loads(msg)
+            handled = False
+            if "cmdId" in message:
+                if message["cmdId"] in self.handlers:
+                    handled = True
+                    for handler in self.handlers[message["cmdId"]]:
+                        handler(message)
+                elif "unhandled" in self.handlers:
+                    handled = True
+                    for handler in self.handlers["unhandled"]:
+                        handler(message)
+                if "*" in self.handlers:
+                    handled = True
+                    for handler in self.handlers["*"]:
+                        handler(message)
+
+            if self.message_logger is not None:
+                self.message_logger.log_message(message, prefix=f"{self.device_sn}-{log_prefix}", handled=handled, title=self.device_sn, raw=msg)
             return
         except:
             self.decode_proto(payload, log_prefix=log_prefix)
@@ -122,21 +183,14 @@ class EcoflowDevice:
                     handled = True
                     for handler in self.handlers["*"]:
                         handler(pdata, message)
+                if self.message_logger is not None:
+                    self.message_logger.log_message(message, pdata=pdata, handled=handled, prefix=f"{self.device_sn}-{log_prefix}", title=self.device_sn, raw=payload)
                 if not handled:
                     _LOGGER.info(f"{self.device_sn} no handler registered for cmd_func {message.cmd_func} cmd_id {message.cmd_id}")
                 
         except Exception as err:
-            self.log_raw(f"Unexpected {err=}, {type(err)=}", payload)
+            _LOGGER.error(f"Unexpected {err=}, {type(err)=}", payload)
             raise err    
         
     def decode_pdata(self, header):
         pass
-
-    def log_raw(self, prefix, payload, message=None, pdata=None):
-        if self.raw_file is not None:
-            self.raw_file.write("\n\n%s:\n%s" % (prefix, payload.hex()))
-            if pdata is not None:
-                self.raw_file.write("\nMESSAGE:\n%s" % message)
-            if pdata is not None:
-                self.raw_file.write("\nPDATA:\n%s" % pdata)
-            self.raw_file.flush()        

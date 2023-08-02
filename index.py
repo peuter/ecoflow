@@ -12,6 +12,8 @@ from model.ecoflow.auth import EcoflowAuthentication
 from model.ecoflow.mqtt_client import init_client, get_client
 from model.ecoflow.powerstream import Ecoflow_Powerstream
 from model.ecoflow.smart_plug import Ecoflow_Smartplug
+from model.ecoflow.delta_max import Ecoflow_DeltaMax
+from model.utils.message_logger import MessageLogger
 
 
 load_dotenv()
@@ -21,18 +23,24 @@ _LOGGER = logging.getLogger(__name__)
 parser = argparse.ArgumentParser(description='Ecoflow MQTT<->Homie bridge.')
 parser.add_argument('--nc-show', dest='ncurses_show', 
                     help='serial number of device that should be shown in ncurses console screen.')
+parser.add_argument('--raw-log', dest='raw_log_mode', choices=["none", "unhandled", "all"], default="none",
+                    help='Mode for logging raw messages')
+parser.add_argument('--log-folder', dest='log_folder', default="./logs",
+                    help='Folder for log files.')
+
 
 args = parser.parse_args()
 
 handlers=[logging.StreamHandler()]
 if args.ncurses_show is not None:
-    handlers = [logging.FileHandler("logs/ecoflow-bridge.log")]
+    handlers = [logging.FileHandler(os.path.join(args.log_folder, "ecoflow-bridge.log"))]
                               
 
 logging.basicConfig(level=logging.INFO, handlers=handlers,
                     format='%(asctime)s - %(name)s - %(threadName)s -  %(levelname)s - %(message)s') 
 
 def main(stdscr=None):
+    global args
     user = os.getenv("EF_USERNAME")
     passwd = os.getenv("EF_PASSWORD")
    
@@ -45,20 +53,33 @@ def main(stdscr=None):
         auth.authorize()
         init_client(auth)
         _LOGGER.info('init devices')
-        client = None
-        with open('raw_data.txt', 'a') as f:
-            for device in config["devices"]:
-                if "disabled" in device and device["disabled"] == True:
-                    continue
-                if device["type"] == "powerstream":
-                    client = Ecoflow_Powerstream(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None, log_file=f)
-                elif device["type"] == "smart-plug":
-                    client = Ecoflow_Smartplug(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None, log_file=f)
-                else:
-                    _LOGGER.error("unsupported device type: %s" % device["type"])
-            # start run loop
-            get_client().start()
-        if client is not None:
+
+        message_logger = None
+        clients = []
+        if args.raw_log_mode != "none":
+            message_logger = MessageLogger(args.raw_log_mode, args.log_folder)
+
+        for device in config["devices"]:
+            client = None
+            if "disabled" in device and device["disabled"] == True:
+                continue
+            if device["type"] == "powerstream":
+                client = Ecoflow_Powerstream(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
+            elif device["type"] == "smart-plug":
+                client = Ecoflow_Smartplug(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
+            elif device["type"] == "delta-max":
+                client = Ecoflow_DeltaMax(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
+            else:
+                _LOGGER.error("unsupported device type: %s" % device["type"])
+
+            if client is not None:
+                _LOGGER.info(f"{device['type']} has been created.")
+                clients.append(client)
+                if message_logger is not None:
+                    client.set_message_logger(message_logger)
+        # start run loop
+        get_client().start()
+        for client in clients:
             client.stop()
         _LOGGER.info("DONE")
     else:

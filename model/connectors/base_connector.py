@@ -1,5 +1,6 @@
 import json
 import os
+import curses
 
 class BaseConnector:
     def __init__(self, serial, type, screen):
@@ -7,8 +8,9 @@ class BaseConnector:
         self.units = {}
         self.screen = screen
         self.sums = {}
-        self.start_x = 60
+        self.start_x = 0
         self.start_y = 0
+        self.col_width = 40
 
         self.mqtt_settings = {
             "MQTT_BROKER": os.getenv("HOMIE_MQTT"),
@@ -21,6 +23,7 @@ class BaseConnector:
                 ncurses_config = json.load(f)
                 if type in ncurses_config:
                     self.screen_settings = ncurses_config[type]
+                    self.start_x = self.col_width*2
                 else:
                     self.screen_settings = {}
         except Exception as err:
@@ -65,17 +68,22 @@ class BaseConnector:
         
         if self.screen is not None:
             if name not in self.screen_settings:
-                # find a free spot
-                settings = {
-                    "x": self.start_x,
-                    "y": self.start_y,
-                    "name": name
-                }
-                self.start_y += 1
-                self.screen_settings[name] = settings
+                # find a free spot                
+                if self.start_y+1 >= curses.LINES-1:
+                    self.start_x += self.col_width
+                    self.start_y = 0
+                if self.start_x < curses.COLS-1 and self.start_y < curses.LINES-1:
+                    settings = {
+                        "x": self.start_x,
+                        "y": self.start_y,
+                        "name": name
+                    }
+                    self.start_y += 1
+                    self.screen_settings[name] = settings
 
-            settings = self.screen_settings[name]
-            self.screen.addstr(settings["y"], settings["x"], "%s: %s     " % (settings["name"], self.value_string(name)))
+            if name in self.screen_settings:
+                settings = self.screen_settings[name]
+                self.screen.addstr(settings["y"], settings["x"], "%s: %s     " % (settings["name"], self.value_string(name)))
 
         for sum_name in self.sums.keys():
             if name in self.sums[sum_name]:

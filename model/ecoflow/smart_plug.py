@@ -12,8 +12,8 @@ _LOGGER.setLevel(logging.DEBUG)
 
 
 class Ecoflow_Smartplug(EcoflowDevice):
-    def __init__(self, serial: str, user_id: str, stdscr=None, log_file=None):
-        super().__init__(serial, user_id, stdscr, log_file)
+    def __init__(self, serial: str, user_id: str, stdscr=None):
+        super().__init__(serial, user_id, stdscr)
 
         self.connector = SmartplugConnector(self.device_sn, stdscr)
 
@@ -27,26 +27,9 @@ class Ecoflow_Smartplug(EcoflowDevice):
     def handle_heartbeat(self, pdata, header):
         for descriptor in pdata.DESCRIPTOR.fields:
             val = getattr(pdata, descriptor.name)
-            if val != 0:
-                raw_unit = re.sub(r"([A-Z])", r" \1", descriptor.name).split()[-1].lower()
-                unit = ""
-                divisor = 1
-                if raw_unit == "watts" or raw_unit == "power":
-                    divisor = 10
-                    unit = "W"
-                elif raw_unit == "cur":
-                    divisor = 10
-                    unit = "A"
-                elif raw_unit == "temp":
-                    divisor = 10
-                    unit = "°C"
-                elif raw_unit == "volt":
-                    divisor = 10 # ???
-                    unit = "V"
-                elif raw_unit == "brightness":
-                    divisor = 10
-                    unit = "%"
-                elif raw_unit == "time":
+            if val is not None:
+                [unit, divisor, special_handler] = self.get_param_settings(descriptor.name)
+                if special_handler == "time":
                     # time in minutes
                     h = math.floor(val/60)
                     m = val % 60
