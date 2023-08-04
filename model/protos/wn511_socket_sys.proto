@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+package model.protos;
+
+import "model/protos/options.proto";
+
 message rtc_data {
   optional int32 week = 1;
   optional int32 sec = 2;
@@ -28,15 +32,15 @@ message plug_heartbeat_pack {
   optional int32 warn_code = 2;
   optional int32 country = 3;
   optional int32 town = 4;
-  optional int32 max_cur = 5;
-  optional int32 temp = 6;
+  optional int32 max_cur = 5 [(mapping_options) = {divisor: 10, unit: "A" }];
+  optional int32 temp = 6 [(mapping_options) = {divisor: 10, unit: "°C" }];
   optional int32 freq = 7;
-  optional int32 current = 8;
-  optional int32 volt = 9;
-  optional int32 watts = 10;
+  optional int32 current = 8 [(mapping_options) = {divisor: 10, unit: "A" }];
+  optional int32 volt = 9 [(mapping_options) = {divisor: 10, unit: "V" }];
+  optional int32 watts = 10 [(mapping_options) = {divisor: 10, unit: "W" }];
   optional bool switch = 11;
-  optional int32 brightness = 12;
-  optional int32 max_watts = 13;
+  optional int32 brightness = 12 [(mapping_options) = {unit: "%" }];
+  optional int32 max_watts = 13 [(mapping_options) = {divisor: 10, unit: "W" }];
   optional int32 heartbeat_frequency = 14;
   optional bool mesh_enable = 15;
   optional int32 unknown_17 = 17;

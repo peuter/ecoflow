@@ -4,7 +4,8 @@ import re
 import model.protos.platform_pb2 as platform
 import model.protos.powerstream_pb2 as powerstream
 import model.protos.wn511_socket_sys_pb2 as wn511
-
+import model.protos.options_pb2 as options
+import math
 from model.ecoflow.mqtt_client import get_client
 from model.utils.message_logger import MessageLogger
 
@@ -18,18 +19,21 @@ class EcoflowDevice:
         self.device_sn = serial
         self._param_settings_cache = {}
 
+        self.connector = None
+
         self.message_logger: MessageLogger = None
 
         self.handlers = {}
         self.pdata_decoders = {
             2: {
                 1: wn511.plug_heartbeat_pack(),
-                134: wn511.plug_heartbeat_pack(),
+                #134: wn511.plug_heartbeat_pack(),
             },
             20: {
                 1: powerstream.InverterHeartbeat(),
+                #4: powerstream.InverterHeartbeat2(),
                 129: powerstream.SetValue(),
-                134: powerstream.InverterHeartbeat(),
+                #134: powerstream.InverterHeartbeat(),
             },
             32: {
                 11: powerstream.SetValue(),
@@ -57,7 +61,7 @@ class EcoflowDevice:
     def detect_param_settings(self, name) -> dict:
         raw_unit = re.sub(r"([A-Z])", r" \1", name).split()[-1].lower()
         unit = ""
-        special_handler = None
+        converter = None
         divisor = 1
         if raw_unit == "watts" or raw_unit == "power":
             divisor = 10
@@ -76,14 +80,35 @@ class EcoflowDevice:
             unit = "%"
         elif raw_unit == "time":
             # time in minutes
-            special_handler = "time"
+            converter = "minutes"
         elif name in ["batSoc", "lowerLimit", "upperLimit"]:
             unit = "%"
         return {
             "unit": unit,
             "divisor": divisor,
-            "special_handler": special_handler
+            "converter": converter
         }
+    
+    def handle_heartbeat(self, pdata, header):
+        for descriptor, val in pdata.ListFields():
+            if val is not None:
+                mapping_options = descriptor.GetOptions().Extensions[options.mapping_options]
+                divisor = mapping_options.divisor if mapping_options.divisor > 1 else 1
+                unit = mapping_options.unit
+                if mapping_options.divisor > 1:
+                    divisor = mapping_options.divisor
+                if mapping_options.converter == "minutes":
+                    # time in minutes
+                    h = math.floor(val/60)
+                    m = val % 60
+                    val = "%02d:%02d" % (h, m)
+                if divisor != 1:
+                    val = val / divisor
+                if self.connector is not None:
+                    self.connector.update(descriptor.name, val, unit)
+                _LOGGER.debug(f"update received {descriptor.name}: {val} {unit}")
+        if self.connector is not None:
+            self.connector.end_update()    
 
 
     def init_subscriptions(self):
@@ -101,7 +126,9 @@ class EcoflowDevice:
         message = powerstream.SendHeaderMsg()
         header = message.msg.add()
         setattr(header, "from", "Android")
-        header.seq = 381471004
+        header.src = 32
+        header.dest = 53
+        header.seq = 1651831507
         self.client.publish(self._get_topic, message.SerializeToString())        
 
     def on_message(self, client, userdata, mqtt_message):
@@ -111,11 +138,13 @@ class EcoflowDevice:
             elif mqtt_message.topic == self._set_topic:
                 self.decode_message(mqtt_message.payload, log_prefix="SET")
             elif mqtt_message.topic == self._set_reply_topic:
-                if self.message_logger is not None:
-                    self.message_logger.log_message(mqtt_message.payload, handled=False, prefix="SET_REPLY")
+                self.decode_message(mqtt_message.payload, log_prefix="SET_REPLY")
+                # if self.message_logger is not None:
+                #     self.message_logger.log_message(mqtt_message.payload, handled=False, prefix=f"{self.device_sn}-SET_REPLY", title=self.device_sn)
             elif mqtt_message.topic == self._get_topic:
-                if self.message_logger is not None:
-                    self.message_logger.log_message(mqtt_message.payload, handled=False, prefix="GET")
+                self.decode_message(mqtt_message.payload, log_prefix="GET")
+                # if self.message_logger is not None:
+                #     self.message_logger.log_message(mqtt_message.payload, handled=False, prefix=f"{self.device_sn}-GET", title=self.device_sn)
             elif mqtt_message.topic == self._get_reply_topic:
                 self.decode_message(mqtt_message.payload, log_prefix="GET REPLY")
             else:

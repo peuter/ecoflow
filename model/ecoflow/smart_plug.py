@@ -17,32 +17,8 @@ class Ecoflow_Smartplug(EcoflowDevice):
 
         self.connector = SmartplugConnector(self.device_sn, stdscr)
 
-        self.add_cmd_id_handler(self.handle_heartbeat, [1, 134])
-        #self.add_cmd_id_handler(self.handle_pdata, ["unhandled"])
+        self.add_cmd_id_handler(self.handle_heartbeat, [1])
 
     def init_subscriptions(self):        
         super().init_subscriptions()
-        self.request_data()        
-
-    def handle_heartbeat(self, pdata, header):
-        for descriptor in pdata.DESCRIPTOR.fields:
-            val = getattr(pdata, descriptor.name)
-            if val is not None:
-                [unit, divisor, special_handler] = self.get_param_settings(descriptor.name)
-                if special_handler == "time":
-                    # time in minutes
-                    h = math.floor(val/60)
-                    m = val % 60
-                    val = "%02d:%02d" % (h, m)
-                if divisor != 1:
-                    val = val / divisor
-                self.connector.update(descriptor.name, val, unit)
-                _LOGGER.debug(f"update received {descriptor.name}: {val} {unit}")
-        self.connector.end_update()
-    
-    def handle_pdata(self, pdata, header):        
-        #_LOGGER.debug(f"HEADER: {header}")
-        if pdata is not None:
-            _LOGGER.debug(f"DECODED| cmd_func: {header.cmd_func}, cmd_id: {header.cmd_id}, PDATA: {pdata}")
-        else:
-            _LOGGER.debug(f"cmd_func: {header.cmd_func}, cmd_id: {header.cmd_id}, PDATA: {header.pdata.hex()}")
+        self.request_data()
