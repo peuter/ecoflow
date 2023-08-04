@@ -43,28 +43,6 @@ message plug_heartbeat_pack {
   optional int32 max_watts = 13 [(mapping_options) = { unit: "W" }];
   optional int32 heartbeat_frequency = 14;
   optional bool mesh_enable = 15;
-  optional int32 unknown_17 = 17;
-  optional int32 unknown_18 = 18;
-  optional int32 unknown_19 = 19;
-  optional int32 unknown_20 = 20;
-  optional int32 unknown_21 = 21;
-  optional int32 unknown_22 = 22;
-  optional int32 unknown_23 = 23;
-  optional int32 unknown_24 = 24;
-  optional int32 unknown_25 = 25;
-  optional int32 unknown_26 = 26;
-  optional int32 unknown_27 = 27;
-  optional int32 unknown_28 = 28;
-  optional int32 unknown_29 = 29;
-  optional int32 unknown_30 = 30;
-  optional int32 unknown_31 = 31;
-  optional int32 unknown_32 = 32;
-  optional int32 unknown_33 = 33;
-  optional int32 unknown_34 = 34;
-  optional int32 unknown_35 = 35;
-  optional int32 unknown_36 = 36;
-  optional int32 unknown_37 = 37;
-  optional int32 unknown_38 = 38;
 }
 
 message plug_switch_message {

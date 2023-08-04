@@ -33,7 +33,7 @@ class BaseConnector:
     def init_homie_device(self):
         pass
 
-    def update_homie(self, name, value):
+    def update_homie(self, value, descriptor=None, node_name=None, id=None, name=None):
         pass
 
     def close(self):
@@ -61,11 +61,40 @@ class BaseConnector:
             value = "%s %s" % (value, unit)
         return value
     
-    def update(self, name: str, value, unit=None):
+    def update(self, descriptor, value, unit=None):
+        name = descriptor.name
         setattr(self, name, value)
         if unit is not None:
             self.set_unit(name, unit)
         
+        self.update_screen(name)
+
+        for sum_name in self.sums.keys():
+            if name in getattr(self.sums[sum_name], "fields"):
+                self.update_sum(sum_name)
+
+        self.update_homie(value, descriptor=descriptor) 
+
+    def update_sum(self, sum_name):
+        sum = 0
+        unit = None
+        derived_field = self.sums[sum_name]
+        for name in getattr(derived_field, "fields"):
+            val = getattr(self, name)
+            if val is None:
+                continue
+            sum += val
+            if unit is None:
+                unit = self.get_unit(name)
+        value = round(sum, 1)
+        setattr(self, sum_name, value)
+        if unit is not None:
+            self.set_unit(name, unit)
+        self.update_homie(value, name=sum_name, node_name=getattr(derived_field, "node"))
+
+        self.update_screen(sum_name)
+        
+    def update_screen(self, name):
         if self.screen is not None:
             if name not in self.screen_settings:
                 # find a free spot                
@@ -85,24 +114,6 @@ class BaseConnector:
                 settings = self.screen_settings[name]
                 self.screen.addstr(settings["y"], settings["x"], "%s: %s     " % (settings["name"], self.value_string(name)))
 
-        for sum_name in self.sums.keys():
-            if name in self.sums[sum_name]:
-                self.update_sum(sum_name)
-
-        self.update_homie(name, value)           
-
-    def update_sum(self, sum_name):
-        sum = 0
-        unit = None
-        for name in self.sums[sum_name]:
-            val = getattr(self, name)
-            if val is None:
-                continue
-            sum += val
-            if unit is None:
-                unit = self.get_unit(name)
-        self.update(sum_name, round(sum, 1), unit)
-            
     def end_update(self):
         if self.screen is not None:
             self.screen.refresh()

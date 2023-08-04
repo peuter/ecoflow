@@ -11,6 +11,6 @@ class DeltaMaxConnector(BaseConnector):
     #     else:
     #         self.homie_device = None
 
-    def update_homie(self, name, value):
+    def update_homie(self, value, descriptor=None, node_name=None, id=None, name=None):
         if self.homie_device is not None:
             pass

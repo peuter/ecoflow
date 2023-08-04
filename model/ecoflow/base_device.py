@@ -27,19 +27,20 @@ class EcoflowDevice:
         self.pdata_decoders = {
             2: {
                 1: wn511.plug_heartbeat_pack(),
+                2: wn511.time_task_config(),
+                32: platform.EnergyTotalReport()
                 #134: wn511.plug_heartbeat_pack(),
             },
             20: {
                 1: powerstream.InverterHeartbeat(),
-                #4: powerstream.InverterHeartbeat2(),
-                129: powerstream.SetValue(),
-                #134: powerstream.InverterHeartbeat(),
+                129: powerstream.SetValue()
             },
             32: {
                 11: powerstream.SetValue(),
             },
             254: {
-                32: platform.BatchEnergyTotalReport()
+                16: platform.EventRecordReport(),
+                32: platform.EnergyTotalReport()
             },            
             # 136: powerstream.SetValue(),
             # 138: wn511.PowerPack()
@@ -105,7 +106,7 @@ class EcoflowDevice:
                 if divisor != 1:
                     val = val / divisor
                 if self.connector is not None:
-                    self.connector.update(descriptor.name, val, unit)
+                    self.connector.update(descriptor, val, unit)
                 _LOGGER.debug(f"update received {descriptor.name}: {val} {unit}")
         if self.connector is not None:
             self.connector.end_update()    
@@ -196,24 +197,24 @@ class EcoflowDevice:
             for message in packet.msg:
                 pdata = self.get_pdata_decoder(message)                
 
+                handled = False
                 if pdata is not None:
                     _LOGGER.debug(f"{self.device_sn} decoder found for cmd_func {message.cmd_func} cmd_id {message.cmd_id}")
                     pdata.ParseFromString(message.pdata)
-                handled = False
-                if message.cmd_id in self.handlers:
-                    handled = True
-                    for handler in self.handlers[message.cmd_id]:
-                        handler(pdata, message)
-                elif "unhandled" in self.handlers:
-                    handled = True
-                    for handler in self.handlers["unhandled"]:
-                        handler(pdata, message)
-                if "*" in self.handlers:
-                    handled = True
-                    for handler in self.handlers["*"]:
-                        handler(pdata, message)
-                if self.message_logger is not None:
-                    self.message_logger.log_message(message, pdata=pdata, handled=handled, prefix=f"{self.device_sn}-{log_prefix}", title=self.device_sn, raw=payload)
+                    if message.cmd_id in self.handlers:
+                        handled = True
+                        for handler in self.handlers[message.cmd_id]:
+                            handler(pdata, message)
+                    elif "unhandled" in self.handlers:
+                        handled = True
+                        for handler in self.handlers["unhandled"]:
+                            handler(pdata, message)
+                    if "*" in self.handlers:
+                        handled = True
+                        for handler in self.handlers["*"]:
+                            handler(pdata, message)
+                    if self.message_logger is not None:
+                        self.message_logger.log_message(message, pdata=pdata, handled=handled, prefix=f"{self.device_sn}-{log_prefix}", title=self.device_sn, raw=payload)
                 if not handled:
                     _LOGGER.info(f"{self.device_sn} no handler registered for cmd_func {message.cmd_func} cmd_id {message.cmd_id}")
                 
