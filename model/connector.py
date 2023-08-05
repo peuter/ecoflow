@@ -5,6 +5,7 @@ import curses
 from model.homie.device import Proto_Device
 import model.protos.options_pb2 as options
 from model.utils.event_emitter import EventEmitter
+from model.utils.settings import Settings
 
 class Connector(EventEmitter):
     def __init__(self, serial, type, screen=None):
@@ -26,15 +27,16 @@ class Connector(EventEmitter):
         }
 
         try:
-            with open("configs/ncurses.json") as f:
-                ncurses_config = json.load(f)
-                if type in ncurses_config:
-                    self.screen_settings = ncurses_config[type]
-                    self.start_x = self.col_width*2
-                else:
-                    self.screen_settings = {}
-        except Exception as err:
+            curses_file = os.path.join(Settings.arg("config_folder"), "ncurses.json")
             self.screen_settings = {}
+            if os.path.exists(curses_file):
+                with open(curses_file) as f:
+                    ncurses_config = json.load(f)
+                    if type in ncurses_config:
+                        self.screen_settings = ncurses_config[type]
+                        self.start_x = self.col_width*2
+                        
+        except Exception as err:
             raise
 
     def set_proto_message(self, message):

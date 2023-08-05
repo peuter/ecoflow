@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  ecoflow:
+    image: ecoflow-homie-bridge
+    build:
+      context: .
+      dockerfile: ./Dockerfile      
+    environment:
+      - EF_USERNAME=${EF_USERNAME}
+      - EF_PASSWORD=${EF_PASSWORD}
+      - HOMIE_MQTT=${HOMIE_MQTT}
+      - HOMIE_MQTT_PORT=${HOMIE_MQTT_PORT}
+    volumes:
+      - "./logs:/var/log/ecoflow:z"
+      - "./configs:/etc/ecoflow:z"

@@ -14,9 +14,10 @@ from model.ecoflow.powerstream import Ecoflow_Powerstream
 from model.ecoflow.smart_plug import Ecoflow_Smartplug
 from model.ecoflow.delta_max import Ecoflow_DeltaMax
 from model.utils.message_logger import MessageLogger
+from model.utils.settings import Settings
 
-
-load_dotenv()
+if os.getenv("IN_DOCKER") != "1":
+    load_dotenv()
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -25,11 +26,13 @@ parser.add_argument('--nc-show', dest='ncurses_show',
                     help='serial number of device that should be shown in ncurses console screen.')
 parser.add_argument('--raw-log', dest='raw_log_mode', choices=["none", "unhandled", "all"], default="none",
                     help='Mode for logging raw messages')
-parser.add_argument('--log-folder', dest='log_folder', default="./logs",
+parser.add_argument('--log-folder', dest='log_folder', default=os.getenv("EF_LOG_FOLDER") if os.getenv("EF_LOG_FOLDER") is not None else "./logs",
+                    help='Folder for log files.')
+parser.add_argument('--config-folder', dest='config_folder', default=os.getenv("EF_CONFIG_FOLDER") if os.getenv("EF_CONFIG_FOLDER") is not None else "./configs",
                     help='Folder for log files.')
 
-
 args = parser.parse_args()
+Settings.set("args", args) 
 
 handlers=[logging.StreamHandler()]
 if args.ncurses_show is not None:
@@ -46,7 +49,7 @@ def main(stdscr=None):
    
     if user is not None and passwd is not None:
         config = {"devices": []}
-        with open('configs/config.json') as c:
+        with open(os.path.join(args.config_folder, 'config.json')) as c:
             config = json.load(c)
         _LOGGER.info("start authorizing")
         auth = EcoflowAuthentication(user, passwd)
