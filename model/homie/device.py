@@ -121,7 +121,7 @@ class Proto_Device(Device_Base, EventEmitter):
                 node.get_property(property_name).value = value    
 
     def update_status(self, status: int):
-        self.state("ready" if status > 0 else "disconnected")
+        self.state = "ready" if status > 0 else "disconnected"
 
     def get_id(self, id, name):
         if id != "" and id is not None:
