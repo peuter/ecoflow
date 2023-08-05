@@ -22,9 +22,9 @@ if os.getenv("IN_DOCKER") != "1":
 _LOGGER = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser(description='Ecoflow MQTT<->Homie bridge.')
-parser.add_argument('--nc-show', dest='ncurses_show', 
+parser.add_argument('--show', dest='ncurses_show', 
                     help='serial number of device that should be shown in ncurses console screen.')
-parser.add_argument('--raw-log', dest='raw_log_mode', choices=["none", "unhandled", "all"], default="none",
+parser.add_argument('--log', dest='raw_log_mode', choices=["none", "unhandled", "all"], default="none",
                     help='Mode for logging raw messages')
 parser.add_argument('--log-folder', dest='log_folder', default=os.getenv("EF_LOG_FOLDER") if os.getenv("EF_LOG_FOLDER") is not None else "./logs",
                     help='Folder for log files.')
