@@ -11,7 +11,6 @@ from model.ecoflow.mqtt_client import get_client
 from model.utils.message_logger import MessageLogger
 
 _LOGGER = logging.getLogger(__name__)
-_LOGGER.setLevel(logging.DEBUG)
 
 class EcoflowDevice:
     def __init__(self, serial: str, user_id=str, stdscr=None):
@@ -49,6 +48,8 @@ class EcoflowDevice:
         }   
 
         self._data_topic = f"/app/device/property/{self.device_sn}"
+        self._status_topic = f"/app/device/status/{self.device_sn}"
+        self._progress_topic = f"/app/device/progress/{self.device_sn}"
         self._set_topic = f"/app/{user_id}/{self.device_sn}/thing/property/set"
         self._set_reply_topic = f"/app/{user_id}/{self.device_sn}/thing/property/set_reply"
         self._get_topic = f"/app/{user_id}/{self.device_sn}/thing/property/get"
@@ -98,21 +99,27 @@ class EcoflowDevice:
                 mapping_options = descriptor.GetOptions().Extensions[options.mapping_options]
                 divisor = mapping_options.divisor if mapping_options.divisor > 1 else 1
                 unit = mapping_options.unit
+                display_val = None
                 if mapping_options.divisor > 1:
                     divisor = mapping_options.divisor
                 if mapping_options.converter == "minutes":
                     # time in minutes
                     h = math.floor(val/60)
                     m = val % 60
-                    val = "%02d:%02d" % (h, m)
+                    display_val = "%02d:%02d" % (h, m)
                 if divisor != 1:
                     val = val / divisor
                 if self.connector is not None:
-                    self.connector.update(descriptor, val, unit)
+                    self.connector.update(descriptor, val, unit, display_value=display_val)
                 self._properties[descriptor.name] = val
                 _LOGGER.debug(f"update received {descriptor.name}: {val} {unit}")
         if self.connector is not None:
-            self.connector.end_update()    
+            self.connector.end_update()
+
+    def handle_status(self, status: int):
+        if self.connector is not None:
+            self.connector.update_status(status)
+        
 
     def get_value(self, name, default=None):
         if name in self._properties:
@@ -121,9 +128,11 @@ class EcoflowDevice:
 
     def init_subscriptions(self):
         self.client.subscribe(self._data_topic, self)
-        self.client.subscribe(self._set_topic, self)
+        self.client.subscribe(self._status_topic, self)
+        #self.client.subscribe(self._progress_topic, self)
+        #self.client.subscribe(self._set_topic, self)
         self.client.subscribe(self._set_reply_topic, self)
-        self.client.subscribe(self._get_topic, self)
+        #self.client.subscribe(self._get_topic, self)
         self.client.subscribe(self._get_reply_topic, self)
         _LOGGER.info("subscriptions initialized")
 
@@ -141,25 +150,27 @@ class EcoflowDevice:
 
     def on_message(self, client, userdata, mqtt_message):
         try:
-            if mqtt_message.topic == self._data_topic:
-                self.decode_message(mqtt_message.payload, log_prefix="DATA")
-            elif mqtt_message.topic == self._set_topic:
-                self.decode_message(mqtt_message.payload, log_prefix="SET")
-            elif mqtt_message.topic == self._set_reply_topic:
-                self.decode_message(mqtt_message.payload, log_prefix="SET_REPLY")
-                # if self.message_logger is not None:
-                #     self.message_logger.log_message(mqtt_message.payload, handled=False, prefix=f"{self.device_sn}-SET_REPLY", title=self.device_sn)
-            elif mqtt_message.topic == self._get_topic:
-                self.decode_message(mqtt_message.payload, log_prefix="GET")
-                # if self.message_logger is not None:
-                #     self.message_logger.log_message(mqtt_message.payload, handled=False, prefix=f"{self.device_sn}-GET", title=self.device_sn)
-            elif mqtt_message.topic == self._get_reply_topic:
-                self.decode_message(mqtt_message.payload, log_prefix="GET REPLY")
-            else:
-                _LOGGER.error(f"message for unhandled topic arrived {mqtt_message.topic}")
+            self.decode_message(mqtt_message.payload, log_prefix=self.get_log_prefix(mqtt_message.topic))
         except UnicodeDecodeError as error:
             _LOGGER.error(f"UnicodeDecodeError: {error}. Ignoring message and waiting for the next one.")
 
+
+    def get_log_prefix(self, topic):
+        if topic == self._data_topic:
+            return "DATA"
+        elif topic == self._status_topic:
+            return "STATUS"
+        elif topic == self._progress_topic:
+            return "PROGRESS"
+        elif topic == self._set_topic:
+            return "SET"
+        elif topic == self._set_reply_topic:
+            return "SET_REPLY"
+        elif topic == self._get_topic:
+            return "GET"
+        elif topic == self._get_reply_topic:
+            return "GET REPLY"
+        return None
 
     def add_cmd_id_handler(self, handler, cmd_ids):
         for cmd_id in cmd_ids:
@@ -170,7 +181,7 @@ class EcoflowDevice:
     def get_pdata_decoder(self, header):
         if header.cmd_func in self.pdata_decoders:
             if header.cmd_id in self.pdata_decoders[header.cmd_func]:
-                return self.pdata_decoders[header.cmd_func][header.cmd_id]
+                return self.pdata_decoders[header.cmd_func][header.cmd_id]           
 
     def decode_message(self, payload, log_prefix=None):
         try:
@@ -190,6 +201,8 @@ class EcoflowDevice:
                     handled = True
                     for handler in self.handlers["*"]:
                         handler(message)
+            elif "params" in message and "status" in message["params"]:
+                self.handle_status(message["params"]["status"])
 
             if self.message_logger is not None:
                 self.message_logger.log_message(message, prefix=f"{self.device_sn}-{log_prefix}", handled=handled, title=self.device_sn, raw=msg)
@@ -223,7 +236,7 @@ class EcoflowDevice:
                     if self.message_logger is not None:
                         self.message_logger.log_message(message, pdata=pdata, handled=handled, prefix=f"{self.device_sn}-{log_prefix}", title=self.device_sn, raw=payload)
                 if not handled:
-                    _LOGGER.info(f"{self.device_sn} no handler registered for cmd_func {message.cmd_func} cmd_id {message.cmd_id}")
+                    _LOGGER.debug(f"{self.device_sn} no handler registered for cmd_func {message.cmd_func} cmd_id {message.cmd_id}")
                 
         except Exception as err:
             _LOGGER.error(f"Unexpected {err=}, {type(err)=}", payload)

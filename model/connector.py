@@ -86,13 +86,17 @@ class Connector(EventEmitter):
             value = "%s %s" % (value, unit)
         return value
     
-    def update(self, descriptor, value, unit=None):
+    def update_status(self, status: int):
+        if self.homie_device is not None:
+            self.homie_device.update_status(status)
+    
+    def update(self, descriptor, value, unit=None, display_value=None):
         name = descriptor.name
         setattr(self, name, value)
         if unit is not None:
             self.set_unit(name, unit)
         
-        self.update_screen(name)
+        self.update_screen(name, display_value=display_value)
 
         for sum_name in self.sums.keys():
             if name in getattr(self.sums[sum_name], "fields"):
@@ -119,7 +123,7 @@ class Connector(EventEmitter):
 
         self.update_screen(sum_name)
         
-    def update_screen(self, name):
+    def update_screen(self, name, display_value=None):
         if self.screen is not None:
             if name not in self.screen_settings:
                 # find a free spot                
@@ -137,7 +141,7 @@ class Connector(EventEmitter):
 
             if name in self.screen_settings:
                 settings = self.screen_settings[name]
-                self.screen.addstr(settings["y"], settings["x"], "%s: %s     " % (settings["name"], self.value_string(name)))
+                self.screen.addstr(settings["y"], settings["x"], "%s: %s     " % (settings["name"], display_value if display_value is not None else self.value_string(name)))
 
     def end_update(self):
         if self.screen is not None:

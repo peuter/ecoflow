@@ -118,7 +118,10 @@ class Proto_Device(Device_Base, EventEmitter):
             elif mapping_options is not None:
                 property_name = self.get_id(mapping_options.id, descriptor.name)
             if property_name is not None:
-                node.get_property(property_name).value = value           
+                node.get_property(property_name).value = value    
+
+    def update_status(self, status: int):
+        self.state("ready" if status > 0 else "disconnected")
 
     def get_id(self, id, name):
         if id != "" and id is not None:
