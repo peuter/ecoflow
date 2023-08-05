@@ -50,6 +50,8 @@ message MappingOptions {
   optional string node = 5;
   // optional name for this property
   optional string display_name = 6;
+  // this field is writable
+  optional bool settable = 7;
 }
 
 extend google.protobuf.FieldOptions {

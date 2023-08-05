@@ -1,21 +1,16 @@
 from model.ecoflow.base_device import EcoflowDevice
-from model.connectors.deltamax_connector import DeltaMaxConnector
-import model.protos.platform_pb2 as platform
-import model.protos.wn511_socket_sys_pb2 as wn511
 import logging
 import re
 import math
-from datetime import datetime
 
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.DEBUG)
-
 
 class Ecoflow_DeltaMax(EcoflowDevice):
     def __init__(self, serial: str, user_id: str, stdscr=None):
         super().__init__(serial, user_id, stdscr)
 
-        self.connector = DeltaMaxConnector(self.device_sn, stdscr)
+        #self.connector = DeltaMaxConnector(self.device_sn, stdscr)
 
         self.add_cmd_id_handler(self.handle_heartbeat, [0, 0])
         #self.add_cmd_id_handler(self.handle_pdata, ["unhandled"])

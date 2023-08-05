@@ -28,21 +28,24 @@ message plug_ack_message {
 }
 
 message plug_heartbeat_pack {
+  option (homie_node) = { id: "states", name: "States", type: "states"};
+  option (homie_node) = { id: "controls", name: "Controls", type: "controls"};
+
   optional int32 err_code = 1;
   optional int32 warn_code = 2;
   optional int32 country = 3;
   optional int32 town = 4;
   optional int32 max_cur = 5;
-  optional int32 temp = 6 [(mapping_options) = { unit: "°C" }];
-  optional int32 freq = 7 [(mapping_options) = { unit: "Hz" }];
+  optional int32 temp = 6 [(mapping_options) = { unit: "C", node: "states" }];
+  optional int32 freq = 7 [(mapping_options) = { unit: "Hz", node: "states" }];
   optional int32 current = 8;
-  optional int32 volt = 9 [(mapping_options) = { unit: "V" }];
-  optional int32 watts = 10 [(mapping_options) = { divisor: 10, unit: "W" }];
-  optional bool switch = 11;
-  optional int32 brightness = 12 [(mapping_options) = { divisor: 10, unit: "%" }];
-  optional int32 max_watts = 13 [(mapping_options) = { unit: "W" }];
+  optional int32 volt = 9 [(mapping_options) = { unit: "V", node: "states" }];
+  optional int32 watts = 10 [(mapping_options) = { divisor: 10, unit: "W", node: "states" }];
+  optional bool switch = 11[(mapping_options) = { node: "controls", settable: true }];
+  optional int32 brightness = 12 [(mapping_options) = { divisor: 10, unit: "%", node: "states" }];
+  optional int32 max_watts = 13 [(mapping_options) = { unit: "W", node: "states" }];
   optional int32 heartbeat_frequency = 14;
-  optional bool mesh_enable = 15;
+  optional bool mesh_enable = 15 [(mapping_options) = { node: "controls", settable: true }];
 }
 
 message plug_switch_message {

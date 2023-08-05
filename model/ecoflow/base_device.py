@@ -6,6 +6,7 @@ import model.protos.powerstream_pb2 as powerstream
 import model.protos.wn511_socket_sys_pb2 as wn511
 import model.protos.options_pb2 as options
 import math
+from typing import Dict
 from model.ecoflow.mqtt_client import get_client
 from model.utils.message_logger import MessageLogger
 
@@ -18,6 +19,7 @@ class EcoflowDevice:
         self.client = get_client()
         self.device_sn = serial
         self._param_settings_cache = {}
+        self._properties: Dict[str, any] = {}
 
         self.connector = None
 
@@ -107,10 +109,15 @@ class EcoflowDevice:
                     val = val / divisor
                 if self.connector is not None:
                     self.connector.update(descriptor, val, unit)
+                self._properties[descriptor.name] = val
                 _LOGGER.debug(f"update received {descriptor.name}: {val} {unit}")
         if self.connector is not None:
             self.connector.end_update()    
 
+    def get_value(self, name, default=None):
+        if name in self._properties:
+            return self._properties[name]
+        return default
 
     def init_subscriptions(self):
         self.client.subscribe(self._data_topic, self)

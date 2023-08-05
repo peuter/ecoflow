@@ -2,8 +2,13 @@ import json
 import os
 import curses
 
-class BaseConnector:
-    def __init__(self, serial, type, screen):
+from model.homie.device import Proto_Device
+import model.protos.options_pb2 as options
+from model.utils.event_emitter import EventEmitter
+
+class Connector(EventEmitter):
+    def __init__(self, serial, type, screen=None):
+        EventEmitter.__init__(self)
         self.serial = serial
         self.units = {}
         self.screen = screen
@@ -11,6 +16,8 @@ class BaseConnector:
         self.start_x = 0
         self.start_y = 0
         self.col_width = 40
+
+        self.proto_message = None
 
         self.mqtt_settings = {
             "MQTT_BROKER": os.getenv("HOMIE_MQTT"),
@@ -30,11 +37,27 @@ class BaseConnector:
             self.screen_settings = {}
             raise
 
+    def set_proto_message(self, message):
+        self.proto_message = message
+        for derived_field in self.proto_message.DESCRIPTOR.GetOptions().Extensions[options.derived_field]:
+            if not hasattr(derived_field, "operator") or getattr(derived_field, "operator") == 0:
+                self.sums[derived_field.field_name] = derived_field
+        self.init_homie_device()
+
     def init_homie_device(self):
-        pass
+        if self.mqtt_settings["MQTT_BROKER"] is not None and self.proto_message is not None:
+            self.homie_device = Proto_Device(self.proto_message, device_id=self.serial.lower(), name='Powerstream', mqtt_settings=self.mqtt_settings)
+            self.homie_device.on("set_request", self.on_set_request)
+        else:
+            self.homie_device = None
+    
+    def on_set_request(self, id, value):
+        # just forward this event
+        self.emit("set_request", id, value)
 
     def update_homie(self, value, descriptor=None, node_name=None, id=None, name=None):
-        pass
+        if self.homie_device is not None:
+            self.homie_device.update(value, descriptor=descriptor, node_name=node_name, id=id, name=name)
 
     def close(self):
         if self.homie_device:
