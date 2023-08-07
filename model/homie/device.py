@@ -22,7 +22,8 @@ class Proto_Device(Device_Base, EventEmitter):
         name=None,
         homie_settings=None,
         mqtt_settings=None,
-        temp_unit="C"        
+        temp_unit="C", 
+        simulated=False      
     ):
         super().__init__(device_id, name, homie_settings, mqtt_settings)
         EventEmitter.__init__(self)
@@ -54,7 +55,7 @@ class Proto_Device(Device_Base, EventEmitter):
                         "unit": mapping_options.unit,
                         "settable": False
                     }                    
-                    if mapping_options.HasField("settable") and mapping_options.settable is True:
+                    if (not simulated and mapping_options.HasField("settable") and mapping_options.settable is True) or (simulated and mapping_options.HasField("simulated_settable") and mapping_options.simulated_settable is True):
                         kwargs["settable"] = True
                         _LOGGER.debug(f"adding set event for {id}")
                         kwargs["set_value"] = (lambda v, name=id, event="set_request": self._set_value(event, name, v))
@@ -129,16 +130,3 @@ class Proto_Device(Device_Base, EventEmitter):
         name = re.sub('[^0-9a-zA-Z]+', '-', name)
         # CamelCase to camel-case
         return re.sub(r'(?<!^)(?=[A-Z])', '-', name).lower()
-    
-    def bind(self, func, as_name=None):
-        """
-        Bind the function *func* to *instance*, with either provided name *as_name*
-        or the existing name of *func*. The provided *func* should accept the 
-        instance as the first argument, i.e. "self".
-        """
-        if as_name is None:
-            as_name = func.__name__
-        bound_method = func.__get__(self, self.__class__)
-        setattr(self, as_name, bound_method)
-        return bound_method
-

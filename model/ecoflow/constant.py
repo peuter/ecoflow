@@ -15,6 +15,7 @@ class SupplyPriority(IntEnum):
     BATTERY = 1
 
 class CmdIds(IntEnum):
+    HEARTBEAT = 1
     SET_PERMANENT_WATTS = 129
     SET_SUPPLY_PRIORITY = 130
     SET_BAT_LOWER = 132

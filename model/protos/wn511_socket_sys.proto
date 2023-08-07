@@ -40,10 +40,10 @@ message plug_heartbeat_pack {
   optional int32 freq = 7 [(mapping_options) = { unit: "Hz", node: "states" }];
   optional int32 current = 8;
   optional int32 volt = 9 [(mapping_options) = { unit: "V", node: "states" }];
-  optional int32 watts = 10 [(mapping_options) = { divisor: 10, unit: "W", node: "states" }];
+  optional int32 watts = 10 [(mapping_options) = { divisor: 10, unit: "W", node: "states", simulated_settable: true }];
   optional bool switch = 11[(mapping_options) = { node: "controls", settable: true }];
-  optional int32 brightness = 12 [(mapping_options) = { divisor: 10, unit: "%", node: "states" }];
-  optional int32 max_watts = 13 [(mapping_options) = { unit: "W", node: "states" }];
+  optional int32 brightness = 12 [(mapping_options) = { divisor: 10, unit: "%", node: "states", settable: true }];
+  optional int32 max_watts = 13 [(mapping_options) = { unit: "W", node: "states", settable: true }];
   optional int32 heartbeat_frequency = 14;
   optional bool mesh_enable = 15 [(mapping_options) = { node: "controls", settable: true }];
 }

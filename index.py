@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from model.ecoflow.auth import EcoflowAuthentication
 from model.ecoflow.mqtt_client import init_client, get_client
 from model.ecoflow.powerstream import Ecoflow_Powerstream
-from model.ecoflow.smart_plug import Ecoflow_Smartplug
+from model.ecoflow.smart_plug import Ecoflow_Smartplug, Simulated_Ecoflow_Smartplug
 from model.ecoflow.delta_max import Ecoflow_DeltaMax
 from model.utils.message_logger import MessageLogger
 from model.utils.settings import Settings
@@ -69,7 +69,10 @@ def main(stdscr=None):
             if device["type"] == "powerstream":
                 client = Ecoflow_Powerstream(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
             elif device["type"] == "smart-plug":
-                client = Ecoflow_Smartplug(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
+                if "simulated" in device and device["simulated"] is True;
+                    client = Simulated_Ecoflow_Smartplug(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
+                else:
+                    client = Ecoflow_Smartplug(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
             elif device["type"] == "delta-max":
                 client = Ecoflow_DeltaMax(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
             else:

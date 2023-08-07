@@ -3,6 +3,9 @@ from model.connector import Connector
 from model.protos.wn511_socket_sys_pb2 import plug_switch_message, plug_heartbeat_pack, brightness_pack, max_watts_pack
 from model.protos.powerstream_pb2 import SendHeaderMsg 
 from model.ecoflow.constant import *
+import logging
+
+_LOGGER = logging.getLogger(__name__)
 
 class Ecoflow_Smartplug(EcoflowDevice):
     def __init__(self, serial: str, user_id: str, stdscr=None):
@@ -57,3 +60,62 @@ class Ecoflow_Smartplug(EcoflowDevice):
         header.device_sn = self.device_sn
         #self.log_raw("SET AC", message.SerializeToString(), message, pdata)
         self.client.publish(self._set_topic, message.SerializeToString())
+
+
+class Simulated_Ecoflow_Smartplug(Ecoflow_Smartplug):
+    def __init__(self, serial: str, user_id: str, stdscr=None):
+        super().__init__(serial, user_id, stdscr=stdscr, is_device=True)
+
+        self._states = {
+            "err_code": 0,
+            "warn_code": 0,
+            "country": 0,
+            "town" : 0,
+            "max_cur": 0,
+            "temp": 29,
+            "freq" : 50,
+            "current": 0,
+            "volt": 240,
+            "watts": 0,
+            "switch": 1,
+            "brightness": 500,
+            "max_watts": PLUG_MAX_WATTS_LIMIT,
+            "heartbeat_frequency": 10,
+            "mesh_enable": False 
+        }
+
+        self.add_cmd_id_handler(self.handle_data_request, [0])
+
+    def init_subscriptions(self):        
+        self.client.subscribe(self._set_topic, self)
+        self.client.subscribe(self._get_topic, self)
+
+    def handle_data_request(self, pdata, header):
+        pdata = plug_heartbeat_pack()
+        for name, value in self._states.entries():
+            setattr(pdata, name, value)
+        self.send_heartbeat(pdata)
+
+    def set_watts(self, watts):
+        if self._states["watts"] != watts:
+            self._states["watts"] = watts * 10
+            pdata = plug_heartbeat_pack()
+            pdata.watts = self._states["watts"]
+            self.send_heartbeat(pdata, is_reply=False)
+
+    def send_heartbeat(self, pdata, is_reply=True):
+        message = SendHeaderMsg()
+        header = message.msg.add()
+        header.src = DEFAULT_DEST
+        header.dest = DEFAULT_SRC
+        header.cmd_func = CmdFuncs.SMART_PLUG
+        header.cmd_id = CmdFuncs.HEARTBEAT
+        header.pdata = pdata.SerializeToString()
+        header.data_len = len(header.pdata)
+        header.need_ack = 1
+        header.seq = self.generate_seq()
+        header.device_sn = self.device_sn
+        #self.log_raw("SET AC", message.SerializeToString(), message, pdata)
+        self.client.publish(self._get_reply_topic if is_reply else self._data_topic, message.SerializeToString())
+
+        

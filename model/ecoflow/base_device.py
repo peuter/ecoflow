@@ -15,12 +15,13 @@ import random
 _LOGGER = logging.getLogger(__name__)
 
 class EcoflowDevice:
-    def __init__(self, serial: str, user_id=str, stdscr=None):
+    def __init__(self, serial: str, user_id=str, stdscr=None, is_simulated : bool = False):
         self.screen = stdscr
         self.client = get_client()
         self.device_sn = serial
         self._param_settings_cache = {}
         self._properties: Dict[str, any] = {}
+        self.is_simulated = is_simulated
 
         self.connector = None
 
@@ -129,13 +130,15 @@ class EcoflowDevice:
         return default
 
     def init_subscriptions(self):
-        self.client.subscribe(self._data_topic, self)
-        self.client.subscribe(self._status_topic, self)
-        #self.client.subscribe(self._progress_topic, self)
-        #self.client.subscribe(self._set_topic, self)
-        self.client.subscribe(self._set_reply_topic, self)
-        #self.client.subscribe(self._get_topic, self)
-        self.client.subscribe(self._get_reply_topic, self)
+        if self.is_device:
+            self.client.subscribe(self._set_topic, self)
+            self.client.subscribe(self._get_topic, self)
+        else:
+            self.client.subscribe(self._data_topic, self)
+            self.client.subscribe(self._status_topic, self)
+            #self.client.subscribe(self._progress_topic, self)
+            self.client.subscribe(self._set_reply_topic, self)
+            self.client.subscribe(self._get_reply_topic, self)
         _LOGGER.info("subscriptions initialized")
 
     def set_message_logger(self, logger: MessageLogger):
@@ -217,28 +220,32 @@ class EcoflowDevice:
             packet = powerstream.SendHeaderMsg()
             packet.ParseFromString(payload)
             for message in packet.msg:
-                pdata = self.get_pdata_decoder(message)                
+                pdata = self.get_pdata_decoder(message)
+                if message.device_sn != self.device_sn:
+                    continue        
 
                 handled = False
+                cmd_id = message.cmd_id if message.HasField("cmd_id") else 0
+                cmd_func = message.cmd_func if message.HasField("cmd_func") else 0
                 if pdata is not None:
-                    _LOGGER.debug(f"{self.device_sn} decoder found for cmd_func {message.cmd_func} cmd_id {message.cmd_id}")
+                    _LOGGER.debug(f"{self.device_sn} decoder found for cmd_func {cmd_func} cmd_id {cmd_id}")
                     pdata.ParseFromString(message.pdata)
-                    if message.cmd_id in self.handlers:
-                        handled = True
-                        for handler in self.handlers[message.cmd_id]:
-                            handler(pdata, message)
-                    elif "unhandled" in self.handlers:
-                        handled = True
-                        for handler in self.handlers["unhandled"]:
-                            handler(pdata, message)
-                    if "*" in self.handlers:
-                        handled = True
-                        for handler in self.handlers["*"]:
-                            handler(pdata, message)
-                    if self.message_logger is not None:
-                        self.message_logger.log_message(message, pdata=pdata, handled=handled, prefix=f"{self.device_sn}-{log_prefix}", title=self.device_sn, raw=payload)
+                if cmd_id in self.handlers:
+                    handled = True
+                    for handler in self.handlers[cmd_id]:
+                        handler(pdata, message)
+                elif "unhandled" in self.handlers:
+                    handled = True
+                    for handler in self.handlers["unhandled"]:
+                        handler(pdata, message)
+                if "*" in self.handlers:
+                    handled = True
+                    for handler in self.handlers["*"]:
+                        handler(pdata, message)
+                if self.message_logger is not None:
+                    self.message_logger.log_message(message, pdata=pdata, handled=handled, prefix=f"{self.device_sn}-{log_prefix}", title=self.device_sn, raw=payload)
                 if not handled:
-                    _LOGGER.debug(f"{self.device_sn} no handler registered for cmd_func {message.cmd_func} cmd_id {message.cmd_id}")
+                    _LOGGER.debug(f"{self.device_sn} no handler registered for cmd_func {cmd_func} cmd_id {cmd_id}")
                 
         except Exception as err:
             _LOGGER.error(f"Unexpected {err=}, {type(err)=}", payload)

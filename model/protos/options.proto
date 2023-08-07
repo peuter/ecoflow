@@ -52,6 +52,8 @@ message MappingOptions {
   optional string display_name = 6;
   // this field is writable
   optional bool settable = 7;
+  // this field ois writable in simulated mode
+  optional bool simulated_settable = 8;
 }
 
 extend google.protobuf.FieldOptions {
