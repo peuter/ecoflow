@@ -60,6 +60,18 @@ message max_cur_pack {
   optional int32 max_cur = 1;
 }
 
+message bat_upper_pack {
+  optional int32 upper_limit = 1;
+}
+
+message bat_lower_pack {
+  optional int32 lower_limit = 1;
+}
+
+message permanent_watts_pack {
+  optional int32 permanent_watts = 1;
+}
+
 message time_task_config {
   optional string task_name = 1;
   optional time_range_strategy time_range = 2;

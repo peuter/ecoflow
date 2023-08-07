@@ -9,6 +9,8 @@ import math
 from typing import Dict
 from model.ecoflow.mqtt_client import get_client
 from model.utils.message_logger import MessageLogger
+from model.ecoflow.constant import DEFAULT_DEST, DEFAULT_SRC
+import random
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -143,10 +145,10 @@ class EcoflowDevice:
         message = powerstream.SendHeaderMsg()
         header = message.msg.add()
         setattr(header, "from", "Android")
-        header.src = 32
-        header.dest = 53
-        header.seq = 1651831507
-        self.client.publish(self._get_topic, message.SerializeToString())        
+        header.src = DEFAULT_SRC
+        header.dest = DEFAULT_DEST
+        header.seq = self.generate_seq()
+        self.client.publish(self._get_topic, message.SerializeToString())
 
     def on_message(self, client, userdata, mqtt_message):
         try:
@@ -244,3 +246,6 @@ class EcoflowDevice:
         
     def decode_pdata(self, header):
         pass
+
+    def generate_seq(self):
+        return random.randint(100000, 999999)
