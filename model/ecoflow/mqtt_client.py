@@ -31,24 +31,23 @@ class EcoflowClient:
         self.client.loop_forever()
 
     def on_connect(self, client, userdata, flags, rc):
-        match rc:
-            case 0:
-                self.connected = True
-                _LOGGER.info(f"Connected to Ecoflow MQTT Server")
-            case -1:
-                _LOGGER.error("Failed to connect to MQTT: connection timed out")
-            case 1:
-                _LOGGER.error("Failed to connect to MQTT: incorrect protocol version")
-            case 2:
-                _LOGGER.error("Failed to connect to MQTT: invalid client identifier")
-            case 3:
-                _LOGGER.error("Failed to connect to MQTT: server unavailable")
-            case 4:
-                _LOGGER.error("Failed to connect to MQTT: bad username or password")
-            case 5:
-                _LOGGER.error("Failed to connect to MQTT: not authorised")
-            case _:
-                _LOGGER.error(f"Failed to connect to MQTT: another error occured: {rc}")
+        if rc == 0:
+            self.connected = True
+            _LOGGER.info(f"Connected to Ecoflow MQTT Server")
+        elif rc == -1:
+            _LOGGER.error("Failed to connect to MQTT: connection timed out")
+        elif rc == 1:
+            _LOGGER.error("Failed to connect to MQTT: incorrect protocol version")
+        elif rc == 2:
+            _LOGGER.error("Failed to connect to MQTT: invalid client identifier")
+        elif rc == 3:
+            _LOGGER.error("Failed to connect to MQTT: server unavailable")
+        elif rc == 4:
+            _LOGGER.error("Failed to connect to MQTT: bad username or password")
+        elif rc == 5:
+            _LOGGER.error("Failed to connect to MQTT: not authorised")
+        else:
+            _LOGGER.error(f"Failed to connect to MQTT: another error occured: {rc}")
 
         return client
     

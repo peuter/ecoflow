@@ -8,11 +8,11 @@ import logging
 _LOGGER = logging.getLogger(__name__)
 
 class Ecoflow_Smartplug(EcoflowDevice):
-    def __init__(self, serial: str, user_id: str, stdscr=None):
-        super().__init__(serial, user_id, stdscr)
+    def __init__(self, serial: str, user_id: str, stdscr=None, is_simulated=False):
+        super().__init__(serial, user_id, stdscr=stdscr, is_simulated=is_simulated)
 
         self.connector = Connector(self.device_sn, "smartplug", screen=stdscr)
-        proto_message = plug_heartbeat_pack()
+        proto_message = self.get_pdata_message(CmdFuncs.SMART_PLUG, CmdIds.PLUG_HEARTBEAT)
         self.connector.set_proto_message(proto_message)
         self.connector.on("set_request", self.on_set_request)
 
@@ -64,7 +64,7 @@ class Ecoflow_Smartplug(EcoflowDevice):
 
 class Simulated_Ecoflow_Smartplug(Ecoflow_Smartplug):
     def __init__(self, serial: str, user_id: str, stdscr=None):
-        super().__init__(serial, user_id, stdscr=stdscr, is_device=True)
+        super().__init__(serial, user_id, stdscr=stdscr, is_simulated=True)
 
         self._states = {
             "err_code": 0,
@@ -108,11 +108,15 @@ class Simulated_Ecoflow_Smartplug(Ecoflow_Smartplug):
         header = message.msg.add()
         header.src = DEFAULT_DEST
         header.dest = DEFAULT_SRC
+        header.dSrc = 1
+        header.dDest = 1
         header.cmd_func = CmdFuncs.SMART_PLUG
         header.cmd_id = CmdFuncs.HEARTBEAT
         header.pdata = pdata.SerializeToString()
         header.data_len = len(header.pdata)
         header.need_ack = 1
+        header.version = 3
+        header.payloadVer = 3
         header.seq = self.generate_seq()
         header.device_sn = self.device_sn
         #self.log_raw("SET AC", message.SerializeToString(), message, pdata)

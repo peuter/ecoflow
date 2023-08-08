@@ -69,7 +69,7 @@ def main(stdscr=None):
             if device["type"] == "powerstream":
                 client = Ecoflow_Powerstream(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
             elif device["type"] == "smart-plug":
-                if "simulated" in device and device["simulated"] is True;
+                if "simulated" in device and device["simulated"] is True:
                     client = Simulated_Ecoflow_Smartplug(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
                 else:
                     client = Ecoflow_Smartplug(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)

@@ -9,7 +9,7 @@ import math
 from typing import Dict
 from model.ecoflow.mqtt_client import get_client
 from model.utils.message_logger import MessageLogger
-from model.ecoflow.constant import DEFAULT_DEST, DEFAULT_SRC
+from model.ecoflow.constant import *
 import random
 
 _LOGGER = logging.getLogger(__name__)
@@ -28,26 +28,30 @@ class EcoflowDevice:
         self.message_logger: MessageLogger = None
 
         self.handlers = {}
-        self.pdata_decoders = {
-            2: {
-                1: wn511.plug_heartbeat_pack(),
-                2: wn511.time_task_config(),
-                32: platform.EnergyTotalReport()
-                #134: wn511.plug_heartbeat_pack(),
+        self.pdata_messages = {
+            CmdFuncs.SMART_PLUG: {
+                CmdIds.PLUG_HEARTBEAT: wn511.plug_heartbeat_pack(),
+                CmdIds.TIME_TASK_CONFIG: wn511.time_task_config(),
+                CmdIds.SET_PLUG_SWITCH: wn511.plug_switch_message(),
+                CmdIds.SET_PLUG_BRIGHTNESS: wn511.brightness_pack(),
+                CmdIds.SET_MAX_WATTS: wn511.max_watts_pack(),
+                CmdIds.SET_MESH_ENABLE: wn511.mesh_ctrl_pack()
             },
-            20: {
-                1: powerstream.InverterHeartbeat(),
-                129: powerstream.SetValue()
+            CmdFuncs.POWERSTREAM: {
+                CmdIds.HEARTBEAT: powerstream.InverterHeartbeat(),
+                CmdIds.SET_PERMANENT_WATTS: wn511.permanent_watts_pack(),
+                CmdIds.SET_SUPPLY_PRIORITY: powerstream.SetValue(),
+                CmdIds.SET_BAT_LOWER: wn511.bat_lower_pack(),
+                CmdIds.SET_BAT_UPPER: wn511.bat_upper_pack(),
+                CmdIds.SET_PLUG_BRIGHTNESS: wn511.brightness_pack()
             },
             32: {
                 11: powerstream.SetValue(),
             },
             254: {
                 16: platform.EventRecordReport(),
-                32: platform.EnergyTotalReport()
-            },            
-            # 136: powerstream.SetValue(),
-            # 138: wn511.PowerPack()
+                CmdIds.ENERGY_TOTAL_REPORT: platform.EnergyTotalReport()
+            }
         }   
 
         self._data_topic = f"/app/device/property/{self.device_sn}"
@@ -130,7 +134,7 @@ class EcoflowDevice:
         return default
 
     def init_subscriptions(self):
-        if self.is_device:
+        if self.is_simulated:
             self.client.subscribe(self._set_topic, self)
             self.client.subscribe(self._get_topic, self)
         else:
@@ -183,10 +187,10 @@ class EcoflowDevice:
                 self.handlers[cmd_id] = []
             self.handlers[cmd_id].append(handler)
 
-    def get_pdata_decoder(self, header):
-        if header.cmd_func in self.pdata_decoders:
-            if header.cmd_id in self.pdata_decoders[header.cmd_func]:
-                return self.pdata_decoders[header.cmd_func][header.cmd_id]           
+    def get_pdata_message(self, cmd_func, cmd_id, header=None):
+        if cmd_func in self.pdata_messages:
+            if cmd_id in self.pdata_messages[cmd_func]:
+                return self.pdata_messages[cmd_func][cmd_id]           
 
     def decode_message(self, payload, log_prefix=None):
         try:
@@ -220,7 +224,7 @@ class EcoflowDevice:
             packet = powerstream.SendHeaderMsg()
             packet.ParseFromString(payload)
             for message in packet.msg:
-                pdata = self.get_pdata_decoder(message)
+                pdata = self.get_pdata_message(message.cmd_func, message.cmd_id)
                 if message.device_sn != self.device_sn:
                     continue        
 
