@@ -13,7 +13,7 @@ class Ecoflow_Powerstream(EcoflowDevice):
     def __init__(self, serial: str, user_id: str, stdscr=None):
         super().__init__(serial, user_id, stdscr)
 
-        self.connector = Connector(self.device_sn, "powerstream", screen=stdscr)
+        self.connector = Connector(self.device_sn, "powerstream", name="Powerstream", screen=stdscr)
         proto_message = powerstream.InverterHeartbeat()
         self.connector.set_proto_message(proto_message)
         self.connector.on("set_request", self.on_set_request)

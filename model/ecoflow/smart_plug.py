@@ -11,7 +11,7 @@ class Ecoflow_Smartplug(EcoflowDevice):
     def __init__(self, serial: str, user_id: str, stdscr=None, is_simulated=False):
         super().__init__(serial, user_id, stdscr=stdscr, is_simulated=is_simulated)
 
-        self.connector = Connector(self.device_sn, "smartplug", screen=stdscr)
+        self.connector = Connector(self.device_sn, "smartplug", name="Smart-Plug", screen=stdscr)
         proto_message = self.get_pdata_message(CmdFuncs.SMART_PLUG, CmdIds.PLUG_HEARTBEAT)
         self.connector.set_proto_message(proto_message)
         self.connector.on("set_request", self.on_set_request)

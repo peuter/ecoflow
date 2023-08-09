@@ -8,7 +8,7 @@ from model.utils.event_emitter import EventEmitter
 from model.utils.settings import Settings
 
 class Connector(EventEmitter):
-    def __init__(self, serial, type, screen=None):
+    def __init__(self, serial, type, name=None, screen=None):
         EventEmitter.__init__(self)
         self.serial = serial
         self.units = {}
@@ -17,6 +17,7 @@ class Connector(EventEmitter):
         self.start_x = 0
         self.start_y = 0
         self.col_width = 40
+        self.name = name if name is not None else "Ecoflow device"
 
         self.proto_message = None
 
@@ -48,7 +49,7 @@ class Connector(EventEmitter):
 
     def init_homie_device(self):
         if self.mqtt_settings["MQTT_BROKER"] is not None and self.proto_message is not None:
-            self.homie_device = Proto_Device(self.proto_message, device_id=self.serial.lower(), name='Powerstream', mqtt_settings=self.mqtt_settings)
+            self.homie_device = Proto_Device(self.proto_message, device_id=self.serial.lower(), name=self.name, mqtt_settings=self.mqtt_settings)
             self.homie_device.on("set_request", self.on_set_request)
         else:
             self.homie_device = None
