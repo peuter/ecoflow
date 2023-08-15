@@ -49,7 +49,7 @@ message plug_heartbeat_pack {
 }
 
 message plug_switch_message {
-  optional int32 plug_switch = 1;
+  optional uint32 plug_switch = 1;
 }
 
 message brightness_pack {
@@ -103,7 +103,7 @@ message max_watts_pack {
 }
 
 message mesh_ctrl_pack {
-  optional int32 mesh_enable = 1;
+  optional uint32 mesh_enable = 1;
 }
 
 message ret_pack {

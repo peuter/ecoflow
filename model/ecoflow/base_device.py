@@ -34,8 +34,10 @@ class EcoflowDevice:
                 CmdIds.TIME_TASK_CONFIG: wn511.time_task_config(),
                 CmdIds.SET_PLUG_SWITCH: wn511.plug_switch_message(),
                 CmdIds.SET_PLUG_BRIGHTNESS: wn511.brightness_pack(),
+                CmdIds.SET_UNKNOWN_135: powerstream.SetValue(),
                 CmdIds.SET_MAX_WATTS: wn511.max_watts_pack(),
-                CmdIds.SET_MESH_ENABLE: wn511.mesh_ctrl_pack()
+                CmdIds.SET_MESH_ENABLE: wn511.mesh_ctrl_pack(),
+                CmdIds.PLUG_POWER_PACK: wn511.PowerPack()
             },
             CmdFuncs.POWERSTREAM: {
                 CmdIds.HEARTBEAT: powerstream.InverterHeartbeat(),

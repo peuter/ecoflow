@@ -4,8 +4,10 @@ from model.protos.wn511_socket_sys_pb2 import plug_switch_message, plug_heartbea
 from model.protos.powerstream_pb2 import SendHeaderMsg 
 from model.ecoflow.constant import *
 import logging
+from model.utils.interval import InvervalTimer
 
 _LOGGER = logging.getLogger(__name__)
+_LOGGER.setLevel(logging.DEBUG)
 
 class Ecoflow_Smartplug(EcoflowDevice):
     def __init__(self, serial: str, user_id: str, stdscr=None, is_simulated=False):
@@ -84,7 +86,13 @@ class Simulated_Ecoflow_Smartplug(Ecoflow_Smartplug):
             "mesh_enable": False 
         }
 
+        self._changed = []
+
         self.add_cmd_id_handler(self.handle_data_request, [0])
+
+        self._timer = InvervalTimer(self._states["heartbeat_frequency"], self.flush_changes)
+        _LOGGER.debug(f"starting timer with {self._states['heartbeat_frequency']} seconds interval.")
+        self._timer.start()
 
     def init_subscriptions(self):        
         self.client.subscribe(self._set_topic, self)
@@ -98,25 +106,32 @@ class Simulated_Ecoflow_Smartplug(Ecoflow_Smartplug):
 
     def set_watts(self, watts):
         if self._states["watts"] != watts:
-            self._states["watts"] = watts * 10
-            pdata = plug_heartbeat_pack()
-            pdata.watts = self._states["watts"]
-            self.send_heartbeat(pdata, is_reply=False)
+            self._states["watts"] = watts * 10            
+            self._changed.append("watts")
+
+    def flush_changes(self):
+        pdata = plug_heartbeat_pack()
+        _LOGGER.debug(f"flushing {len(self._changed)} changes")
+        for name in self._changed:
+            setattr(pdata, name, self._states[name])
+        self._changed.clear()
+        self.send_heartbeat(pdata, is_reply=False)
+
 
     def send_heartbeat(self, pdata, is_reply=True):
         message = SendHeaderMsg()
         header = message.msg.add()
         header.src = DEFAULT_DEST
         header.dest = DEFAULT_SRC
-        header.dSrc = 1
-        header.dDest = 1
+        header.d_src = 1
+        header.d_dest = 1
         header.cmd_func = CmdFuncs.SMART_PLUG
-        header.cmd_id = CmdFuncs.HEARTBEAT
+        header.cmd_id = CmdIds.PLUG_HEARTBEAT
         header.pdata = pdata.SerializeToString()
         header.data_len = len(header.pdata)
         header.need_ack = 1
         header.version = 3
-        header.payloadVer = 3
+        header.payload_ver = 3
         header.seq = self.generate_seq()
         header.device_sn = self.device_sn
         #self.log_raw("SET AC", message.SerializeToString(), message, pdata)
