@@ -11,6 +11,7 @@ from model.ecoflow.mqtt_client import get_client
 from model.utils.message_logger import MessageLogger
 from model.ecoflow.constant import *
 import random
+import datetime
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -22,6 +23,7 @@ class EcoflowDevice:
         self._param_settings_cache = {}
         self._properties: Dict[str, any] = {}
         self.is_simulated = is_simulated
+        self._last_heartbeat_time: datetime.datetime = None
 
         self.connector = None
 
@@ -124,6 +126,7 @@ class EcoflowDevice:
                 _LOGGER.debug(f"update received {descriptor.name}: {val} {unit}")
         if self.connector is not None:
             self.connector.end_update()
+        self._last_heartbeat_time = datetime.now()
 
     def handle_status(self, status: int):
         if self.connector is not None:

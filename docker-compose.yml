@@ -9,6 +9,7 @@ services:
     environment:
       - EF_USERNAME=${EF_USERNAME}
       - EF_PASSWORD=${EF_PASSWORD}
+      - EF_LOG=all
       - HOMIE_MQTT=${HOMIE_MQTT}
       - HOMIE_MQTT_PORT=${HOMIE_MQTT_PORT}
     volumes:
