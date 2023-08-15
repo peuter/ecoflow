@@ -12,6 +12,7 @@ from model.utils.message_logger import MessageLogger
 from model.ecoflow.constant import *
 import random
 import datetime
+from model.utils.interval import InvervalTimer
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -68,6 +69,9 @@ class EcoflowDevice:
 
         self.init_subscriptions()
 
+        self._timer = InvervalTimer(120, self.check_connection)
+        self._timer.start()
+
     def get_param_settings(self, name):
         if name not in self._param_settings_cache:
             self._param_settings_cache[name] = self.detect_param_settings(name)
@@ -104,6 +108,18 @@ class EcoflowDevice:
             "converter": converter
         }
     
+    def check_connection(self):
+        refresh = False
+        _LOGGER.debug('checking last heatbeat time')
+        if self._last_heartbeat_time is None:
+            refresh = True
+        else:
+            delta = self._last_heartbeat_time - datetime.datetime.now()
+            refresh = delta.total_seconds() > 120
+        if refresh:
+            _LOGGER.info('last heartbeat outdated, requesting new one')
+            self.request_data()
+    
     def handle_heartbeat(self, pdata, header):
         for descriptor, val in pdata.ListFields():
             if val is not None:
@@ -126,7 +142,7 @@ class EcoflowDevice:
                 _LOGGER.debug(f"update received {descriptor.name}: {val} {unit}")
         if self.connector is not None:
             self.connector.end_update()
-        self._last_heartbeat_time = datetime.now()
+        self._last_heartbeat_time = datetime.datetime.now()
 
     def handle_status(self, status: int):
         if self.connector is not None:
