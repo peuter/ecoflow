@@ -16,8 +16,11 @@ class Connector(EventEmitter):
         self.sums = {}
         self.start_x = 0
         self.start_y = 0
+        self.start = [-1, -1, -1]
         self.col_width = 40
         self.name = name if name is not None else "Ecoflow device"
+        self.show_filter = None
+        self.fixed_screen = False
 
         self.proto_message = None
 
@@ -92,7 +95,7 @@ class Connector(EventEmitter):
             self.homie_device.update_status(status)
     
     def update(self, descriptor, value, unit=None, display_value=None):
-        name = descriptor.name
+        name = descriptor if type(descriptor) == str else descriptor.name
         setattr(self, name, value)
         if unit is not None:
             self.set_unit(name, unit)
@@ -126,7 +129,7 @@ class Connector(EventEmitter):
         
     def update_screen(self, name, display_value=None):
         if self.screen is not None:
-            if name not in self.screen_settings:
+            if not self.fixed_screen and name not in self.screen_settings and self.show_value(name):
                 # find a free spot                
                 if self.start_y+1 >= curses.LINES-1:
                     self.start_x += self.col_width
@@ -144,6 +147,57 @@ class Connector(EventEmitter):
                 settings = self.screen_settings[name]
                 self.screen.addstr(settings["y"], settings["x"], "%s: %s     " % (settings["name"], display_value if display_value is not None else self.value_string(name)))
 
+    def init_screen(self, names: list, prefixes=None):
+        if self.screen is None:
+            return
+        names.sort()
+        self.fixed_screen = True
+        for name in names:
+            if name not in self.screen_settings and self.show_value(name):
+                # find a free spot
+                fixed_column = None
+                if prefixes is not None:
+                    for [prefix, col] in prefixes.items():
+                        if name[0:len(prefix)] == prefix:
+                            fixed_column = col
+                            break
+
+                [column, row] = self.get_next_spot(column=fixed_column)
+                if column >= 0 and row >= 0:
+                    settings = {
+                        "x": column * self.col_width,
+                        "y": row,
+                        "name": name
+                    }
+                    self.screen_settings[name] = settings
+
+    def show_value(self, name):
+        if self.show_filter is None:
+            return True
+        else:
+            return self.show_filter(name)
+
+    def get_next_spot(self, column=None):
+        if column is None:
+            # find first spot in any free column
+            column = 1
+            while self.start[column] >= curses.LINES-1:
+                column += 1
+                if column >= curses.COLS-1:
+                    return -1, -1
+                if column >= len(self.start):
+                    self.start.append(-1)
+
+        if column >= len(self.start):
+            while column >= len(self.start):
+                self.start.append(-1) 
+        
+        self.start[column] += 1                   
+                
+        if column * self.col_width >= curses.COLS-1 or self.start[column] >= curses.LINES-1:
+            return -1, -1
+        return column, self.start[column]
+        
     def end_update(self):
         if self.screen is not None:
             self.screen.refresh()

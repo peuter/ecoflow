@@ -30,6 +30,9 @@ class EcoflowClient:
     def start(self):
         self.client.loop_forever()
 
+    def stop(self):
+        self.client.disconnect()    
+
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
             self.connected = True

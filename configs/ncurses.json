@@ -60,5 +60,42 @@
             "y": 1,
             "name": "Output"
         }
+    },
+    "delta-max": {
+        "mppt.inWatts": {
+            "x": 0,
+            "y": 0,
+            "name": "PV Eingang"
+        },
+        "mppt.outWatts": {
+            "x": 0,
+            "y": 1,
+            "name": "PV Ausgang"
+        },
+        "mppt.mpptTemp": {
+            "x": 0,
+            "y": 2,
+            "name": "MPTT Temperatur"
+        },
+        "mppt.chgState": {
+            "x": 0,
+            "y": 3,
+            "name": "MPTT Ladestatus"
+        },
+        "inv.outTemp": {
+            "x": 0,
+            "y": 4,
+            "name": "Inverter Temperatur"
+        },
+        "inv.cfgAcEnabled": {
+            "x": 0,
+            "y": 5,
+            "name": "AC An"
+        },
+        "inv.outputWatts": {
+            "x": 0,
+            "y": 6,
+            "name": "AC Ausgang"
+        }
     }
 }

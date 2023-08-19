@@ -12,6 +12,7 @@ from model.utils.message_logger import MessageLogger
 from model.ecoflow.constant import *
 import random
 import datetime
+import pprint
 from model.utils.interval import InvervalTimer
 
 _LOGGER = logging.getLogger(__name__)
@@ -25,6 +26,9 @@ class EcoflowDevice:
         self._properties: Dict[str, any] = {}
         self.is_simulated = is_simulated
         self._last_heartbeat_time: datetime.datetime = None
+        self.uses_protobuf = False
+
+        self.pp = pprint.PrettyPrinter(indent=4)
 
         self.connector = None
 
@@ -120,6 +124,9 @@ class EcoflowDevice:
         if refresh:
             _LOGGER.info('last heartbeat outdated, requesting new one')
             self.request_data()
+
+    def stop(self):
+        self._timer.cancel()
     
     def handle_heartbeat(self, pdata, header):
         for descriptor, val in pdata.ListFields():
@@ -171,13 +178,24 @@ class EcoflowDevice:
         self.message_logger = logger
 
     def request_data(self):
-        message = powerstream.SendHeaderMsg()
-        header = message.msg.add()
-        setattr(header, "from", "Android")
-        header.src = DEFAULT_SRC
-        header.dest = DEFAULT_DEST
-        header.seq = self.generate_seq()
-        self.client.publish(self._get_topic, message.SerializeToString())
+        if self.uses_protobuf:
+            message = powerstream.SendHeaderMsg()
+            header = message.msg.add()
+            setattr(header, "from", "Android")
+            header.src = DEFAULT_SRC
+            header.dest = DEFAULT_DEST
+            header.seq = self.generate_seq()
+            self.client.publish(self._get_topic, message.SerializeToString())
+        else:
+            data = {
+                "from": "Android",
+                "id": "%s" % self.generate_seq(),
+                "moduleType": 0,
+                "operateType": "latestQuotas",
+                "params": {},
+                "version": "1.1"
+            }
+            self.client.publish(self._get_topic, json.dumps(data))
 
     def on_message(self, client, userdata, mqtt_message):
         try:
@@ -215,14 +233,22 @@ class EcoflowDevice:
                 return self.pdata_messages[cmd_func][cmd_id]           
 
     def decode_message(self, payload, log_prefix=None):
+        is_json = False
         try:
             msg = payload.decode("utf-8")
             message = json.loads(msg)
             handled = False
-            if "cmdId" in message:
-                if message["cmdId"] in self.handlers:
+            is_json = True
+            
+            cmd_id = message["cmdId"] if "cmdId" in message else None
+            if cmd_id is None and "operateType" in message:
+                cmd_id = message["operateType"]
+            if cmd_id is None and "params" in message and "status" not in message["params"]:
+                cmd_id = "params"
+            if cmd_id is not None:
+                if cmd_id in self.handlers:
                     handled = True
-                    for handler in self.handlers[message["cmdId"]]:
+                    for handler in self.handlers[cmd_id]:
                         handler(message)
                 elif "unhandled" in self.handlers:
                     handled = True
@@ -238,8 +264,11 @@ class EcoflowDevice:
             if self.message_logger is not None:
                 self.message_logger.log_message(message, prefix=f"{self.device_sn}-{log_prefix}", handled=handled, title=self.device_sn, raw=msg)
             return
-        except:
-            self.decode_proto(payload, log_prefix=log_prefix)
+        except Exception as e:
+            if not is_json:
+                self.decode_proto(payload, log_prefix=log_prefix)
+            else:
+                raise e
 
     def decode_proto(self, payload, log_prefix=None):
         try:

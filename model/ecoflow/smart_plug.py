@@ -85,7 +85,7 @@ class Simulated_Ecoflow_Smartplug(Ecoflow_Smartplug):
             "heartbeat_frequency": 10,
             "mesh_enable": False 
         }
-
+        self.uses_protobuf = True
         self._changed = []
 
         self.add_cmd_id_handler(self.handle_data_request, [0])

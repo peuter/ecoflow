@@ -33,6 +33,7 @@ parser.add_argument('--config-folder', dest='config_folder', default=os.getenv("
 
 args = parser.parse_args()
 Settings.set("args", args) 
+running = False
 
 handlers=[logging.StreamHandler()]
 if args.ncurses_show is not None:
@@ -62,32 +63,40 @@ def main(stdscr=None):
         if args.raw_log_mode != "none":
             message_logger = MessageLogger(args.raw_log_mode, args.log_folder)
 
-        for device in config["devices"]:
-            client = None
-            if "disabled" in device and device["disabled"] == True:
-                continue
-            if device["type"] == "powerstream":
-                client = Ecoflow_Powerstream(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
-            elif device["type"] == "smart-plug":
-                if "simulated" in device and device["simulated"] is True:
-                    client = Simulated_Ecoflow_Smartplug(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
+        try:
+            for device in config["devices"]:
+                client = None
+                if "disabled" in device and device["disabled"] == True:
+                    continue
+                if device["type"] == "powerstream":
+                    client = Ecoflow_Powerstream(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
+                elif device["type"] == "smart-plug":
+                    if "simulated" in device and device["simulated"] is True:
+                        client = Simulated_Ecoflow_Smartplug(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
+                    else:
+                        client = Ecoflow_Smartplug(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
+                elif device["type"] == "delta-max":
+                    client = Ecoflow_DeltaMax(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
                 else:
-                    client = Ecoflow_Smartplug(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
-            elif device["type"] == "delta-max":
-                client = Ecoflow_DeltaMax(device["serial"], auth.user_id, stdscr=stdscr if args.ncurses_show is None or args.ncurses_show == device["serial"] else None)
-            else:
-                _LOGGER.error("unsupported device type: %s" % device["type"])
+                    _LOGGER.error("unsupported device type: %s" % device["type"])
 
-            if client is not None:
-                _LOGGER.info(f"{device['type']} has been created.")
-                clients.append(client)
-                if message_logger is not None:
-                    client.set_message_logger(message_logger)
-        # start run loop
-        get_client().start()
-        for client in clients:
-            client.stop()
-        _LOGGER.info("DONE")
+                if client is not None:
+                    _LOGGER.info(f"{device['type']} has been created.")
+                    clients.append(client)
+                    if message_logger is not None:
+                        client.set_message_logger(message_logger)
+            # start run loop
+            get_client().start()
+
+        except KeyboardInterrupt:
+            for client in clients:
+                client.stop()
+            _LOGGER.info('STOPPED')
+
+        except Exception as e:
+            for client in clients:
+                client.stop()
+            raise e
     else:
         _LOGGER.error("no credentials provided")
 
