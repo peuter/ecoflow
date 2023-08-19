@@ -114,8 +114,9 @@ class EcoflowDevice:
         if self._last_heartbeat_time is None:
             refresh = True
         else:
-            delta = self._last_heartbeat_time - datetime.datetime.now()
+            delta = datetime.datetime.now() - self._last_heartbeat_time
             refresh = delta.total_seconds() > 120
+            _LOGGER.debug('last heartbeat is %s minutes old' % (delta.total_seconds() / 60))
         if refresh:
             _LOGGER.info('last heartbeat outdated, requesting new one')
             self.request_data()

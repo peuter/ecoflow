@@ -44,7 +44,7 @@ class Ecoflow_Powerstream(EcoflowDevice):
 
     def set_output_power(self, power):
         pdata = wn511.permanent_watts_pack()
-        pdata.permanent_watts = min(self.get_value("ratedPower", default=800)*10, max(0, round(power * 10)))
+        pdata.permanent_watts = min(round(self.get_value("ratedPower", default=800)*10), max(0, round(power * 10)))
         self.send_set(pdata, CmdIds.SET_PERMANENT_WATTS)
 
     def set_bat_lower(self, limit):

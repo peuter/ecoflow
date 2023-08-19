@@ -21,6 +21,8 @@ VOLUME "/var/logs/ecoflow"
 ENV EF_LOG_FOLDER="/var/logs/ecoflow"
 ENV EF_CONFIG_FOLDER="/etc/ecoflow"
 ENV IN_DOCKER=1
+ENV TZ=Europe/Berlin
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
