@@ -3,6 +3,8 @@ from model.connector import Connector
 import logging
 import re
 import math
+import os
+import json
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -15,6 +17,16 @@ class Ecoflow_DeltaMax(EcoflowDevice):
         self.connector = Connector(self.device_sn, "delta-max", name="Delta Max", screen=stdscr)
         self.connector.col_width = 38
         self.connector.show_filter = lambda name : name[0:3] in ["bms", "ems", "pd."] and name[0:7] != "pd.icon"
+        self.config_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'protos', 'delta-max.json')
+        self.config = None
+        with open(self.config_file) as f:
+            try:
+                self.config = json.load(f)
+            except Exception as err:
+                _LOGGER.error('error reading device config file: %s' % self.config_file)
+                _LOGGER.error(err)
+        if self.config is not None:
+            self.connector.set_device_config(self.config)
 
         self.add_cmd_id_handler(self.handle_heartbeat, [0, "latestQuotas", "params"])
 
@@ -41,13 +53,13 @@ class Ecoflow_DeltaMax(EcoflowDevice):
                 self.screen_initialized = True
 
                 # dump config
-                # config = {}
+                # config = {"properties": {}}
                 # names = list(data_map.keys())
                 # names.sort()
                 # for name in names:
                 #     [unit, divisor, special_handler] = self.get_param_settings(name).values()
                 #     [node, property_name] = name.split(".")
-                #     config[name] = {
+                #     config["properties"][name] = {
                 #         "divisor": divisor, 
                 #         "unit": unit, 
                 #         "node": node,
@@ -56,7 +68,6 @@ class Ecoflow_DeltaMax(EcoflowDevice):
                 #     if special_handler is not None:
                 #         config[name]["converter"] = special_handler
                 # with open('delta-max.json', 'w') as f:
-                #     import json
                 #     f.write(json.dumps(config, indent=2))
 
         
@@ -71,7 +82,10 @@ class Ecoflow_DeltaMax(EcoflowDevice):
                         val = "%02d:%02d" % (h, m)                   
                     if divisor != 1:
                         val = val / divisor
-                    self.connector.update(name, val, unit)
+                    descriptor = name
+                    if self.config is not None and name in self.config["properties"]:
+                        descriptor = self.config["properties"][name]
+                    self.connector.update(descriptor, val, unit)
                     _LOGGER.debug(f"update received {name}: {val} {unit}")
             self.connector.end_update()
 

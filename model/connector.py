@@ -2,7 +2,7 @@ import json
 import os
 import curses
 
-from model.homie.device import Proto_Device
+from model.homie.device import Proto_Device, Json_Device
 import model.protos.options_pb2 as options
 from model.utils.event_emitter import EventEmitter
 from model.utils.settings import Settings
@@ -23,6 +23,7 @@ class Connector(EventEmitter):
         self.fixed_screen = False
 
         self.proto_message = None
+        self.device_config = None
 
         self.mqtt_settings = {
             "MQTT_BROKER": os.getenv("HOMIE_MQTT"),
@@ -50,10 +51,22 @@ class Connector(EventEmitter):
                 self.sums[derived_field.field_name] = derived_field
         self.init_homie_device()
 
+    def set_device_config(self, config):
+        self.device_config = config
+        if "derived_fields" in config:
+            for derived_field in config["derived_fields"]:
+                if "operator" not in derived_field or derived_field["operator"] == 0:
+                    self.sums[derived_field["field_name"]] = derived_field
+        self.init_homie_device()
+
     def init_homie_device(self):
-        if self.mqtt_settings["MQTT_BROKER"] is not None and self.proto_message is not None:
-            self.homie_device = Proto_Device(self.proto_message, device_id=self.serial.lower(), name=self.name, mqtt_settings=self.mqtt_settings)
-            self.homie_device.on("set_request", self.on_set_request)
+        if self.mqtt_settings["MQTT_BROKER"] is not None:
+            if self.proto_message is not None:
+                self.homie_device = Proto_Device(self.proto_message, device_id=self.serial.lower(), name=self.name, mqtt_settings=self.mqtt_settings)
+                self.homie_device.on("set_request", self.on_set_request)
+            elif self.device_config is not None:
+                self.homie_device = Json_Device(self.device_config, device_id=self.serial.lower(), name=self.name, mqtt_settings=self.mqtt_settings)
+                self.homie_device.on("set_request", self.on_set_request)
         else:
             self.homie_device = None
     
@@ -95,7 +108,15 @@ class Connector(EventEmitter):
             self.homie_device.update_status(status)
     
     def update(self, descriptor, value, unit=None, display_value=None):
-        name = descriptor if type(descriptor) == str else descriptor.name
+        name = None
+        update_homie = True
+        if type(descriptor) == str:
+            name = descriptor
+            update_homie = False
+        elif type(descriptor) == dict:
+            name = descriptor["name"]
+        else:
+            name = descriptor.name
         setattr(self, name, value)
         if unit is not None:
             self.set_unit(name, unit)
@@ -106,7 +127,8 @@ class Connector(EventEmitter):
             if name in getattr(self.sums[sum_name], "fields"):
                 self.update_sum(sum_name)
 
-        self.update_homie(value, descriptor=descriptor) 
+        if update_homie:
+            self.update_homie(value, descriptor=descriptor) 
 
     def update_sum(self, sum_name):
         sum = 0

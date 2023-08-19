@@ -1,4 +1,13 @@
 {
+  "homie_nodes": [
+    { "id": "bmsMaster", "name": "Master BMS", "type": "bmsMaster" },
+    { "id": "bmsSlave1", "name": "Slave1 BMS", "type": "bmsSlave1" },
+    { "id": "mppt", "name": "MPPT", "type": "mppt" },
+    { "id": "ems", "name": "EMS", "type": "ems" },
+    { "id": "inv", "name": "Inverter", "type": "inv" },
+    { "id": "pd", "name": "Power delivery", "type": "pd" }
+  ],
+  "properties": {
     "bmsMaster.amp": {
       "divisor": 1,
       "unit": "A",
@@ -1406,3 +1415,4 @@
       "name": "wirelessWatts"
     }
   }
+}
