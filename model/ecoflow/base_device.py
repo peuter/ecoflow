@@ -18,7 +18,7 @@ from model.utils.interval import InvervalTimer
 _LOGGER = logging.getLogger(__name__)
 
 class EcoflowDevice:
-    def __init__(self, serial: str, user_id=str, stdscr=None, is_simulated : bool = False):
+    def __init__(self, serial: str, user_id=str, stdscr=None, is_simulated : bool = False, uses_protobuf = False):
         self.screen = stdscr
         self.client = get_client()
         self.device_sn = serial
@@ -26,7 +26,7 @@ class EcoflowDevice:
         self._properties: Dict[str, any] = {}
         self.is_simulated = is_simulated
         self._last_heartbeat_time: datetime.datetime = None
-        self.uses_protobuf = False
+        self.uses_protobuf = uses_protobuf
 
         self.pp = pprint.PrettyPrinter(indent=4)
 
@@ -172,6 +172,9 @@ class EcoflowDevice:
             #self.client.subscribe(self._progress_topic, self)
             self.client.subscribe(self._set_reply_topic, self)
             self.client.subscribe(self._get_reply_topic, self)
+
+            self.client.subscribe(self._set_topic, self)
+            self.client.subscribe(self._get_topic, self)
         _LOGGER.info("subscriptions initialized")
 
     def set_message_logger(self, logger: MessageLogger):

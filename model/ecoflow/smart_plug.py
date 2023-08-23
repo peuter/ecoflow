@@ -11,7 +11,7 @@ _LOGGER.setLevel(logging.DEBUG)
 
 class Ecoflow_Smartplug(EcoflowDevice):
     def __init__(self, serial: str, user_id: str, stdscr=None, is_simulated=False):
-        super().__init__(serial, user_id, stdscr=stdscr, is_simulated=is_simulated)
+        super().__init__(serial, user_id, stdscr=stdscr, is_simulated=is_simulated, uses_protobuf=True)
 
         self.connector = Connector(self.device_sn, "smartplug", name="Smart-Plug", screen=stdscr)
         proto_message = self.get_pdata_message(CmdFuncs.SMART_PLUG, CmdIds.PLUG_HEARTBEAT)

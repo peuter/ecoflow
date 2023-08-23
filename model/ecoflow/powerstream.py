@@ -11,9 +11,7 @@ _LOGGER.setLevel(logging.DEBUG)
 
 class Ecoflow_Powerstream(EcoflowDevice):
     def __init__(self, serial: str, user_id: str, stdscr=None):
-        super().__init__(serial, user_id, stdscr)
-        self.uses_protobuf = True
-
+        super().__init__(serial, user_id, stdscr, uses_protobuf=True)
         self.connector = Connector(self.device_sn, "powerstream", name="Powerstream", screen=stdscr)
         proto_message = powerstream.InverterHeartbeat()
         self.connector.set_proto_message(proto_message)
