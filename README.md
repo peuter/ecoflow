@@ -1,6 +1,6 @@
 # ecoflow MQTT client
 
-Connect to ecoflow MQTT server to communicate with an ecoflow device (currently only powerstream microinverters, smartplugs and delta max are supported). Create a [homie](https://homieiot.github.io/) device for the ecoflow devices to be able to integrate them into smarthome systems with homie support.
+Connect to ecoflow MQTT server to communicate with an ecoflow device (currently only powerstream microinverters, smartplugs and delta max are supported). Creates a [homie](https://homieiot.github.io/) device for the ecoflow devices to be able to integrate them into smarthome systems with homie support.
 
 ## start
 
