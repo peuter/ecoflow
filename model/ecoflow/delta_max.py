@@ -43,7 +43,7 @@ class Ecoflow_DeltaMax(EcoflowDevice):
             data_map = message["params"]
         elif "data" in message:
             data_map = message["data"]["quotaMap"]
-            if not self.screen_initialized:
+            if not self.screen_initialized and self.connector is not None:
                 self.connector.init_screen(list(data_map.keys()), prefixes={
                     "bmsMaster.": 1,
                     "bmsSlave1.": 2,
@@ -85,9 +85,11 @@ class Ecoflow_DeltaMax(EcoflowDevice):
                     descriptor = name
                     if self.config is not None and name in self.config["properties"]:
                         descriptor = self.config["properties"][name]
-                    self.connector.update(descriptor, val, unit)
+                    if self.connector is not None:
+                        self.connector.update(descriptor, val, unit)
                     _LOGGER.debug(f"update received {name}: {val} {unit}")
-            self.connector.end_update()
+            if self.connector is not None:
+                self.connector.end_update()
 
     def detect_param_settings(self, name) -> dict:
         sub_device, param_name = name.split(".") if "." in name else [None, name]
