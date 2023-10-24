@@ -16,7 +16,7 @@ class Ecoflow_Powerstream(EcoflowDevice):
         proto_message = powerstream.InverterHeartbeat()
         self.connector.set_proto_message(proto_message)
         self.connector.on("set_request", self.on_set_request)
-
+        self.connector.init_screen([x.name for x in proto_message.DESCRIPTOR.fields])
         self.add_cmd_id_handler(self.handle_heartbeat, [1])
 
     def init_subscriptions(self):        

@@ -173,8 +173,8 @@ class EcoflowDevice:
             self.client.subscribe(self._set_reply_topic, self)
             self.client.subscribe(self._get_reply_topic, self)
 
-            self.client.subscribe(self._set_topic, self)
-            self.client.subscribe(self._get_topic, self)
+            # self.client.subscribe(self._set_topic, self)
+            # self.client.subscribe(self._get_topic, self)
         _LOGGER.info("subscriptions initialized")
 
     def set_message_logger(self, logger: MessageLogger):
