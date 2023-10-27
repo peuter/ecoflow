@@ -41,7 +41,7 @@ class Ecoflow_DeltaMax(EcoflowDevice):
 
         if "params" in message:
             data_map = message["params"]
-        elif "data" in message:
+        elif "data" in message and "quotaMap" in message["data"]:
             data_map = message["data"]["quotaMap"]
             if not self.screen_initialized and self.connector is not None:
                 self.connector.init_screen(list(data_map.keys()), prefixes={
@@ -75,16 +75,20 @@ class Ecoflow_DeltaMax(EcoflowDevice):
             for name, val in data_map.items():
                 if val is not None:
                     [unit, divisor, special_handler] = self.get_param_settings(name).values()
-                    if special_handler == "time":
+                    if special_handler == "minutes":
                         # time in minutes
                         h = math.floor(val/60)
                         m = val % 60
                         val = "%02d:%02d" % (h, m)                   
-                    if divisor != 1:
-                        val = val / divisor
                     descriptor = name
                     if self.config is not None and name in self.config["properties"]:
                         descriptor = self.config["properties"][name]
+                        if "divisor" in descriptor:
+                            divisor = descriptor["divisor"]
+                        if "unit" in descriptor:
+                            unit = descriptor["unit"]
+                    if divisor != 1:
+                        val = val / divisor
                     if self.connector is not None:
                         self.connector.update(descriptor, val, unit)
                     _LOGGER.debug(f"update received {name}: {val} {unit}")
@@ -97,30 +101,8 @@ class Ecoflow_DeltaMax(EcoflowDevice):
         unit = ""
         divisor = 1
         special_handler = None
-        if "watts" in name_parts or "power" in name_parts:
-            divisor = 10 if name not in ["inv.outputWatts"] else 1
-            unit = "W"
-        elif "cur" in name_parts or "amp" in name_parts:
-            #divisor = 10
-            unit = "A"
-        elif "temp" in name_parts:
-            #divisor = 10
-            unit = "°C"
-        elif "volt" in name_parts:
-            #divisor = 10 # ???
-            unit = "V"
-        elif "voltage" in name_parts:
-            divisor = 1000
-            unit = "V"
-        elif "brightness" in name_parts:
-            #divisor = 10
-            unit = "%"
-        elif "cap" in name_parts:
-            divisor = 10
-            unit = "Wh"
-        elif "soc" in name_parts or "soh" in name_parts:
-            unit = "%"
-        elif "time" in name_parts:
+
+        if "time" in name_parts:
             special_handler = "minutes"
         return {
             "unit": unit,

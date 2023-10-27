@@ -1379,13 +1379,13 @@
       "converter": "minutes"
     },
     "pd.wattsInSum": {
-      "divisor": 10,
+      "divisor": 1,
       "unit": "W",
       "node": "pd",
       "name": "wattsInSum"
     },
     "pd.wattsOutSum": {
-      "divisor": 10,
+      "divisor": 1,
       "unit": "W",
       "node": "pd",
       "name": "wattsOutSum"
