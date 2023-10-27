@@ -255,11 +255,11 @@ class EcoflowDevice:
             if cmd_id is None and "params" in message and "status" not in message["params"]:
                 cmd_id = "params"
             if cmd_id is not None:
-                if cmd_func is none and cmd_id in self.handlers:
+                if cmd_func is None and cmd_id in self.handlers:
                     handled = True
                     for handler in self.handlers[cmd_id]:
                         handler(message)
-                elif cmd_func is not none and cmd_func in self.handlers and cmd_id in self.handlers[cmd_func]:
+                elif cmd_func is not None and cmd_func in self.handlers and cmd_id in self.handlers[cmd_func]:
                     handled = True
                     for handler in self.handlers[cmd_func][cmd_id]:
                         handler(message)

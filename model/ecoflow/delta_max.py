@@ -17,6 +17,7 @@ class Ecoflow_DeltaMax(EcoflowDevice):
         self.connector = Connector(self.device_sn, "delta-max", name="Delta Max", screen=stdscr)
         self.connector.col_width = 38
         self.connector.show_filter = lambda name : name[0:3] in ["bms", "ems", "pd."] and name[0:7] != "pd.icon"
+        self.connector.start()
         self.config_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'protos', 'delta-max.json')
         self.config = None
         with open(self.config_file) as f:

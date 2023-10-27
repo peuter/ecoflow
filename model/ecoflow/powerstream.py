@@ -23,6 +23,7 @@ class Ecoflow_Powerstream(EcoflowDevice):
         self.connector.on("set_request", self.on_set_request)
         self.connector.init_screen([x.name for x in proto_message.DESCRIPTOR.fields])
         self.customize_homie()
+        self.connector.start()
         self.default_cmd_func = CmdFuncs.POWERSTREAM
         self.add_cmd_id_handler(self.handle_heartbeat, [CmdIds.HEARTBEAT])
         self.add_cmd_id_handler(self.handle_energy_total_report, [CmdIds.ENERGY_TOTAL_REPORT], CmdFuncs.REPORTS)
@@ -44,15 +45,23 @@ class Ecoflow_Powerstream(EcoflowDevice):
 
         node = Node_Base(homie, "energy", "Energy", "energy")
         homie.add_node(node)
+        _LOGGER.debug(f"node {node.id} has been added")
 
-        self.today_total = Property_Integer(node, "todayTotal", name="Today total", unit="Wh", value=0)
+        self.today_total = Property_Integer(node, "today-total", name="Today total", unit="Wh", value=0, settable=False)
         node.add_property(self.today_total)
-        self.today_from_battery = Property_Integer(node, "todayFromBattery", name="Today from battery", unit="Wh", value=0)
+        _LOGGER.debug(f"property {self.today_total.name} has been added to node {node.name}")
+
+        self.today_from_battery = Property_Integer(node, "today-from-battery", name="Today from battery", unit="Wh", value=0, settable=False)
         node.add_property(self.today_from_battery)
-        self.today_to_battery = Property_Integer(node, "todayToBattery", name="Today to battery", unit="Wh", value=0)
+        _LOGGER.debug(f"property {self.today_from_battery.name} has been added to node {node.name}")
+
+        self.today_to_battery = Property_Integer(node, "today-to-battery", name="Today to battery", unit="Wh", value=0, settable=False)
         node.add_property(self.today_to_battery)
-        self.today_from_solar = Property_Integer(node, "todayFromSolar", name="Today from solar", unit="Wh", value=0)
+        _LOGGER.debug(f"property {self.today_to_battery.name} has been added to node {node.name}")
+
+        self.today_from_solar = Property_Integer(node, "today-from-solar", name="Today from solar", unit="Wh", value=0, settable=False)
         node.add_property(self.today_from_solar)
+        _LOGGER.debug(f"property {self.today_from_solar.name} has been added to node {node.name}")
 
     def handle_energy_total_report(self, pdata, header):
         # [total, ?, ?, from_bat, pv1?, pv2?]

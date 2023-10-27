@@ -31,7 +31,6 @@ class Mapped_Device(Device_Base, EventEmitter):
         self.simulated = simulated
 
         self.initialize(device_config)
-        self.start()
 
     def _set_value(self, event, id, value):
         _LOGGER.debug(f"{event} setter for {id} has been called with value '{value}'")

@@ -17,6 +17,7 @@ class Ecoflow_Smartplug(EcoflowDevice):
         proto_message = self.get_pdata_message(CmdFuncs.SMART_PLUG, CmdIds.PLUG_HEARTBEAT)
         self.connector.set_proto_message(proto_message)
         self.connector.on("set_request", self.on_set_request)
+        self.connector.start()
 
         self.add_cmd_id_handler(self.handle_heartbeat, [CmdIds.PLUG_HEARTBEAT])
 

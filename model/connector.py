@@ -69,6 +69,10 @@ class Connector(EventEmitter):
                 self.homie_device.on("set_request", self.on_set_request)
         else:
             self.homie_device = None
+
+    def start(self):
+        if self.homie_device is not None:
+            self.homie_device.start()
     
     def on_set_request(self, id, value):
         # just forward this event
