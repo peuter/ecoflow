@@ -17,6 +17,13 @@ _LOGGER.setLevel(logging.DEBUG)
 class Ecoflow_Powerstream(EcoflowDevice):
     def __init__(self, serial: str, user_id: str, stdscr=None):
         super().__init__(serial, user_id, stdscr, uses_protobuf=True)
+
+        # energy values
+        self.today_total = None
+        self.today_from_battery = None
+        self.today_to_battery = None
+        self.today_from_solar = None
+
         self.connector = Connector(self.device_sn, "powerstream", name="Powerstream", screen=stdscr)
         proto_message = powerstream.InverterHeartbeat()
         self.connector.set_proto_message(proto_message)
@@ -27,12 +34,6 @@ class Ecoflow_Powerstream(EcoflowDevice):
         self.default_cmd_func = CmdFuncs.POWERSTREAM
         self.add_cmd_id_handler(self.handle_heartbeat, [CmdIds.HEARTBEAT])
         self.add_cmd_id_handler(self.handle_energy_total_report, [CmdIds.ENERGY_TOTAL_REPORT], CmdFuncs.REPORTS)
-
-        # energy values
-        self.today_from_battery = None
-        self.today_to_battery = None
-        self.today_from_solar = None
-        self.today_total = None
 
     def init_subscriptions(self):        
         super().init_subscriptions()
@@ -76,28 +77,28 @@ class Ecoflow_Powerstream(EcoflowDevice):
             idx+=1
 
         if self.today_total is not None:
-            self.set_today_total(sum[0])
+            self.set_today_total(sums[0])
 
         if self.today_from_battery is not None:
-            self.set_today_from_battery(sum[3])
+            self.set_today_from_battery(sums[3])
         #print("%s, type: %s, sums: %s" % (date, type, sums))
 
-    def set_today_from_battery(self, val: int):
+    def set_today_from_battery(self, val):
         if self.today_from_battery.value != val:
             self.today_from_battery.value = val
             self.update_today_from_solar()
 
-    def set_today_to_battery(self, val: int):
+    def set_today_to_battery(self, val):
         if self.today_to_battery.value != val:
             self.today_to_battery.value = val
 
-    def set_today_total(self, val: int):
+    def set_today_total(self, val):
         if self.today_total.value != val:
             self.today_total.value = val
             self.update_today_from_solar()
 
     def update_today_from_solar(self):
-        val = self.today_total.value - self.today_from_solar.value
+        val = self.today_total.value - self.today_from_battery.value
         if self.today_from_solar.value != val:
             self.today_from_solar.value = val            
 
