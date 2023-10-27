@@ -6,17 +6,20 @@ Connect to ecoflow MQTT server to communicate with an ecoflow device (currently 
 
 1. Create virtual environment and install dependencies
 ```shell
-python -m venv venv
+python -m venv .venv
 . venv/bin/activate
 pip install -r requirements.txt
 ```
 
 2. Create `.env` file with credentials to login
 ```dotenv
-EF_USERNAME="ecoflow account username (email address)"
-EF_PASSWORD="ecoflow account password"
+EF_USERNAME=<ecoflow account username (email address)>
+EF_PASSWORD=<ecoflow account password>
+HOMIE_MQTT=<mqtt server ip/hostname>
+HOMIE_MQTT_PORT=<mqtt server port>
 ```
-3. Create `config.json`
+
+3. Create `config.json` in `configs` subfolder
 ```json
 {
     "devices": [{
@@ -24,6 +27,11 @@ EF_PASSWORD="ecoflow account password"
         "serial": "serial-number of the powerstream device"
     }]
 }
+
+```
+4. Create directory for logging
+```shell
+mkdir logs
 ```
 
-4. Run: `./index.py`
+5. Run: `./index.py`

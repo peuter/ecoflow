@@ -1,6 +1,7 @@
 raw_data.txt
 example*
 venv/
+.venv
 .env
 *.js
 config.json
