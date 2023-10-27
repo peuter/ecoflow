@@ -27,6 +27,7 @@ class EcoflowDevice:
         self.is_simulated = is_simulated
         self._last_heartbeat_time: datetime.datetime = None
         self.uses_protobuf = uses_protobuf
+        self.default_cmd_func = None
 
         self.pp = pprint.PrettyPrinter(indent=4)
 
@@ -57,7 +58,7 @@ class EcoflowDevice:
             32: {
                 11: powerstream.SetValue(),
             },
-            254: {
+            CmdFuncs.REPORTS: {
                 16: platform.EventRecordReport(),
                 CmdIds.ENERGY_TOTAL_REPORT: platform.EnergyTotalReport()
             }
@@ -224,11 +225,15 @@ class EcoflowDevice:
             return "GET REPLY"
         return None
 
-    def add_cmd_id_handler(self, handler, cmd_ids):
+    def add_cmd_id_handler(self, handler, cmd_ids, cmd_func=None):
+        if cmd_func is None and self.default_cmd_func is not None:
+            cmd_func = self.default_cmd_func
+        if cmd_func not in self.handlers:
+            self.handlers[cmd_func] = {}
         for cmd_id in cmd_ids:
-            if cmd_id not in self.handlers:
-                self.handlers[cmd_id] = []
-            self.handlers[cmd_id].append(handler)
+            if cmd_id not in self.handlers[cmd_func]:
+                self.handlers[cmd_func][cmd_id] = []
+            self.handlers[cmd_func][cmd_id].append(handler)
 
     def get_pdata_message(self, cmd_func, cmd_id, header=None):
         if cmd_func in self.pdata_messages:
@@ -244,14 +249,19 @@ class EcoflowDevice:
             is_json = True
             
             cmd_id = message["cmdId"] if "cmdId" in message else None
+            cmd_func = message["cmdFunc"] if "cmdFunc" in message else self.default_cmd_func
             if cmd_id is None and "operateType" in message:
                 cmd_id = message["operateType"]
             if cmd_id is None and "params" in message and "status" not in message["params"]:
                 cmd_id = "params"
             if cmd_id is not None:
-                if cmd_id in self.handlers:
+                if cmd_func is none and cmd_id in self.handlers:
                     handled = True
                     for handler in self.handlers[cmd_id]:
+                        handler(message)
+                elif cmd_func is not none and cmd_func in self.handlers and cmd_id in self.handlers[cmd_func]:
+                    handled = True
+                    for handler in self.handlers[cmd_func][cmd_id]:
                         handler(message)
                 elif "unhandled" in self.handlers:
                     handled = True
@@ -288,10 +298,11 @@ class EcoflowDevice:
                 if pdata is not None:
                     _LOGGER.debug(f"{self.device_sn} decoder found for cmd_func {cmd_func} cmd_id {cmd_id}")
                     pdata.ParseFromString(message.pdata)
-                if cmd_id in self.handlers:
-                    handled = True
-                    for handler in self.handlers[cmd_id]:
-                        handler(pdata, message)
+                if cmd_func in self.handlers:
+                    if cmd_id in self.handlers[cmd_func]:
+                        handled = True
+                        for handler in self.handlers[cmd_func][cmd_id]:
+                            handler(pdata, message)
                 elif "unhandled" in self.handlers:
                     handled = True
                     for handler in self.handlers["unhandled"]:

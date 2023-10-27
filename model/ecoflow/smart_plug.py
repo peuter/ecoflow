@@ -12,13 +12,13 @@ _LOGGER.setLevel(logging.DEBUG)
 class Ecoflow_Smartplug(EcoflowDevice):
     def __init__(self, serial: str, user_id: str, stdscr=None, is_simulated=False):
         super().__init__(serial, user_id, stdscr=stdscr, is_simulated=is_simulated, uses_protobuf=True)
-
+        self.default_cmd_func = CmdFuncs.SMART_PLUG
         self.connector = Connector(self.device_sn, "smartplug", name="Smart-Plug", screen=stdscr)
         proto_message = self.get_pdata_message(CmdFuncs.SMART_PLUG, CmdIds.PLUG_HEARTBEAT)
         self.connector.set_proto_message(proto_message)
         self.connector.on("set_request", self.on_set_request)
 
-        self.add_cmd_id_handler(self.handle_heartbeat, [1])
+        self.add_cmd_id_handler(self.handle_heartbeat, [CmdIds.PLUG_HEARTBEAT])
 
     def on_set_request(self, id, value):
         if id == "switch":

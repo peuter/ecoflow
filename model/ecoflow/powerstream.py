@@ -1,10 +1,15 @@
 from model.ecoflow.base_device import EcoflowDevice
 from model.connector import Connector
 
+from homie.node.node_base import Node_Base
+from homie.node.property.property_integer import Property_Integer
+
 import model.protos.powerstream_pb2 as powerstream
 import model.protos.wn511_socket_sys_pb2 as wn511
 from model.ecoflow.constant import *
 import logging
+import math
+import datetime
 
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.DEBUG)
@@ -17,11 +22,75 @@ class Ecoflow_Powerstream(EcoflowDevice):
         self.connector.set_proto_message(proto_message)
         self.connector.on("set_request", self.on_set_request)
         self.connector.init_screen([x.name for x in proto_message.DESCRIPTOR.fields])
-        self.add_cmd_id_handler(self.handle_heartbeat, [1])
+        self.customize_homie()
+        self.default_cmd_func = CmdFuncs.POWERSTREAM
+        self.add_cmd_id_handler(self.handle_heartbeat, [CmdIds.HEARTBEAT])
+        self.add_cmd_id_handler(self.handle_energy_total_report, [CmdIds.ENERGY_TOTAL_REPORT], CmdFuncs.REPORTS)
+
+        # energy values
+        self.today_from_battery = None
+        self.today_to_battery = None
+        self.today_from_solar = None
+        self.today_total = None
 
     def init_subscriptions(self):        
         super().init_subscriptions()
         self.request_data()
+
+    def customize_homie(self):
+        homie = self.connector.homie_device
+        if homie is None:
+            return
+
+        node = Node_Base(homie, "energy", "Energy", "energy")
+        homie.add_node(node)
+
+        self.today_total = Property_Integer(node, "todayTotal", name="Today total", unit="Wh", value=0)
+        node.add_property(self.today_total)
+        self.today_from_battery = Property_Integer(node, "todayFromBattery", name="Today from battery", unit="Wh", value=0)
+        node.add_property(self.today_from_battery)
+        self.today_to_battery = Property_Integer(node, "todayToBattery", name="Today to battery", unit="Wh", value=0)
+        node.add_property(self.today_to_battery)
+        self.today_from_solar = Property_Integer(node, "todayFromSolar", name="Today from solar", unit="Wh", value=0)
+        node.add_property(self.today_from_solar)
+
+    def handle_energy_total_report(self, pdata, header):
+        # [total, ?, ?, from_bat, pv1?, pv2?]
+        sums = [0,0,0,0,0,0]
+        type = pdata.watth_item.watth_type
+        date = datetime.datetime.utcfromtimestamp(pdata.watth_item.timestamp)
+        offset = 0
+        idx = 0
+        for val in pdata.watth_item.watth:
+            offset = math.floor(idx/24)
+            sums[offset] += val
+            idx+=1
+
+        if self.today_total is not None:
+            self.set_today_total(sum[0])
+
+        if self.today_from_battery is not None:
+            self.set_today_from_battery(sum[3])
+        #print("%s, type: %s, sums: %s" % (date, type, sums))
+
+    def set_today_from_battery(self, val: int):
+        if self.today_from_battery.value != val:
+            self.today_from_battery.value = val
+            self.update_today_from_solar()
+
+    def set_today_to_battery(self, val: int):
+        if self.today_to_battery.value != val:
+            self.today_to_battery.value = val
+
+    def set_today_total(self, val: int):
+        if self.today_total.value != val:
+            self.today_total.value = val
+            self.update_today_from_solar()
+
+    def update_today_from_solar(self):
+        val = self.today_total.value - self.today_from_solar.value
+        if self.today_from_solar.value != val:
+            self.today_from_solar.value = val            
 
     def on_set_request(self, id, value):
         _LOGGER.debug(f"received set-request for {id} with value: {value}")

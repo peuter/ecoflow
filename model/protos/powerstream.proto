@@ -12,6 +12,7 @@ message InverterHeartbeat {
     option (homie_node) = { id: "inverter", name: "Inverter", type: "inverter"};
     option (homie_node) = { id: "llc", name: "LLC", type: "llc"};
     option (homie_node) = { id: "states", name: "States", type: "states"};
+    // additional "energy" field with data from EnergyTotalReport is added manually in the code
 
     option (derived_field) = { 
         operator: 0
