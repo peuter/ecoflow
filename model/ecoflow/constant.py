@@ -7,6 +7,7 @@ DEFAULT_DEST = 53
 PLUG_MAX_WATTS_LIMIT = 2500
 
 class CmdFuncs(IntEnum):
+    DEFAULT = 0
     POWERSTREAM = 20
     SMART_PLUG = 2
     REPORTS = 254

@@ -27,7 +27,7 @@ class EcoflowDevice:
         self.is_simulated = is_simulated
         self._last_heartbeat_time: datetime.datetime = None
         self.uses_protobuf = uses_protobuf
-        self.default_cmd_func = None
+        self.default_cmd_func = CmdFuncs.DEFAULT
 
         self.pp = pprint.PrettyPrinter(indent=4)
 

@@ -16,7 +16,7 @@ class Connector(EventEmitter):
         self.sums = {}
         self.start_x = 0
         self.start_y = 0
-        self.start = [-1, -1, -1]
+        self._start = [-1, -1, -1]
         self.col_width = 40
         self.name = name if name is not None else "Ecoflow device"
         self.show_filter = None
@@ -114,18 +114,21 @@ class Connector(EventEmitter):
     def update(self, descriptor, value, unit=None, display_value=None):
         name = None
         update_homie = True
+        node_name = None
         if type(descriptor) == str:
             name = descriptor
             update_homie = False
         elif type(descriptor) == dict:
             name = descriptor["name"]
+            if "node" in descriptor:
+                node_name = descriptor["node"]
         else:
             name = descriptor.name
         setattr(self, name, value)
         if unit is not None:
             self.set_unit(name, unit)
         
-        self.update_screen(name, display_value=display_value)
+        self.update_screen(name, display_value=display_value, node_name=node_name)
 
         for sum_name in self.sums.keys():
             if name in getattr(self.sums[sum_name], "fields"):
@@ -153,7 +156,7 @@ class Connector(EventEmitter):
 
         self.update_screen(sum_name)
         
-    def update_screen(self, name, display_value=None):
+    def update_screen(self, name, display_value=None, node_name=None):
         if self.screen is not None:
             if not self.fixed_screen and name not in self.screen_settings and self.show_value(name):
                 # find a free spot                
@@ -168,9 +171,11 @@ class Connector(EventEmitter):
                     }
                     self.start_y += 1
                     self.screen_settings[name] = settings
-
-            if name in self.screen_settings:
-                settings = self.screen_settings[name]
+            display_name = name
+            if not name in self.screen_settings and node_name is not None and "%s.%s" % (node_name, name) in self.screen_settings:
+                display_name = "%s.%s" % (node_name, name)
+            if display_name in self.screen_settings:
+                settings = self.screen_settings[display_name]
                 self.screen.addstr(settings["y"], settings["x"], "%s: %s     " % (settings["name"], display_value if display_value is not None else self.value_string(name)))
 
     def init_screen(self, names: list, prefixes=None):
@@ -207,22 +212,22 @@ class Connector(EventEmitter):
         if column is None:
             # find first spot in any free column
             column = 1
-            while self.start[column] >= curses.LINES-1:
+            while self._start[column] >= curses.LINES-1:
                 column += 1
                 if column >= curses.COLS-1:
                     return -1, -1
-                if column >= len(self.start):
-                    self.start.append(-1)
+                if column >= len(self._start):
+                    self._start.append(-1)
 
-        if column >= len(self.start):
-            while column >= len(self.start):
-                self.start.append(-1) 
+        if column >= len(self._start):
+            while column >= len(self._start):
+                self._start.append(-1) 
         
-        self.start[column] += 1                   
+        self._start[column] += 1                   
                 
-        if column * self.col_width >= curses.COLS-1 or self.start[column] >= curses.LINES-1:
+        if column * self.col_width >= curses.COLS-1 or self._start[column] >= curses.LINES-1:
             return -1, -1
-        return column, self.start[column]
+        return column, self._start[column]
         
     def end_update(self):
         if self.screen is not None:

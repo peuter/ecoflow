@@ -76,11 +76,13 @@ class Ecoflow_DeltaMax(EcoflowDevice):
             for name, val in data_map.items():
                 if val is not None:
                     [unit, divisor, special_handler] = self.get_param_settings(name).values()
+                   
+                    display_val = None
                     if special_handler == "minutes":
                         # time in minutes
                         h = math.floor(val/60)
                         m = val % 60
-                        val = "%02d:%02d" % (h, m)                   
+                        display_val = "%02d:%02d" % (h, m)                   
                     descriptor = name
                     if self.config is not None and name in self.config["properties"]:
                         descriptor = self.config["properties"][name]
@@ -90,8 +92,9 @@ class Ecoflow_DeltaMax(EcoflowDevice):
                             unit = descriptor["unit"]
                     if divisor != 1:
                         val = val / divisor
+                        
                     if self.connector is not None:
-                        self.connector.update(descriptor, val, unit)
+                        self.connector.update(descriptor, val, unit, display_value=display_val)
                     _LOGGER.debug(f"update received {name}: {val} {unit}")
             if self.connector is not None:
                 self.connector.end_update()

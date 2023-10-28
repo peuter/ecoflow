@@ -39,7 +39,7 @@
       "name": "cycles"
     },
     "bmsMaster.designCap": {
-      "divisor": 10,
+      "divisor": 20,
       "unit": "Wh",
       "node": "bmsMaster",
       "name": "designCap"
@@ -57,7 +57,7 @@
       "name": "f32ShowSoc"
     },
     "bmsMaster.fullCap": {
-      "divisor": 10,
+      "divisor": 20,
       "unit": "Wh",
       "node": "bmsMaster",
       "name": "fullCap"
@@ -75,8 +75,8 @@
       "name": "maxCellTemp"
     },
     "bmsMaster.maxCellVol": {
-      "divisor": 1,
-      "unit": "",
+      "divisor": 1000,
+      "unit": "V",
       "node": "bmsMaster",
       "name": "maxCellVol"
     },
@@ -93,8 +93,8 @@
       "name": "minCellTemp"
     },
     "bmsMaster.minCellVol": {
-      "divisor": 1,
-      "unit": "",
+      "divisor": 1000,
+      "unit": "V",
       "node": "bmsMaster",
       "name": "minCellVol"
     },
@@ -123,7 +123,7 @@
       "name": "outputWatts"
     },
     "bmsMaster.remainCap": {
-      "divisor": 10,
+      "divisor": 20,
       "unit": "Wh",
       "node": "bmsMaster",
       "name": "remainCap"
@@ -154,7 +154,7 @@
       "name": "sysVer"
     },
     "bmsMaster.tagChgAmp": {
-      "divisor": 1,
+      "divisor": 1000,
       "unit": "A",
       "node": "bmsMaster",
       "name": "tagChgAmp"
@@ -208,7 +208,7 @@
       "name": "cycles"
     },
     "bmsSlave1.designCap": {
-      "divisor": 10,
+      "divisor": 20,
       "unit": "Wh",
       "node": "bmsSlave1",
       "name": "designCap"
@@ -226,7 +226,7 @@
       "name": "f32ShowSoc"
     },
     "bmsSlave1.fullCap": {
-      "divisor": 10,
+      "divisor": 20,
       "unit": "Wh",
       "node": "bmsSlave1",
       "name": "fullCap"
@@ -292,7 +292,7 @@
       "name": "outputWatts"
     },
     "bmsSlave1.remainCap": {
-      "divisor": 10,
+      "divisor": 20,
       "unit": "Wh",
       "node": "bmsSlave1",
       "name": "remainCap"
@@ -377,7 +377,7 @@
       "name": "bmsWarningState"
     },
     "ems.chgAmp": {
-      "divisor": 1,
+      "divisor": 1000,
       "unit": "A",
       "node": "ems",
       "name": "chgAmp"
@@ -402,8 +402,8 @@
       "name": "chgState"
     },
     "ems.chgVol": {
-      "divisor": 1,
-      "unit": "",
+      "divisor": 1000,
+      "unit": "V",
       "node": "ems",
       "name": "chgVol"
     },
@@ -487,14 +487,14 @@
       "name": "openUpsFlag"
     },
     "ems.paraVolMax": {
-      "divisor": 1,
-      "unit": "",
+      "divisor": 1000,
+      "unit": "V",
       "node": "ems",
       "name": "paraVolMax"
     },
     "ems.paraVolMin": {
-      "divisor": 1,
-      "unit": "",
+      "divisor": 1000,
+      "unit": "V",
       "node": "ems",
       "name": "paraVolMin"
     },
@@ -854,20 +854,20 @@
       "name": "carWatts"
     },
     "pd.chgPowerAc": {
-      "divisor": 10,
-      "unit": "W",
+      "divisor": 1,
+      "unit": "Wh",
       "node": "pd",
       "name": "chgPowerAc"
     },
     "pd.chgPowerDc": {
-      "divisor": 10,
-      "unit": "W",
+      "divisor": 1,
+      "unit": "Wh",
       "node": "pd",
       "name": "chgPowerDc"
     },
     "pd.chgSunPower": {
-      "divisor": 10,
-      "unit": "W",
+      "divisor": 1,
+      "unit": "Wh",
       "node": "pd",
       "name": "chgSunPower"
     },
@@ -885,14 +885,14 @@
       "name": "dcOutState"
     },
     "pd.dsgPowerAc": {
-      "divisor": 10,
-      "unit": "W",
+      "divisor": 1,
+      "unit": "Wh",
       "node": "pd",
       "name": "dsgPowerAc"
     },
     "pd.dsgPowerDc": {
-      "divisor": 10,
-      "unit": "W",
+      "divisor": 1,
+      "unit": "Wh",
       "node": "pd",
       "name": "dsgPowerDc"
     },
