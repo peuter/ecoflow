@@ -17,7 +17,6 @@ class Ecoflow_DeltaMax(EcoflowDevice):
         self.connector = Connector(self.device_sn, "delta-max", name="Delta Max", screen=stdscr)
         self.connector.col_width = 38
         self.connector.show_filter = lambda name : name[0:3] in ["bms", "ems", "pd."] and name[0:7] != "pd.icon"
-        self.connector.start()
         self.config_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'protos', 'delta-max.json')
         self.config = None
         with open(self.config_file) as f:
@@ -28,6 +27,8 @@ class Ecoflow_DeltaMax(EcoflowDevice):
                 _LOGGER.error(err)
         if self.config is not None:
             self.connector.set_device_config(self.config)
+
+        self.connector.start()
 
         self.add_cmd_id_handler(self.handle_heartbeat, [0, "latestQuotas", "params"])
 
@@ -92,7 +93,7 @@ class Ecoflow_DeltaMax(EcoflowDevice):
                             unit = descriptor["unit"]
                     if divisor != 1:
                         val = val / divisor
-                        
+
                     if self.connector is not None:
                         self.connector.update(descriptor, val, unit, display_value=display_val)
                     _LOGGER.debug(f"update received {name}: {val} {unit}")
