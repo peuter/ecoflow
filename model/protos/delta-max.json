@@ -854,20 +854,20 @@
       "name": "carWatts"
     },
     "pd.chgPowerAc": {
-      "divisor": 1,
-      "unit": "Wh",
+      "divisor": 1000,
+      "unit": "kWh",
       "node": "pd",
       "name": "chgPowerAc"
     },
     "pd.chgPowerDc": {
-      "divisor": 1,
-      "unit": "Wh",
+      "divisor": 1000,
+      "unit": "kWh",
       "node": "pd",
       "name": "chgPowerDc"
     },
     "pd.chgSunPower": {
-      "divisor": 1,
-      "unit": "Wh",
+      "divisor": 1000,
+      "unit": "kWh",
       "node": "pd",
       "name": "chgSunPower"
     },
@@ -885,14 +885,14 @@
       "name": "dcOutState"
     },
     "pd.dsgPowerAc": {
-      "divisor": 1,
-      "unit": "Wh",
+      "divisor": 1000,
+      "unit": "kWh",
       "node": "pd",
       "name": "dsgPowerAc"
     },
     "pd.dsgPowerDc": {
-      "divisor": 1,
-      "unit": "Wh",
+      "divisor": 1000,
+      "unit": "kWh",
       "node": "pd",
       "name": "dsgPowerDc"
     },
