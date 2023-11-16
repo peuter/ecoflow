@@ -65,8 +65,8 @@ class Ecoflow_Powerstream(EcoflowDevice):
         _LOGGER.debug(f"property {self.today_from_solar.name} has been added to node {node.name}")
 
     def handle_energy_total_report(self, pdata, header):
-        # [total, ?, ?, from_bat, pv1?, pv2?]
-        sums = [0,0,0,0,0,0]
+        # [total delivery, to plugs?, to battery?, from_bat, ?, pv1?, pv2?, total solar?] it is in total 8 values in the report watth1...watth8
+        sums = [0,0,0,0,0,0,0,0]
         type = pdata.watth_item.watth_type
         date = datetime.datetime.utcfromtimestamp(pdata.watth_item.timestamp)
         offset = 0
@@ -97,6 +97,7 @@ class Ecoflow_Powerstream(EcoflowDevice):
             self.today_total.value = val
             self.update_today_from_solar()
 
+    # not sure if this is correct, imho watth8 is today_from_solar
     def update_today_from_solar(self):
         val = self.today_total.value - self.today_from_battery.value
         if self.today_from_solar.value != val:
@@ -144,7 +145,13 @@ class Ecoflow_Powerstream(EcoflowDevice):
         if value >= 0 and value <= 1:
             pdata = powerstream.SetValue()
             pdata.value = value
-            self.send_set(pdata, CmdIds.SET_SUPPLY_PRIORITY)        
+            self.send_set(pdata, CmdIds.SET_SUPPLY_PRIORITY)
+    
+    def set_feed_priority(self, value):
+        if value >= 0 and value <= 1:
+            pdata = powerstream.SetValue()
+            pdata.value = value
+            self.send_set(pdata, CmdIds.SET_FEED_PRIORITY)        
 
     def send_set(self, pdata, cmd_id):
         message = powerstream.SendHeaderMsg()
