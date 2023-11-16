@@ -63,7 +63,7 @@
       "name": "fullCap"
     },
     "bmsMaster.inputWatts": {
-      "divisor": 10,
+      "divisor": 1,
       "unit": "W",
       "node": "bmsMaster",
       "name": "inputWatts"
@@ -232,7 +232,7 @@
       "name": "fullCap"
     },
     "bmsSlave1.inputWatts": {
-      "divisor": 10,
+      "divisor": 1,
       "unit": "W",
       "node": "bmsSlave1",
       "name": "inputWatts"
@@ -244,8 +244,8 @@
       "name": "maxCellTemp"
     },
     "bmsSlave1.maxCellVol": {
-      "divisor": 1,
-      "unit": "",
+      "divisor": 1000,
+      "unit": "V",
       "node": "bmsSlave1",
       "name": "maxCellVol"
     },
@@ -262,8 +262,8 @@
       "name": "minCellTemp"
     },
     "bmsSlave1.minCellVol": {
-      "divisor": 1,
-      "unit": "",
+      "divisor": 1000,
+      "unit": "V",
       "node": "bmsSlave1",
       "name": "minCellVol"
     },
@@ -323,7 +323,7 @@
       "name": "sysVer"
     },
     "bmsSlave1.tagChgAmp": {
-      "divisor": 1,
+      "divisor": 1000,
       "unit": "A",
       "node": "bmsSlave1",
       "name": "tagChgAmp"
