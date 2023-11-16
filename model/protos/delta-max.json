@@ -1,1442 +1,1442 @@
 {
     "homie_nodes": [
-        {
-            "id": "bmsMaster",
-            "name": "Master BMS",
-            "type": "bmsMaster"
-        },
-        {
-            "id": "bmsSlave1",
-            "name": "Slave1 BMS",
-            "type": "bmsSlave1"
-        },
-        {
-            "id": "mppt",
-            "name": "MPPT",
-            "type": "mppt"
-        },
-        {
-            "id": "ems",
-            "name": "EMS",
-            "type": "ems"
-        },
-        {
-            "id": "inv",
-            "name": "Inverter",
-            "type": "inv"
-        },
-        {
-            "id": "pd",
-            "name": "Power delivery",
-            "type": "pd"
-        }
-    ],
-    "properties": {
-        "bmsMaster.amp": {
-            "divisor": 1,
-            "unit": "A",
-            "node": "bmsMaster",
-            "name": "amp"
-        },
-        "bmsMaster.bmsFault": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsMaster",
-            "name": "bmsFault"
-        },
-        "bmsMaster.bqSysStatReg": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsMaster",
-            "name": "bqSysStatReg"
-        },
-        "bmsMaster.cellId": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsMaster",
-            "name": "cellId"
-        },
-        "bmsMaster.cycles": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsMaster",
-            "name": "cycles"
-        },
-        "bmsMaster.designCap": {
-            "divisor": 20,
-            "unit": "Wh",
-            "node": "bmsMaster",
-            "name": "designCap"
-        },
-        "bmsMaster.errCode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsMaster",
-            "name": "errCode"
-        },
-        "bmsMaster.f32ShowSoc": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "bmsMaster",
-            "name": "f32ShowSoc"
-        },
-        "bmsMaster.fullCap": {
-            "divisor": 20,
-            "unit": "Wh",
-            "node": "bmsMaster",
-            "name": "fullCap"
-        },
-        "bmsMaster.inputWatts": {
-            "divisor": 1,
-            "unit": "W",
-            "node": "bmsMaster",
-            "name": "inputWatts"
-        },
-        "bmsMaster.maxCellTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "bmsMaster",
-            "name": "maxCellTemp"
-        },
-        "bmsMaster.maxCellVol": {
-            "divisor": 1000,
-            "unit": "V",
-            "node": "bmsMaster",
-            "name": "maxCellVol"
-        },
-        "bmsMaster.maxMosTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "bmsMaster",
-            "name": "maxMosTemp"
-        },
-        "bmsMaster.minCellTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "bmsMaster",
-            "name": "minCellTemp"
-        },
-        "bmsMaster.minCellVol": {
-            "divisor": 1000,
-            "unit": "V",
-            "node": "bmsMaster",
-            "name": "minCellVol"
-        },
-        "bmsMaster.minMosTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "bmsMaster",
-            "name": "minMosTemp"
-        },
-        "bmsMaster.num": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsMaster",
-            "name": "num"
-        },
-        "bmsMaster.openBmsIdx": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsMaster",
-            "name": "openBmsIdx"
-        },
-        "bmsMaster.outputWatts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "bmsMaster",
-            "name": "outputWatts"
-        },
-        "bmsMaster.remainCap": {
-            "divisor": 20,
-            "unit": "Wh",
-            "node": "bmsMaster",
-            "name": "remainCap"
-        },
-        "bmsMaster.remainTime": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsMaster",
-            "name": "remainTime",
-            "converter": "minutes"
-        },
-        "bmsMaster.soc": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "bmsMaster",
-            "name": "soc"
-        },
-        "bmsMaster.soh": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "bmsMaster",
-            "name": "soh"
-        },
-        "bmsMaster.sysVer": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsMaster",
-            "name": "sysVer"
-        },
-        "bmsMaster.tagChgAmp": {
-            "divisor": 1000,
-            "unit": "A",
-            "node": "bmsMaster",
-            "name": "tagChgAmp"
-        },
-        "bmsMaster.temp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "bmsMaster",
-            "name": "temp"
-        },
-        "bmsMaster.type": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsMaster",
-            "name": "type"
-        },
-        "bmsMaster.vol": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsMaster",
-            "name": "vol"
-        },
-        "bmsSlave1.amp": {
-            "divisor": 1,
-            "unit": "A",
-            "node": "bmsSlave1",
-            "name": "amp"
-        },
-        "bmsSlave1.bmsFault": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsSlave1",
-            "name": "bmsFault"
-        },
-        "bmsSlave1.bqSysStatReg": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsSlave1",
-            "name": "bqSysStatReg"
-        },
-        "bmsSlave1.cellId": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsSlave1",
-            "name": "cellId"
-        },
-        "bmsSlave1.cycles": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsSlave1",
-            "name": "cycles"
-        },
-        "bmsSlave1.designCap": {
-            "divisor": 20,
-            "unit": "Wh",
-            "node": "bmsSlave1",
-            "name": "designCap"
-        },
-        "bmsSlave1.errCode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsSlave1",
-            "name": "errCode"
-        },
-        "bmsSlave1.f32ShowSoc": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "bmsSlave1",
-            "name": "f32ShowSoc"
-        },
-        "bmsSlave1.fullCap": {
-            "divisor": 20,
-            "unit": "Wh",
-            "node": "bmsSlave1",
-            "name": "fullCap"
-        },
-        "bmsSlave1.inputWatts": {
-            "divisor": 1,
-            "unit": "W",
-            "node": "bmsSlave1",
-            "name": "inputWatts"
-        },
-        "bmsSlave1.maxCellTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "bmsSlave1",
-            "name": "maxCellTemp"
-        },
-        "bmsSlave1.maxCellVol": {
-            "divisor": 1000,
-            "unit": "V",
-            "node": "bmsSlave1",
-            "name": "maxCellVol"
-        },
-        "bmsSlave1.maxMosTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "bmsSlave1",
-            "name": "maxMosTemp"
-        },
-        "bmsSlave1.minCellTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "bmsSlave1",
-            "name": "minCellTemp"
-        },
-        "bmsSlave1.minCellVol": {
-            "divisor": 1000,
-            "unit": "V",
-            "node": "bmsSlave1",
-            "name": "minCellVol"
-        },
-        "bmsSlave1.minMosTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "bmsSlave1",
-            "name": "minMosTemp"
-        },
-        "bmsSlave1.num": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsSlave1",
-            "name": "num"
-        },
-        "bmsSlave1.openBmsIdx": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsSlave1",
-            "name": "openBmsIdx"
-        },
-        "bmsSlave1.outputWatts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "bmsSlave1",
-            "name": "outputWatts"
-        },
-        "bmsSlave1.remainCap": {
-            "divisor": 20,
-            "unit": "Wh",
-            "node": "bmsSlave1",
-            "name": "remainCap"
-        },
-        "bmsSlave1.remainTime": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsSlave1",
-            "name": "remainTime",
-            "converter": "minutes"
-        },
-        "bmsSlave1.soc": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "bmsSlave1",
-            "name": "soc"
-        },
-        "bmsSlave1.soh": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "bmsSlave1",
-            "name": "soh"
-        },
-        "bmsSlave1.sysVer": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsSlave1",
-            "name": "sysVer"
-        },
-        "bmsSlave1.tagChgAmp": {
-            "divisor": 1000,
-            "unit": "A",
-            "node": "bmsSlave1",
-            "name": "tagChgAmp"
-        },
-        "bmsSlave1.temp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "bmsSlave1",
-            "name": "temp"
-        },
-        "bmsSlave1.type": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsSlave1",
-            "name": "type"
-        },
-        "bmsSlave1.vol": {
-            "divisor": 1,
-            "unit": "",
-            "node": "bmsSlave1",
-            "name": "vol"
-        },
-        "ems.bms0Online": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "bms0Online"
-        },
-        "ems.bms1Online": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "bms1Online"
-        },
-        "ems.bms2Online": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "bms2Online"
-        },
-        "ems.bmsModel": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "bmsModel"
-        },
-        "ems.bmsWarningState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "bmsWarningState"
-        },
-        "ems.chgAmp": {
-            "divisor": 1000,
-            "unit": "A",
-            "node": "ems",
-            "name": "chgAmp"
-        },
-        "ems.chgCmd": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "chgCmd"
-        },
-        "ems.chgRemainTime": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "chgRemainTime",
-            "converter": "minutes"
-        },
-        "ems.chgState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "chgState"
-        },
-        "ems.chgVol": {
-            "divisor": 1000,
-            "unit": "V",
-            "node": "ems",
-            "name": "chgVol"
-        },
-        "ems.dsgCmd": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "dsgCmd"
-        },
-        "ems.dsgRemainTime": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "dsgRemainTime",
-            "converter": "minutes"
-        },
-        "ems.emsIsNormalFlag": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "emsIsNormalFlag"
-        },
-        "ems.f32LcdShowSoc": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "ems",
-            "name": "f32LcdShowSoc"
-        },
-        "ems.fanLevel": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "fanLevel"
-        },
-        "ems.lcdShowSoc": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "ems",
-            "name": "lcdShowSoc"
-        },
-        "ems.maxAvailableNum": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "maxAvailableNum"
-        },
-        "ems.maxChargeSoc": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "ems",
-            "name": "maxChargeSoc"
-        },
-        "ems.maxCloseOilEbSoc": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "ems",
-            "name": "maxCloseOilEbSoc"
-        },
-        "ems.minDsgSoc": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "ems",
-            "name": "minDsgSoc"
-        },
-        "ems.minOpenOilEbSoc": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "ems",
-            "name": "minOpenOilEbSoc"
-        },
-        "ems.openBmsIdx": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "openBmsIdx"
-        },
-        "ems.openUpsFlag": {
-            "divisor": 1,
-            "unit": "",
-            "node": "ems",
-            "name": "openUpsFlag"
-        },
-        "ems.paraVolMax": {
-            "divisor": 1000,
-            "unit": "V",
-            "node": "ems",
-            "name": "paraVolMax"
-        },
-        "ems.paraVolMin": {
-            "divisor": 1000,
-            "unit": "V",
-            "node": "ems",
-            "name": "paraVolMin"
-        },
-        "inv.acDipSwitch": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "acDipSwitch"
-        },
-        "inv.acInAmp": {
-            "divisor": 1,
-            "unit": "A",
-            "node": "inv",
-            "name": "acInAmp"
-        },
-        "inv.acInFreq": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "acInFreq"
-        },
-        "inv.acInVol": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "acInVol"
-        },
-        "inv.acPassByAutoEn": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "acPassByAutoEn"
-        },
-        "inv.cfgAcEnabled": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "cfgAcEnabled"
-        },
-        "inv.cfgAcOutFreq": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "cfgAcOutFreq"
-        },
-        "inv.cfgAcOutVoltage": {
-            "divisor": 1000,
-            "unit": "V",
-            "node": "inv",
-            "name": "cfgAcOutVoltage"
-        },
-        "inv.cfgAcWorkMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "cfgAcWorkMode"
-        },
-        "inv.cfgAcXboost": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "cfgAcXboost"
-        },
-        "inv.cfgFastChgWatts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "inv",
-            "name": "cfgFastChgWatts"
-        },
-        "inv.cfgSlowChgWatts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "inv",
-            "name": "cfgSlowChgWatts"
-        },
-        "inv.cfgStandbyMin": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "cfgStandbyMin"
-        },
-        "inv.chargerType": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "chargerType"
-        },
-        "inv.chgPauseFlag": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "chgPauseFlag"
-        },
-        "inv.dcInAmp": {
-            "divisor": 1,
-            "unit": "A",
-            "node": "inv",
-            "name": "dcInAmp"
-        },
-        "inv.dcInTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "inv",
-            "name": "dcInTemp"
-        },
-        "inv.dcInVol": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "dcInVol"
-        },
-        "inv.dischargeType": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "dischargeType"
-        },
-        "inv.errCode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "errCode"
-        },
-        "inv.fanState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "fanState"
-        },
-        "inv.inputWatts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "inv",
-            "name": "inputWatts"
-        },
-        "inv.invOutAmp": {
-            "divisor": 1,
-            "unit": "A",
-            "node": "inv",
-            "name": "invOutAmp"
-        },
-        "inv.invOutFreq": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "invOutFreq"
-        },
-        "inv.invOutVol": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "invOutVol"
-        },
-        "inv.invType": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "invType"
-        },
-        "inv.outTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "inv",
-            "name": "outTemp"
-        },
-        "inv.outputWatts": {
-            "divisor": 1,
-            "unit": "W",
-            "node": "inv",
-            "name": "outputWatts"
-        },
-        "inv.sysVer": {
-            "divisor": 1,
-            "unit": "",
-            "node": "inv",
-            "name": "sysVer"
-        },
-        "mppt.carOutAmp": {
-            "divisor": 1,
-            "unit": "A",
-            "node": "mppt",
-            "name": "carOutAmp"
-        },
-        "mppt.carOutVol": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "carOutVol"
-        },
-        "mppt.carOutWatts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "mppt",
-            "name": "carOutWatts"
-        },
-        "mppt.carState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "carState"
-        },
-        "mppt.carTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "mppt",
-            "name": "carTemp"
-        },
-        "mppt.cfgChgType": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "cfgChgType"
-        },
-        "mppt.cfgDcChgCurrent": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "cfgDcChgCurrent"
-        },
-        "mppt.chgPauseFlag": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "chgPauseFlag"
-        },
-        "mppt.chgState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "chgState"
-        },
-        "mppt.chgType": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "chgType"
-        },
-        "mppt.dc24vState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "dc24vState"
-        },
-        "mppt.dc24vTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "mppt",
-            "name": "dc24vTemp"
-        },
-        "mppt.dcdc12vAmp": {
-            "divisor": 1,
-            "unit": "A",
-            "node": "mppt",
-            "name": "dcdc12vAmp"
-        },
-        "mppt.dcdc12vVol": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "dcdc12vVol"
-        },
-        "mppt.dcdc12vWatts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "mppt",
-            "name": "dcdc12vWatts"
-        },
-        "mppt.faultCode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "faultCode"
-        },
-        "mppt.inAmp": {
-            "divisor": 1,
-            "unit": "A",
-            "node": "mppt",
-            "name": "inAmp"
-        },
-        "mppt.inVol": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "inVol"
-        },
-        "mppt.inWatts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "mppt",
-            "name": "inWatts"
-        },
-        "mppt.mpptTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "mppt",
-            "name": "mpptTemp"
-        },
-        "mppt.outAmp": {
-            "divisor": 1,
-            "unit": "A",
-            "node": "mppt",
-            "name": "outAmp"
-        },
-        "mppt.outVol": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "outVol"
-        },
-        "mppt.outWatts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "mppt",
-            "name": "outWatts"
-        },
-        "mppt.swVer": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "swVer"
-        },
-        "mppt.xt60ChgType": {
-            "divisor": 1,
-            "unit": "",
-            "node": "mppt",
-            "name": "xt60ChgType"
-        },
-        "pd.beepState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "beepState"
-        },
-        "pd.carState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "carState"
-        },
-        "pd.carTemp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "pd",
-            "name": "carTemp"
-        },
-        "pd.carUsedTime": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "carUsedTime",
-            "converter": "minutes"
-        },
-        "pd.carWatts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "pd",
-            "name": "carWatts"
-        },
-        "pd.chgPowerAc": {
-            "divisor": 1000,
-            "unit": "kWh",
-            "node": "pd",
-            "name": "chgPowerAc"
-        },
-        "pd.chgPowerDc": {
-            "divisor": 1000,
-            "unit": "kWh",
-            "node": "pd",
-            "name": "chgPowerDc"
-        },
-        "pd.chgSunPower": {
-            "divisor": 1000,
-            "unit": "kWh",
-            "node": "pd",
-            "name": "chgSunPower"
-        },
-        "pd.dcInUsedTime": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "dcInUsedTime",
-            "converter": "minutes"
-        },
-        "pd.dcOutState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "dcOutState"
-        },
-        "pd.dsgPowerAc": {
-            "divisor": 1000,
-            "unit": "kWh",
-            "node": "pd",
-            "name": "dsgPowerAc"
-        },
-        "pd.dsgPowerDc": {
-            "divisor": 1000,
-            "unit": "kWh",
-            "node": "pd",
-            "name": "dsgPowerDc"
-        },
-        "pd.errCode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "errCode"
-        },
-        "pd.iconAcFreqMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconAcFreqMode"
-        },
-        "pd.iconAcFreqState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconAcFreqState"
-        },
-        "pd.iconBmsErrMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconBmsErrMode"
-        },
-        "pd.iconBmsErrState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconBmsErrState"
-        },
-        "pd.iconBmsParallelMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconBmsParallelMode"
-        },
-        "pd.iconBmsParallelState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconBmsParallelState"
-        },
-        "pd.iconBtMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconBtMode"
-        },
-        "pd.iconBtState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconBtState"
-        },
-        "pd.iconCarMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconCarMode"
-        },
-        "pd.iconCarState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconCarState"
-        },
-        "pd.iconChgStationMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconChgStationMode"
-        },
-        "pd.iconChgStationState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconChgStationState"
-        },
-        "pd.iconCoGasMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconCoGasMode"
-        },
-        "pd.iconCoGasState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconCoGasState"
-        },
-        "pd.iconEcoMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconEcoMode"
-        },
-        "pd.iconEcoState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconEcoState"
-        },
-        "pd.iconFactoryMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconFactoryMode"
-        },
-        "pd.iconFactoryState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconFactoryState"
-        },
-        "pd.iconFanMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconFanMode"
-        },
-        "pd.iconFanState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconFanState"
-        },
-        "pd.iconGasGenMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconGasGenMode"
-        },
-        "pd.iconGasGenState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconGasGenState"
-        },
-        "pd.iconHiTempMode": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "pd",
-            "name": "iconHiTempMode"
-        },
-        "pd.iconHiTempState": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "pd",
-            "name": "iconHiTempState"
-        },
-        "pd.iconInvParallelMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconInvParallelMode"
-        },
-        "pd.iconInvParallelState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconInvParallelState"
-        },
-        "pd.iconLowTempMode": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "pd",
-            "name": "iconLowTempMode"
-        },
-        "pd.iconLowTempState": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "pd",
-            "name": "iconLowTempState"
-        },
-        "pd.iconOverloadMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconOverloadMode"
-        },
-        "pd.iconOverloadState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconOverloadState"
-        },
-        "pd.iconPackHeaterMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconPackHeaterMode"
-        },
-        "pd.iconPackHeaterState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconPackHeaterState"
-        },
-        "pd.iconRcMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconRcMode"
-        },
-        "pd.iconRcState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconRcState"
-        },
-        "pd.iconRechgTimeMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconRechgTimeMode",
-            "converter": "minutes"
-        },
-        "pd.iconRechgTimeState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconRechgTimeState",
-            "converter": "minutes"
-        },
-        "pd.iconSocUpsMode": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "pd",
-            "name": "iconSocUpsMode"
-        },
-        "pd.iconSocUpsState": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "pd",
-            "name": "iconSocUpsState"
-        },
-        "pd.iconSolarBracketMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconSolarBracketMode"
-        },
-        "pd.iconSolarBracketState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconSolarBracketState"
-        },
-        "pd.iconSolarPanelMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconSolarPanelMode"
-        },
-        "pd.iconSolarPanelState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconSolarPanelState"
-        },
-        "pd.iconTransSwMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconTransSwMode"
-        },
-        "pd.iconTransSwState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconTransSwState"
-        },
-        "pd.iconTypecMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconTypecMode"
-        },
-        "pd.iconTypecState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconTypecState"
-        },
-        "pd.iconUsbMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconUsbMode"
-        },
-        "pd.iconUsbState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconUsbState"
-        },
-        "pd.iconWifiMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconWifiMode"
-        },
-        "pd.iconWifiState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconWifiState"
-        },
-        "pd.iconWindGenMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconWindGenMode"
-        },
-        "pd.iconWindGenState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconWindGenState"
-        },
-        "pd.iconWirelessChgMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconWirelessChgMode"
-        },
-        "pd.iconWirelessChgState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "iconWirelessChgState"
-        },
-        "pd.invUsedTime": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "invUsedTime",
-            "converter": "minutes"
-        },
-        "pd.kit0": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "kit0"
-        },
-        "pd.kit1": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "kit1"
-        },
-        "pd.kit2": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "kit2"
-        },
-        "pd.lcdBrightness": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "pd",
-            "name": "lcdBrightness"
-        },
-        "pd.lcdOffSec": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "lcdOffSec"
-        },
-        "pd.model": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "model"
-        },
-        "pd.mpptUsedTime": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "mpptUsedTime",
-            "converter": "minutes"
-        },
-        "pd.qcUsb1Watts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "pd",
-            "name": "qcUsb1Watts"
-        },
-        "pd.qcUsb2Watts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "pd",
-            "name": "qcUsb2Watts"
-        },
-        "pd.remainTime": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "remainTime",
-            "converter": "minutes"
-        },
-        "pd.soc": {
-            "divisor": 1,
-            "unit": "%",
-            "node": "pd",
-            "name": "soc"
-        },
-        "pd.standByMode": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "standByMode"
-        },
-        "pd.sysChgDsgState": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "sysChgDsgState"
-        },
-        "pd.sysVer": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "sysVer"
-        },
-        "pd.typccUsedTime": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "typccUsedTime",
-            "converter": "minutes"
-        },
-        "pd.typec1Temp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "pd",
-            "name": "typec1Temp"
-        },
-        "pd.typec1Watts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "pd",
-            "name": "typec1Watts"
-        },
-        "pd.typec2Temp": {
-            "divisor": 1,
-            "unit": "\u00b0C",
-            "node": "pd",
-            "name": "typec2Temp"
-        },
-        "pd.typec2Watts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "pd",
-            "name": "typec2Watts"
-        },
-        "pd.usb1Watts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "pd",
-            "name": "usb1Watts"
-        },
-        "pd.usb2Watts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "pd",
-            "name": "usb2Watts"
-        },
-        "pd.usbUsedTime": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "usbUsedTime",
-            "converter": "minutes"
-        },
-        "pd.usbqcUsedTime": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "usbqcUsedTime",
-            "converter": "minutes"
-        },
-        "pd.wattsInSum": {
-            "divisor": 1,
-            "unit": "W",
-            "node": "pd",
-            "name": "wattsInSum"
-        },
-        "pd.wattsOutSum": {
-            "divisor": 1,
-            "unit": "W",
-            "node": "pd",
-            "name": "wattsOutSum"
-        },
-        "pd.wifiAutoRcvy": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "wifiAutoRcvy"
-        },
-        "pd.wifiRssi": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "wifiRssi"
-        },
-        "pd.wifiVer": {
-            "divisor": 1,
-            "unit": "",
-            "node": "pd",
-            "name": "wifiVer"
-        },
-        "pd.wirelessWatts": {
-            "divisor": 10,
-            "unit": "W",
-            "node": "pd",
-            "name": "wirelessWatts"
-        }
+    {
+        "id": "bmsMaster",
+        "name": "Master BMS",
+        "type": "bmsMaster"
+    },
+    {
+        "id": "bmsSlave1",
+        "name": "Slave1 BMS",
+        "type": "bmsSlave1"
+    },
+    {
+        "id": "mppt",
+        "name": "MPPT",
+        "type": "mppt"
+    },
+    {
+        "id": "ems",
+        "name": "EMS",
+        "type": "ems"
+    },
+    {
+        "id": "inv",
+        "name": "Inverter",
+        "type": "inv"
+    },
+    {
+        "id": "pd",
+        "name": "Power delivery",
+        "type": "pd"
     }
+],
+"properties": {
+    "bmsMaster.amp": {
+        "divisor": 1000,
+        "unit": "A",
+        "node": "bmsMaster",
+        "name": "amp"
+    },
+    "bmsMaster.bmsFault": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsMaster",
+        "name": "bmsFault"
+    },
+    "bmsMaster.bqSysStatReg": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsMaster",
+        "name": "bqSysStatReg"
+    },
+    "bmsMaster.cellId": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsMaster",
+        "name": "cellId"
+    },
+    "bmsMaster.cycles": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsMaster",
+        "name": "cycles"
+    },
+    "bmsMaster.designCap": {
+        "divisor": 1,
+        "unit": "mAh",
+        "node": "bmsMaster",
+        "name": "designCap"
+    },
+    "bmsMaster.errCode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsMaster",
+        "name": "errCode"
+    },
+    "bmsMaster.f32ShowSoc": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "bmsMaster",
+        "name": "f32ShowSoc"
+    },
+    "bmsMaster.fullCap": {
+        "divisor": 1,
+        "unit": "mAh",
+        "node": "bmsMaster",
+        "name": "fullCap"
+    },
+    "bmsMaster.inputWatts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "bmsMaster",
+        "name": "inputWatts"
+    },
+    "bmsMaster.maxCellTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "bmsMaster",
+        "name": "maxCellTemp"
+    },
+    "bmsMaster.maxCellVol": {
+        "divisor": 1000,
+        "unit": "V",
+        "node": "bmsMaster",
+        "name": "maxCellVol"
+    },
+    "bmsMaster.maxMosTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "bmsMaster",
+        "name": "maxMosTemp"
+    },
+    "bmsMaster.minCellTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "bmsMaster",
+        "name": "minCellTemp"
+    },
+    "bmsMaster.minCellVol": {
+        "divisor": 1000,
+        "unit": "V",
+        "node": "bmsMaster",
+        "name": "minCellVol"
+    },
+    "bmsMaster.minMosTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "bmsMaster",
+        "name": "minMosTemp"
+    },
+    "bmsMaster.num": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsMaster",
+        "name": "num"
+    },
+    "bmsMaster.openBmsIdx": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsMaster",
+        "name": "openBmsIdx"
+    },
+    "bmsMaster.outputWatts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "bmsMaster",
+        "name": "outputWatts"
+    },
+    "bmsMaster.remainCap": {
+        "divisor": 1,
+        "unit": "mAh",
+        "node": "bmsMaster",
+        "name": "remainCap"
+    },
+    "bmsMaster.remainTime": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsMaster",
+        "name": "remainTime",
+        "converter": "minutes"
+    },
+    "bmsMaster.soc": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "bmsMaster",
+        "name": "soc"
+    },
+    "bmsMaster.soh": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "bmsMaster",
+        "name": "soh"
+    },
+    "bmsMaster.sysVer": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsMaster",
+        "name": "sysVer"
+    },
+    "bmsMaster.tagChgAmp": {
+        "divisor": 1000,
+        "unit": "A",
+        "node": "bmsMaster",
+        "name": "tagChgAmp"
+    },
+    "bmsMaster.temp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "bmsMaster",
+        "name": "temp"
+    },
+    "bmsMaster.type": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsMaster",
+        "name": "type"
+    },
+    "bmsMaster.vol": {
+        "divisor": 1000,
+        "unit": "",
+        "node": "bmsMaster",
+        "name": "vol"
+    },
+    "bmsSlave1.amp": {
+        "divisor": 1000,
+        "unit": "A",
+        "node": "bmsSlave1",
+        "name": "amp"
+    },
+    "bmsSlave1.bmsFault": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsSlave1",
+        "name": "bmsFault"
+    },
+    "bmsSlave1.bqSysStatReg": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsSlave1",
+        "name": "bqSysStatReg"
+    },
+    "bmsSlave1.cellId": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsSlave1",
+        "name": "cellId"
+    },
+    "bmsSlave1.cycles": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsSlave1",
+        "name": "cycles"
+    },
+    "bmsSlave1.designCap": {
+        "divisor": 1,
+        "unit": "mAh",
+        "node": "bmsSlave1",
+        "name": "designCap"
+    },
+    "bmsSlave1.errCode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsSlave1",
+        "name": "errCode"
+    },
+    "bmsSlave1.f32ShowSoc": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "bmsSlave1",
+        "name": "f32ShowSoc"
+    },
+    "bmsSlave1.fullCap": {
+        "divisor": 1,
+        "unit": "mAh",
+        "node": "bmsSlave1",
+        "name": "fullCap"
+    },
+    "bmsSlave1.inputWatts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "bmsSlave1",
+        "name": "inputWatts"
+    },
+    "bmsSlave1.maxCellTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "bmsSlave1",
+        "name": "maxCellTemp"
+    },
+    "bmsSlave1.maxCellVol": {
+        "divisor": 1000,
+        "unit": "V",
+        "node": "bmsSlave1",
+        "name": "maxCellVol"
+    },
+    "bmsSlave1.maxMosTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "bmsSlave1",
+        "name": "maxMosTemp"
+    },
+    "bmsSlave1.minCellTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "bmsSlave1",
+        "name": "minCellTemp"
+    },
+    "bmsSlave1.minCellVol": {
+        "divisor": 1000,
+        "unit": "V",
+        "node": "bmsSlave1",
+        "name": "minCellVol"
+    },
+    "bmsSlave1.minMosTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "bmsSlave1",
+        "name": "minMosTemp"
+    },
+    "bmsSlave1.num": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsSlave1",
+        "name": "num"
+    },
+    "bmsSlave1.openBmsIdx": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsSlave1",
+        "name": "openBmsIdx"
+    },
+    "bmsSlave1.outputWatts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "bmsSlave1",
+        "name": "outputWatts"
+    },
+    "bmsSlave1.remainCap": {
+        "divisor": 1,
+        "unit": "mAh",
+        "node": "bmsSlave1",
+        "name": "remainCap"
+    },
+    "bmsSlave1.remainTime": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsSlave1",
+        "name": "remainTime",
+        "converter": "minutes"
+    },
+    "bmsSlave1.soc": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "bmsSlave1",
+        "name": "soc"
+    },
+    "bmsSlave1.soh": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "bmsSlave1",
+        "name": "soh"
+    },
+    "bmsSlave1.sysVer": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsSlave1",
+        "name": "sysVer"
+    },
+    "bmsSlave1.tagChgAmp": {
+        "divisor": 1000,
+        "unit": "A",
+        "node": "bmsSlave1",
+        "name": "tagChgAmp"
+    },
+    "bmsSlave1.temp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "bmsSlave1",
+        "name": "temp"
+    },
+    "bmsSlave1.type": {
+        "divisor": 1,
+        "unit": "",
+        "node": "bmsSlave1",
+        "name": "type"
+    },
+    "bmsSlave1.vol": {
+        "divisor": 1000,
+        "unit": "V",
+        "node": "bmsSlave1",
+        "name": "vol"
+    },
+    "ems.bms0Online": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "bms0Online"
+    },
+    "ems.bms1Online": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "bms1Online"
+    },
+    "ems.bms2Online": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "bms2Online"
+    },
+    "ems.bmsModel": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "bmsModel"
+    },
+    "ems.bmsWarningState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "bmsWarningState"
+    },
+    "ems.chgAmp": {
+        "divisor": 1000,
+        "unit": "A",
+        "node": "ems",
+        "name": "chgAmp"
+    },
+    "ems.chgCmd": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "chgCmd"
+    },
+    "ems.chgRemainTime": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "chgRemainTime",
+        "converter": "minutes"
+    },
+    "ems.chgState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "chgState"
+    },
+    "ems.chgVol": {
+        "divisor": 1000,
+        "unit": "V",
+        "node": "ems",
+        "name": "chgVol"
+    },
+    "ems.dsgCmd": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "dsgCmd"
+    },
+    "ems.dsgRemainTime": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "dsgRemainTime",
+        "converter": "minutes"
+    },
+    "ems.emsIsNormalFlag": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "emsIsNormalFlag"
+    },
+    "ems.f32LcdShowSoc": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "ems",
+        "name": "f32LcdShowSoc"
+    },
+    "ems.fanLevel": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "fanLevel"
+    },
+    "ems.lcdShowSoc": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "ems",
+        "name": "lcdShowSoc"
+    },
+    "ems.maxAvailableNum": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "maxAvailableNum"
+    },
+    "ems.maxChargeSoc": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "ems",
+        "name": "maxChargeSoc"
+    },
+    "ems.maxCloseOilEbSoc": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "ems",
+        "name": "maxCloseOilEbSoc"
+    },
+    "ems.minDsgSoc": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "ems",
+        "name": "minDsgSoc"
+    },
+    "ems.minOpenOilEbSoc": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "ems",
+        "name": "minOpenOilEbSoc"
+    },
+    "ems.openBmsIdx": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "openBmsIdx"
+    },
+    "ems.openUpsFlag": {
+        "divisor": 1,
+        "unit": "",
+        "node": "ems",
+        "name": "openUpsFlag"
+    },
+    "ems.paraVolMax": {
+        "divisor": 1000,
+        "unit": "V",
+        "node": "ems",
+        "name": "paraVolMax"
+    },
+    "ems.paraVolMin": {
+        "divisor": 1000,
+        "unit": "V",
+        "node": "ems",
+        "name": "paraVolMin"
+    },
+    "inv.acDipSwitch": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "acDipSwitch"
+    },
+    "inv.acInAmp": {
+        "divisor": 1,
+        "unit": "A",
+        "node": "inv",
+        "name": "acInAmp"
+    },
+    "inv.acInFreq": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "acInFreq"
+    },
+    "inv.acInVol": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "acInVol"
+    },
+    "inv.acPassByAutoEn": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "acPassByAutoEn"
+    },
+    "inv.cfgAcEnabled": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "cfgAcEnabled"
+    },
+    "inv.cfgAcOutFreq": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "cfgAcOutFreq"
+    },
+    "inv.cfgAcOutVoltage": {
+        "divisor": 1000,
+        "unit": "V",
+        "node": "inv",
+        "name": "cfgAcOutVoltage"
+    },
+    "inv.cfgAcWorkMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "cfgAcWorkMode"
+    },
+    "inv.cfgAcXboost": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "cfgAcXboost"
+    },
+    "inv.cfgFastChgWatts": {
+        "divisor": 1,
+        "unit": "W",
+        "node": "inv",
+        "name": "cfgFastChgWatts"
+    },
+    "inv.cfgSlowChgWatts": {
+        "divisor": 1,
+        "unit": "W",
+        "node": "inv",
+        "name": "cfgSlowChgWatts"
+    },
+    "inv.cfgStandbyMin": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "cfgStandbyMin"
+    },
+    "inv.chargerType": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "chargerType"
+    },
+    "inv.chgPauseFlag": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "chgPauseFlag"
+    },
+    "inv.dcInAmp": {
+        "divisor": 1,
+        "unit": "A",
+        "node": "inv",
+        "name": "dcInAmp"
+    },
+    "inv.dcInTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "inv",
+        "name": "dcInTemp"
+    },
+    "inv.dcInVol": {
+        "divisor": 1000,
+        "unit": "V",
+        "node": "inv",
+        "name": "dcInVol"
+    },
+    "inv.dischargeType": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "dischargeType"
+    },
+    "inv.errCode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "errCode"
+    },
+    "inv.fanState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "fanState"
+    },
+    "inv.inputWatts": {
+        "divisor": 1,
+        "unit": "W",
+        "node": "inv",
+        "name": "inputWatts"
+    },
+    "inv.invOutAmp": {
+        "divisor": 1000,
+        "unit": "A",
+        "node": "inv",
+        "name": "invOutAmp"
+    },
+    "inv.invOutFreq": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "invOutFreq"
+    },
+    "inv.invOutVol": {
+        "divisor": 1000,
+        "unit": "",
+        "node": "inv",
+        "name": "invOutVol"
+    },
+    "inv.invType": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "invType"
+    },
+    "inv.outTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "inv",
+        "name": "outTemp"
+    },
+    "inv.outputWatts": {
+        "divisor": 1,
+        "unit": "W",
+        "node": "inv",
+        "name": "outputWatts"
+    },
+    "inv.sysVer": {
+        "divisor": 1,
+        "unit": "",
+        "node": "inv",
+        "name": "sysVer"
+    },
+    "mppt.carOutAmp": {
+        "divisor": 10,
+        "unit": "A",
+        "node": "mppt",
+        "name": "carOutAmp"
+    },
+    "mppt.carOutVol": {
+        "divisor": 10,
+        "unit": "",
+        "node": "mppt",
+        "name": "carOutVol"
+    },
+    "mppt.carOutWatts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "mppt",
+        "name": "carOutWatts"
+    },
+    "mppt.carState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "mppt",
+        "name": "carState"
+    },
+    "mppt.carTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "mppt",
+        "name": "carTemp"
+    },
+    "mppt.cfgChgType": {
+        "divisor": 1,
+        "unit": "",
+        "node": "mppt",
+        "name": "cfgChgType"
+    },
+    "mppt.cfgDcChgCurrent": {
+        "divisor": 1,
+        "unit": "mA",
+        "node": "mppt",
+        "name": "cfgDcChgCurrent"
+    },
+    "mppt.chgPauseFlag": {
+        "divisor": 1,
+        "unit": "",
+        "node": "mppt",
+        "name": "chgPauseFlag"
+    },
+    "mppt.chgState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "mppt",
+        "name": "chgState"
+    },
+    "mppt.chgType": {
+        "divisor": 1,
+        "unit": "",
+        "node": "mppt",
+        "name": "chgType"
+    },
+    "mppt.dc24vState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "mppt",
+        "name": "dc24vState"
+    },
+    "mppt.dc24vTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "mppt",
+        "name": "dc24vTemp"
+    },
+    "mppt.dcdc12vAmp": {
+        "divisor": 100,
+        "unit": "A",
+        "node": "mppt",
+        "name": "dcdc12vAmp"
+    },
+    "mppt.dcdc12vVol": {
+        "divisor": 10,
+        "unit": "",
+        "node": "mppt",
+        "name": "dcdc12vVol"
+    },
+    "mppt.dcdc12vWatts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "mppt",
+        "name": "dcdc12vWatts"
+    },
+    "mppt.faultCode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "mppt",
+        "name": "faultCode"
+    },
+    "mppt.inAmp": {
+        "divisor": 100,
+        "unit": "A",
+        "node": "mppt",
+        "name": "inAmp"
+    },
+    "mppt.inVol": {
+        "divisor": 10,
+        "unit": "V",
+        "node": "mppt",
+        "name": "inVol"
+    },
+    "mppt.inWatts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "mppt",
+        "name": "inWatts"
+    },
+    "mppt.mpptTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "mppt",
+        "name": "mpptTemp"
+    },
+    "mppt.outAmp": {
+        "divisor": 100,
+        "unit": "A",
+        "node": "mppt",
+        "name": "outAmp"
+    },
+    "mppt.outVol": {
+        "divisor": 10,
+        "unit": "V",
+        "node": "mppt",
+        "name": "outVol"
+    },
+    "mppt.outWatts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "mppt",
+        "name": "outWatts"
+    },
+    "mppt.swVer": {
+        "divisor": 1,
+        "unit": "",
+        "node": "mppt",
+        "name": "swVer"
+    },
+    "mppt.xt60ChgType": {
+        "divisor": 1,
+        "unit": "",
+        "node": "mppt",
+        "name": "xt60ChgType"
+    },
+    "pd.beepState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "beepState"
+    },
+    "pd.carState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "carState"
+    },
+    "pd.carTemp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "pd",
+        "name": "carTemp"
+    },
+    "pd.carUsedTime": {
+        "divisor": 60,
+        "unit": "min",
+        "node": "pd",
+        "name": "carUsedTime",
+        "converter": "minutes"
+    },
+    "pd.carWatts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "pd",
+        "name": "carWatts"
+    },
+    "pd.chgPowerAc": {
+        "divisor": 1000,
+        "unit": "kWh",
+        "node": "pd",
+        "name": "chgPowerAc"
+    },
+    "pd.chgPowerDc": {
+        "divisor": 1000,
+        "unit": "kWh",
+        "node": "pd",
+        "name": "chgPowerDc"
+    },
+    "pd.chgSunPower": {
+        "divisor": 1000,
+        "unit": "kWh",
+        "node": "pd",
+        "name": "chgSunPower"
+    },
+    "pd.dcInUsedTime": {
+        "divisor": 60,
+        "unit": "min",
+        "node": "pd",
+        "name": "dcInUsedTime",
+        "converter": "minutes"
+    },
+    "pd.dcOutState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "dcOutState"
+    },
+    "pd.dsgPowerAc": {
+        "divisor": 1000,
+        "unit": "kWh",
+        "node": "pd",
+        "name": "dsgPowerAc"
+    },
+    "pd.dsgPowerDc": {
+        "divisor": 1000,
+        "unit": "kWh",
+        "node": "pd",
+        "name": "dsgPowerDc"
+    },
+    "pd.errCode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "errCode"
+    },
+    "pd.iconAcFreqMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconAcFreqMode"
+    },
+    "pd.iconAcFreqState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconAcFreqState"
+    },
+    "pd.iconBmsErrMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconBmsErrMode"
+    },
+    "pd.iconBmsErrState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconBmsErrState"
+    },
+    "pd.iconBmsParallelMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconBmsParallelMode"
+    },
+    "pd.iconBmsParallelState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconBmsParallelState"
+    },
+    "pd.iconBtMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconBtMode"
+    },
+    "pd.iconBtState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconBtState"
+    },
+    "pd.iconCarMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconCarMode"
+    },
+    "pd.iconCarState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconCarState"
+    },
+    "pd.iconChgStationMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconChgStationMode"
+    },
+    "pd.iconChgStationState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconChgStationState"
+    },
+    "pd.iconCoGasMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconCoGasMode"
+    },
+    "pd.iconCoGasState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconCoGasState"
+    },
+    "pd.iconEcoMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconEcoMode"
+    },
+    "pd.iconEcoState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconEcoState"
+    },
+    "pd.iconFactoryMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconFactoryMode"
+    },
+    "pd.iconFactoryState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconFactoryState"
+    },
+    "pd.iconFanMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconFanMode"
+    },
+    "pd.iconFanState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconFanState"
+    },
+    "pd.iconGasGenMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconGasGenMode"
+    },
+    "pd.iconGasGenState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconGasGenState"
+    },
+    "pd.iconHiTempMode": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "pd",
+        "name": "iconHiTempMode"
+    },
+    "pd.iconHiTempState": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "pd",
+        "name": "iconHiTempState"
+    },
+    "pd.iconInvParallelMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconInvParallelMode"
+    },
+    "pd.iconInvParallelState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconInvParallelState"
+    },
+    "pd.iconLowTempMode": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "pd",
+        "name": "iconLowTempMode"
+    },
+    "pd.iconLowTempState": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "pd",
+        "name": "iconLowTempState"
+    },
+    "pd.iconOverloadMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconOverloadMode"
+    },
+    "pd.iconOverloadState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconOverloadState"
+    },
+    "pd.iconPackHeaterMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconPackHeaterMode"
+    },
+    "pd.iconPackHeaterState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconPackHeaterState"
+    },
+    "pd.iconRcMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconRcMode"
+    },
+    "pd.iconRcState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconRcState"
+    },
+    "pd.iconRechgTimeMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconRechgTimeMode",
+        "converter": "minutes"
+    },
+    "pd.iconRechgTimeState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconRechgTimeState",
+        "converter": "minutes"
+    },
+    "pd.iconSocUpsMode": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "pd",
+        "name": "iconSocUpsMode"
+    },
+    "pd.iconSocUpsState": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "pd",
+        "name": "iconSocUpsState"
+    },
+    "pd.iconSolarBracketMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconSolarBracketMode"
+    },
+    "pd.iconSolarBracketState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconSolarBracketState"
+    },
+    "pd.iconSolarPanelMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconSolarPanelMode"
+    },
+    "pd.iconSolarPanelState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconSolarPanelState"
+    },
+    "pd.iconTransSwMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconTransSwMode"
+    },
+    "pd.iconTransSwState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconTransSwState"
+    },
+    "pd.iconTypecMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconTypecMode"
+    },
+    "pd.iconTypecState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconTypecState"
+    },
+    "pd.iconUsbMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconUsbMode"
+    },
+    "pd.iconUsbState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconUsbState"
+    },
+    "pd.iconWifiMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconWifiMode"
+    },
+    "pd.iconWifiState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconWifiState"
+    },
+    "pd.iconWindGenMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconWindGenMode"
+    },
+    "pd.iconWindGenState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconWindGenState"
+    },
+    "pd.iconWirelessChgMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconWirelessChgMode"
+    },
+    "pd.iconWirelessChgState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "iconWirelessChgState"
+    },
+    "pd.invUsedTime": {
+        "divisor": 60,
+        "unit": "min",
+        "node": "pd",
+        "name": "invUsedTime",
+        "converter": "minutes"
+    },
+    "pd.kit0": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "kit0"
+    },
+    "pd.kit1": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "kit1"
+    },
+    "pd.kit2": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "kit2"
+    },
+    "pd.lcdBrightness": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "pd",
+        "name": "lcdBrightness"
+    },
+    "pd.lcdOffSec": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "lcdOffSec"
+    },
+    "pd.model": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "model"
+    },
+    "pd.mpptUsedTime": {
+        "divisor": 60,
+        "unit": "min",
+        "node": "pd",
+        "name": "mpptUsedTime",
+        "converter": "minutes"
+    },
+    "pd.qcUsb1Watts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "pd",
+        "name": "qcUsb1Watts"
+    },
+    "pd.qcUsb2Watts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "pd",
+        "name": "qcUsb2Watts"
+    },
+    "pd.remainTime": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "remainTime",
+        "converter": "minutes"
+    },
+    "pd.soc": {
+        "divisor": 1,
+        "unit": "%",
+        "node": "pd",
+        "name": "soc"
+    },
+    "pd.standByMode": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "standByMode"
+    },
+    "pd.sysChgDsgState": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "sysChgDsgState"
+    },
+    "pd.sysVer": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "sysVer"
+    },
+    "pd.typccUsedTime": {
+        "divisor": 60,
+        "unit": "min",
+        "node": "pd",
+        "name": "typccUsedTime",
+        "converter": "minutes"
+    },
+    "pd.typec1Temp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "pd",
+        "name": "typec1Temp"
+    },
+    "pd.typec1Watts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "pd",
+        "name": "typec1Watts"
+    },
+    "pd.typec2Temp": {
+        "divisor": 1,
+        "unit": "\u00b0C",
+        "node": "pd",
+        "name": "typec2Temp"
+    },
+    "pd.typec2Watts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "pd",
+        "name": "typec2Watts"
+    },
+    "pd.usb1Watts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "pd",
+        "name": "usb1Watts"
+    },
+    "pd.usb2Watts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "pd",
+        "name": "usb2Watts"
+    },
+    "pd.usbUsedTime": {
+        "divisor": 60,
+        "unit": "min",
+        "node": "pd",
+        "name": "usbUsedTime",
+        "converter": "minutes"
+    },
+    "pd.usbqcUsedTime": {
+        "divisor": 60,
+        "unit": "min",
+        "node": "pd",
+        "name": "usbqcUsedTime",
+        "converter": "minutes"
+    },
+    "pd.wattsInSum": {
+        "divisor": 1,
+        "unit": "W",
+        "node": "pd",
+        "name": "wattsInSum"
+    },
+    "pd.wattsOutSum": {
+        "divisor": 1,
+        "unit": "W",
+        "node": "pd",
+        "name": "wattsOutSum"
+    },
+    "pd.wifiAutoRcvy": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "wifiAutoRcvy"
+    },
+    "pd.wifiRssi": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "wifiRssi"
+    },
+    "pd.wifiVer": {
+        "divisor": 1,
+        "unit": "",
+        "node": "pd",
+        "name": "wifiVer"
+    },
+    "pd.wirelessWatts": {
+        "divisor": 10,
+        "unit": "W",
+        "node": "pd",
+        "name": "wirelessWatts"
+    }
+}
 }
