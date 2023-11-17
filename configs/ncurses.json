@@ -1,101 +1,100 @@
 {
-	"powerstream": {
-		"pv1InputWatts": {
-			"x": 0,
-			"y": 0,
-			"name": "PV1"
-		},
-		"pv2InputWatts": {
-			"x": 0,
-			"y": 1,
-			"name": "PV2"
-		},
-		"pvTotal": {
-			"x": 0,
-			"y": 2,
-			"name": "PV Total"
-		},
-		"permanentWatts": {
-			"x": 0,
-			"y": 4,
-			"name": "Permanent Watts"
-		},
-		"batChargingTime": {
-			"x": 0,
-			"y": 6,
-			"name": "Charging time"
-		},
-		"batDischargingTime": {
-			"x": 0,
-			"y": 7,
-			"name": "Discharging time"
-		},
-		"batSoc": {
-			"x": 0,
-			"y": 8,
-			"name": "SOC"
-		},
-		"batInputWatts": {
-			"x": 0,
-			"y": 9,
-			"name": "Entladen"
-		},
-		"lowerLimit": {
-			"x": 0,
-			"y": 10,
-			"name": "Unteres Limit"
-		},
-		"upperLimit": {
-			"x": 0,
-			"y": 11,
-			"name": "Oberes Limit"
-		},
-		"dynamicWatts": {
-			"x": 0,
-			"y": 12,
-			"name": "Dynamic Watts"
-		},
-		"invOutputWatts": {
-			"x": 0,
-			"y": 13,
-			"name": "Output"
-		}
-	},
-	"delta-max": {
-		"mppt.inWatts": {
-			"x": 0,
-			"y": 0,
-			"name": "PV Eingang"
-		},
-		"mppt.outWatts": {
-			"x": 0,
-			"y": 1,
-			"name": "PV Ausgang"
-		},
-		"mppt.mpptTemp": {
-			"x": 0,
-			"y": 2,
-			"name": "MPPT Temperatur"
-		},
-		"mppt.chgState": {
-			"x": 0,
-			"y": 3,
-			"name": "MPPT Ladestatus"
-		},
-		"inv.outTemp": {
-			"x": 0,
-			"y": 4,
-			"name": "Inverter Temperatur"
-		},
-		"inv.cfgAcEnabled": {
-			"x": 0,
-			"y": 5,
-			"name": "AC An"
-		},
-		"inv.outputWatts": {
-			"x": 0,
-			"y": 6,
-			"name": "AC Ausgang"
-		}
-	}
-}
+    "powerstream": {
+        "pv1InputWatts": {
+            "x": 0,
+            "y": 0,
+            "name": "PV1"
+        },
+        "pv2InputWatts": {
+            "x": 0,
+            "y": 1,
+            "name": "PV2"
+        },
+        "pvTotal": {
+            "x": 0,
+            "y": 2,
+            "name": "PV Total"
+        },
+        "permanentWatts": {
+            "x": 0,
+            "y": 4,
+            "name": "Permanent Watts"
+        },
+        "batChargingTime": {
+            "x": 0,
+            "y": 6,
+            "name": "Charging time"
+        },
+        "batDischargingTime": {
+            "x": 0,
+            "y": 7,
+            "name": "Discharging time"
+        },
+        "batSoc": {
+            "x": 0,
+            "y": 8,
+            "name": "SOC"
+        },
+        "batInputWatts": {
+            "x": 0,
+            "y": 9,
+            "name": "Entladen"
+        },
+        "lowerLimit": {
+            "x": 0,
+            "y": 10,
+            "name": "Unteres Limit"
+        },
+        "upperLimit": {
+            "x": 0,
+            "y": 11,
+            "name": "Oberes Limit"
+        },
+        "dynamicWatts": {
+            "x": 0,
+            "y": 12,
+            "name": "Dynamic Watts"
+        },
+        "invOutputWatts": {
+            "x": 0,
+            "y": 13,
+            "name": "Output"
+        }
+    },
+    "delta-max": {
+        "mppt.inWatts": {
+            "x": 0,
+            "y": 0,
+            "name": "PV Eingang"
+        },
+        "mppt.outWatts": {
+            "x": 0,
+            "y": 1,
+            "name": "PV Ausgang"
+        },
+        "mppt.mpptTemp": {
+            "x": 0,
+            "y": 2,
+            "name": "MPPT Temperatur"
+        },
+        "mppt.chgState": {
+            "x": 0,
+            "y": 3,
+            "name": "MPPT Ladestatus"
+        },
+        "inv.outTemp": {
+            "x": 0,
+            "y": 4,
+            "name": "Inverter Temperatur"
+        },
+        "inv.cfgAcEnabled": {
+            "x": 0,
+            "y": 5,
+            "name": "AC An"
+        },
+        "inv.outputWatts": {
+            "x": 0,
+            "y": 6,
+            "name": "AC Ausgang"
+        }
+    }
