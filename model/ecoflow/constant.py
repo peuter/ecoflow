@@ -6,6 +6,14 @@ DEFAULT_DEST = 53
 
 PLUG_MAX_WATTS_LIMIT = 2500
 
+class WatthType(IntEnum):
+    TOTAL = 1
+    TO_PLUGS = 2 # ?
+    TO_BATTERY = 3 # ?
+    FROM_BATTERY = 4 # ?
+    PV1 = 7 #?
+    PV2 = 8 #?
+
 class CmdFuncs(IntEnum):
     DEFAULT = 0
     POWERSTREAM = 20
@@ -16,6 +24,10 @@ class SupplyPriority(IntEnum):
     POWER = 0
     BATTERY = 1
 
+class FeedPriority(IntEnum):
+    ALL_SUN_TO_POWER = 0
+    ONLY_PERMANENT_WATT = 1       
+
 class CmdIds(IntEnum):
     # powerstream
     HEARTBEAT = 1
@@ -24,6 +36,7 @@ class CmdIds(IntEnum):
     SET_BAT_LOWER = 132
     SET_BAT_UPPER = 133
     SET_BRIGHTNESS = 135
+    SET_FEED_PRIORITY = 143
 
     # smart plug
     PLUG_HEARTBEAT = 1

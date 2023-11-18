@@ -50,7 +50,7 @@ message InverterHeartbeat {
     optional int32 pv2Temp = 25 [(mapping_options) = {divisor: 10, unit: "°C", node: "pv2" }];
     optional int32 batInputVolt = 26 [(mapping_options) = {divisor: 10, unit: "V", node: "battery" }];
     optional int32 batOpVolt = 27 [(mapping_options) = {divisor: 10, unit: "V", node: "battery" }];
-    optional int32 batInputCur = 28 [(mapping_options) = {divisor: 10, unit: "A", node: "battery" }];
+    optional int32 batInputCur = 28 [(mapping_options) = {divisor: 1000, unit: "A", node: "battery" }];
     optional int32 batInputWatts = 29 [(mapping_options) = { divisor: 10, unit: "W", node: "battery" }];
     optional int32 batTemp = 30 [(mapping_options) = {divisor: 10, unit: "°C", node: "battery" }];
     optional uint32 batSoc = 31 [(mapping_options) = {unit: "%", node: "battery" }];
@@ -58,12 +58,12 @@ message InverterHeartbeat {
     optional int32 llcOpVolt = 33 [(mapping_options) = {divisor: 100, unit: "V", node: "llc" }];
     optional int32 llcTemp = 34 [(mapping_options) = {divisor: 10, unit: "°C", node: "llc" }];
     optional int32 invInputVolt = 35 [(mapping_options) = {divisor: 100, unit: "V", node: "inverter" }];
-    optional int32 invOpVolt = 36 [(mapping_options) = {divisor: 100, unit: "V", node: "inverter" }];
-    optional int32 invOutputCur = 37 [(mapping_options) = {divisor: 100, unit: "A", node: "inverter" }];
+    optional int32 invOpVolt = 36 [(mapping_options) = {divisor: 10, unit: "V", node: "inverter" }];
+    optional int32 invOutputCur = 37 [(mapping_options) = {divisor: 1000, unit: "A", node: "inverter" }];
     optional int32 invOutputWatts = 38 [(mapping_options) = { divisor: 10, unit: "W", node: "inverter" }];
     optional int32 invTemp = 39 [(mapping_options) = {divisor: 10, unit: "°C", node: "inverter" }];
     optional int32 invFreq = 40 [(mapping_options) = {divisor: 10, unit: "Hz", node: "inverter" }];
-    optional int32 invDcCur = 41 [(mapping_options) = {divisor: 10, unit: "A", node: "inverter" }];
+    optional int32 invDcCur = 41 [(mapping_options) = {divisor: 1000, unit: "A", node: "inverter" }];
     optional int32 bpType = 42;
     optional int32 invRelayStatus = 43 [(mapping_options) = { node: "inverter" }];
     optional int32 pv1RelayStatus = 44 [(mapping_options) = { node: "pv1" }];
@@ -83,6 +83,7 @@ message InverterHeartbeat {
     optional uint32 ratedPower = 58 [(mapping_options) = { divisor: 10, unit: "W", node: "states" }];
     optional int32 batChargingTime = 59 [(mapping_options) = { converter: "minutes", node: "battery" }];
     optional int32 batDischargingTime = 60 [(mapping_options) = { converter: "minutes", node: "battery" }];
+    optional uint32 feedPriority = 61 [(mapping_options) = {node: "states", settable: true}];
 }
 
 message InverterHeartbeat2 {

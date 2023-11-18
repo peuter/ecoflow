@@ -60,7 +60,7 @@ class EcoflowDevice:
             },
             CmdFuncs.REPORTS: {
                 16: platform.EventRecordReport(),
-                CmdIds.ENERGY_TOTAL_REPORT: platform.EnergyTotalReport()
+                CmdIds.ENERGY_TOTAL_REPORT: platform.BatchEnergyTotalReport()
             }
         }   
 

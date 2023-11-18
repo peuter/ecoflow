@@ -20,9 +20,12 @@ class Ecoflow_Powerstream(EcoflowDevice):
 
         # energy values
         self.today_total = None
+        self.today_to_plugs = None
         self.today_from_battery = None
         self.today_to_battery = None
         self.today_from_solar = None
+        self.today_from_pv1 = None
+        self.today_from_pv2 = None
 
         self.connector = Connector(self.device_sn, "powerstream", name="Powerstream", screen=stdscr)
         proto_message = powerstream.InverterHeartbeat()
@@ -52,6 +55,10 @@ class Ecoflow_Powerstream(EcoflowDevice):
         node.add_property(self.today_total)
         _LOGGER.debug(f"property {self.today_total.name} has been added to node {node.name}")
 
+        self.today_to_plugs = Property_Integer(node, "today-to-plugs", name="Today to plugs", unit="Wh", value=0, settable=False)
+        node.add_property(self.today_to_plugs)
+        _LOGGER.debug(f"property {self.today_to_plugs.name} has been added to node {node.name}")
+
         self.today_from_battery = Property_Integer(node, "today-from-battery", name="Today from battery", unit="Wh", value=0, settable=False)
         node.add_property(self.today_from_battery)
         _LOGGER.debug(f"property {self.today_from_battery.name} has been added to node {node.name}")
@@ -64,33 +71,54 @@ class Ecoflow_Powerstream(EcoflowDevice):
         node.add_property(self.today_from_solar)
         _LOGGER.debug(f"property {self.today_from_solar.name} has been added to node {node.name}")
 
+        self.today_from_pv1 = Property_Integer(node, "today-from-pv1", name="Today from PV1", unit="Wh", value=0, settable=False)
+        node.add_property(self.today_from_pv1)
+        _LOGGER.debug(f"property {self.today_from_pv1.name} has been added to node {node.name}")
+
+        self.today_from_pv2 = Property_Integer(node, "today-from-pv2", name="Today from PV2", unit="Wh", value=0, settable=False)
+        node.add_property(self.today_from_pv2)
+        _LOGGER.debug(f"property {self.today_from_pv2.name} has been added to node {node.name}")
+
     def handle_energy_total_report(self, pdata, header):
-        # [total, ?, ?, from_bat, pv1?, pv2?]
-        sums = [0,0,0,0,0,0]
-        type = pdata.watth_item.watth_type
-        date = datetime.datetime.utcfromtimestamp(pdata.watth_item.timestamp)
-        offset = 0
-        idx = 0
-        for val in pdata.watth_item.watth:
-            offset = math.floor(idx/24)
-            sums[offset] += val
-            idx+=1
+        for item in pdata.watth_item:
+            date = datetime.datetime.utcfromtimestamp(item.timestamp)
+            _LOGGER.debug("[%s] %s: %s [%s]" % (date.strftime("%Y-%m-%d"), item.watth_type, sum(item.watth), len(item.watth)))
 
-        if self.today_total is not None:
-            self.set_today_total(sums[0])
-
-        if self.today_from_battery is not None:
-            self.set_today_from_battery(sums[3])
-        #print("%s, type: %s, sums: %s" % (date, type, sums))
+            if item.watth_type == WatthType.TOTAL:
+                self.set_today_total(sum(item.watth))
+            elif item.watth_type == WatthType.TO_PLUGS:
+                self.set_today_to_plugs(sum(item.watth))
+            elif item.watth_type == WatthType.FROM_BATTERY:
+                self.set_today_from_battery(sum(item.watth))
+            elif item.watth_type == WatthType.TO_BATTERY:
+                self.set_today_to_battery(sum(item.watth))
+            elif item.watth_type == WatthType.PV1:
+                self.set_today_from_pv1(sum(item.watth))
+            elif item.watth_type == WatthType.PV2:
+                self.set_today_from_pv2(sum(item.watth))
+            else:
+                _LOGGER.warning("unhandled watth_type: %s, sum: %s" % (item.watth_type, sum(item.watth)))    
 
     def set_today_from_battery(self, val):
         if self.today_from_battery.value != val:
             self.today_from_battery.value = val
             self.update_today_from_solar()
 
+    def set_today_to_plugs(self, val):
+        if self.today_to_plugs.value != val:
+            self.today_to_plugs.value = val
+
     def set_today_to_battery(self, val):
         if self.today_to_battery.value != val:
             self.today_to_battery.value = val
+
+    def set_today_from_pv1(self, val):
+        if self.today_from_pv1.value != val:
+            self.today_from_pv1.value = val
+
+    def set_today_from_pv2(self, val):
+        if self.today_from_pv2.value != val:
+            self.today_from_pv2.value = val
 
     def set_today_total(self, val):
         if self.today_total.value != val:
@@ -117,6 +145,8 @@ class Ecoflow_Powerstream(EcoflowDevice):
             self.set_brightness(value)
         elif id == "supply-priority":
             self.set_supply_priority(value)
+        elif id == "feed-priority":
+            self.set_feed_priority(value)
         else:
             _LOGGER.error(f"unhandled set_request for {id}")
 
@@ -145,6 +175,12 @@ class Ecoflow_Powerstream(EcoflowDevice):
             pdata = powerstream.SetValue()
             pdata.value = value
             self.send_set(pdata, CmdIds.SET_SUPPLY_PRIORITY)        
+
+    def set_feed_priority(self, value):
+        if value >= 0 and value <= 1:
+            pdata = powerstream.SetValue()
+            pdata.value = value
+            self.send_set(pdata, CmdIds.SET_FEED_PRIORITY)        
 
     def send_set(self, pdata, cmd_id):
         message = powerstream.SendHeaderMsg()

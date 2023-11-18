@@ -33,7 +33,7 @@
     ],
     "properties": {
         "bmsMaster.amp": {
-            "divisor": 1,
+            "divisor": 1000,
             "unit": "A",
             "node": "bmsMaster",
             "name": "amp"
@@ -63,8 +63,8 @@
             "name": "cycles"
         },
         "bmsMaster.designCap": {
-            "divisor": 20,
-            "unit": "Wh",
+            "divisor": 1,
+            "unit": "mAh",
             "node": "bmsMaster",
             "name": "designCap"
         },
@@ -81,13 +81,13 @@
             "name": "f32ShowSoc"
         },
         "bmsMaster.fullCap": {
-            "divisor": 20,
-            "unit": "Wh",
+            "divisor": 1,
+            "unit": "mAh",
             "node": "bmsMaster",
             "name": "fullCap"
         },
         "bmsMaster.inputWatts": {
-            "divisor": 1,
+            "divisor": 10,
             "unit": "W",
             "node": "bmsMaster",
             "name": "inputWatts"
@@ -147,8 +147,8 @@
             "name": "outputWatts"
         },
         "bmsMaster.remainCap": {
-            "divisor": 20,
-            "unit": "Wh",
+            "divisor": 1,
+            "unit": "mAh",
             "node": "bmsMaster",
             "name": "remainCap"
         },
@@ -196,13 +196,13 @@
             "name": "type"
         },
         "bmsMaster.vol": {
-            "divisor": 1,
+            "divisor": 1000,
             "unit": "",
             "node": "bmsMaster",
             "name": "vol"
         },
         "bmsSlave1.amp": {
-            "divisor": 1,
+            "divisor": 1000,
             "unit": "A",
             "node": "bmsSlave1",
             "name": "amp"
@@ -232,8 +232,8 @@
             "name": "cycles"
         },
         "bmsSlave1.designCap": {
-            "divisor": 20,
-            "unit": "Wh",
+            "divisor": 1,
+            "unit": "mAh",
             "node": "bmsSlave1",
             "name": "designCap"
         },
@@ -250,13 +250,13 @@
             "name": "f32ShowSoc"
         },
         "bmsSlave1.fullCap": {
-            "divisor": 20,
-            "unit": "Wh",
+            "divisor": 1,
+            "unit": "mAh",
             "node": "bmsSlave1",
             "name": "fullCap"
         },
         "bmsSlave1.inputWatts": {
-            "divisor": 1,
+            "divisor": 10,
             "unit": "W",
             "node": "bmsSlave1",
             "name": "inputWatts"
@@ -316,8 +316,8 @@
             "name": "outputWatts"
         },
         "bmsSlave1.remainCap": {
-            "divisor": 20,
-            "unit": "Wh",
+            "divisor": 1,
+            "unit": "mAh",
             "node": "bmsSlave1",
             "name": "remainCap"
         },
@@ -365,8 +365,8 @@
             "name": "type"
         },
         "bmsSlave1.vol": {
-            "divisor": 1,
-            "unit": "",
+            "divisor": 1000,
+            "unit": "V",
             "node": "bmsSlave1",
             "name": "vol"
         },
@@ -583,13 +583,13 @@
             "name": "cfgAcXboost"
         },
         "inv.cfgFastChgWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "inv",
             "name": "cfgFastChgWatts"
         },
         "inv.cfgSlowChgWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "inv",
             "name": "cfgSlowChgWatts"
@@ -625,8 +625,8 @@
             "name": "dcInTemp"
         },
         "inv.dcInVol": {
-            "divisor": 1,
-            "unit": "",
+            "divisor": 1000,
+            "unit": "V",
             "node": "inv",
             "name": "dcInVol"
         },
@@ -649,13 +649,13 @@
             "name": "fanState"
         },
         "inv.inputWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "inv",
             "name": "inputWatts"
         },
         "inv.invOutAmp": {
-            "divisor": 1,
+            "divisor": 1000,
             "unit": "A",
             "node": "inv",
             "name": "invOutAmp"
@@ -667,7 +667,7 @@
             "name": "invOutFreq"
         },
         "inv.invOutVol": {
-            "divisor": 1,
+            "divisor": 1000,
             "unit": "",
             "node": "inv",
             "name": "invOutVol"
@@ -697,13 +697,13 @@
             "name": "sysVer"
         },
         "mppt.carOutAmp": {
-            "divisor": 1,
+            "divisor": 10,
             "unit": "A",
             "node": "mppt",
             "name": "carOutAmp"
         },
         "mppt.carOutVol": {
-            "divisor": 1,
+            "divisor": 10,
             "unit": "",
             "node": "mppt",
             "name": "carOutVol"
@@ -734,7 +734,7 @@
         },
         "mppt.cfgDcChgCurrent": {
             "divisor": 1,
-            "unit": "",
+            "unit": "mA",
             "node": "mppt",
             "name": "cfgDcChgCurrent"
         },
@@ -769,13 +769,13 @@
             "name": "dc24vTemp"
         },
         "mppt.dcdc12vAmp": {
-            "divisor": 1,
+            "divisor": 100,
             "unit": "A",
             "node": "mppt",
             "name": "dcdc12vAmp"
         },
         "mppt.dcdc12vVol": {
-            "divisor": 1,
+            "divisor": 10,
             "unit": "",
             "node": "mppt",
             "name": "dcdc12vVol"
@@ -793,14 +793,14 @@
             "name": "faultCode"
         },
         "mppt.inAmp": {
-            "divisor": 1,
+            "divisor": 100,
             "unit": "A",
             "node": "mppt",
             "name": "inAmp"
         },
         "mppt.inVol": {
-            "divisor": 1,
-            "unit": "",
+            "divisor": 10,
+            "unit": "V",
             "node": "mppt",
             "name": "inVol"
         },
@@ -817,14 +817,14 @@
             "name": "mpptTemp"
         },
         "mppt.outAmp": {
-            "divisor": 1,
+            "divisor": 100,
             "unit": "A",
             "node": "mppt",
             "name": "outAmp"
         },
         "mppt.outVol": {
-            "divisor": 1,
-            "unit": "",
+            "divisor": 10,
+            "unit": "V",
             "node": "mppt",
             "name": "outVol"
         },
@@ -865,8 +865,8 @@
             "name": "carTemp"
         },
         "pd.carUsedTime": {
-            "divisor": 1,
-            "unit": "",
+            "divisor": 60,
+            "unit": "min",
             "node": "pd",
             "name": "carUsedTime",
             "converter": "minutes"
@@ -896,8 +896,8 @@
             "name": "chgSunPower"
         },
         "pd.dcInUsedTime": {
-            "divisor": 1,
-            "unit": "",
+            "divisor": 60,
+            "unit": "min",
             "node": "pd",
             "name": "dcInUsedTime",
             "converter": "minutes"
@@ -1253,8 +1253,8 @@
             "name": "iconWirelessChgState"
         },
         "pd.invUsedTime": {
-            "divisor": 1,
-            "unit": "",
+            "divisor": 60,
+            "unit": "min",
             "node": "pd",
             "name": "invUsedTime",
             "converter": "minutes"
@@ -1296,20 +1296,20 @@
             "name": "model"
         },
         "pd.mpptUsedTime": {
-            "divisor": 1,
-            "unit": "",
+            "divisor": 60,
+            "unit": "min",
             "node": "pd",
             "name": "mpptUsedTime",
             "converter": "minutes"
         },
         "pd.qcUsb1Watts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "pd",
             "name": "qcUsb1Watts"
         },
         "pd.qcUsb2Watts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "pd",
             "name": "qcUsb2Watts"
@@ -1346,8 +1346,8 @@
             "name": "sysVer"
         },
         "pd.typccUsedTime": {
-            "divisor": 1,
-            "unit": "",
+            "divisor": 60,
+            "unit": "min",
             "node": "pd",
             "name": "typccUsedTime",
             "converter": "minutes"
@@ -1359,7 +1359,7 @@
             "name": "typec1Temp"
         },
         "pd.typec1Watts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "pd",
             "name": "typec1Watts"
@@ -1371,33 +1371,33 @@
             "name": "typec2Temp"
         },
         "pd.typec2Watts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "pd",
             "name": "typec2Watts"
         },
         "pd.usb1Watts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "pd",
             "name": "usb1Watts"
         },
         "pd.usb2Watts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "pd",
             "name": "usb2Watts"
         },
         "pd.usbUsedTime": {
-            "divisor": 1,
-            "unit": "",
+            "divisor": 60,
+            "unit": "min",
             "node": "pd",
             "name": "usbUsedTime",
             "converter": "minutes"
         },
         "pd.usbqcUsedTime": {
-            "divisor": 1,
-            "unit": "",
+            "divisor": 60,
+            "unit": "min",
             "node": "pd",
             "name": "usbqcUsedTime",
             "converter": "minutes"
@@ -1433,7 +1433,7 @@
             "name": "wifiVer"
         },
         "pd.wirelessWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "pd",
             "name": "wirelessWatts"

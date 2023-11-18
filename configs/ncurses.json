@@ -75,12 +75,12 @@
         "mppt.mpptTemp": {
             "x": 0,
             "y": 2,
-            "name": "MPTT Temperatur"
+            "name": "MPPT Temperatur"
         },
         "mppt.chgState": {
             "x": 0,
             "y": 3,
-            "name": "MPTT Ladestatus"
+            "name": "MPPT Ladestatus"
         },
         "inv.outTemp": {
             "x": 0,
