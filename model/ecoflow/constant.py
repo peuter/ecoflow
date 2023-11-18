@@ -6,6 +6,14 @@ DEFAULT_DEST = 53
 
 PLUG_MAX_WATTS_LIMIT = 2500
 
+class WatthType(IntEnum):
+    TOTAL = 1
+    TO_PLUGS = 2 # ?
+    TO_BATTERY = 3 # ?
+    FROM_BATTERY = 4 # ?
+    PV1 = 7 #?
+    PV2 = 8 #?
+
 class CmdFuncs(IntEnum):
     DEFAULT = 0
     POWERSTREAM = 20
