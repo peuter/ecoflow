@@ -17,6 +17,8 @@ EF_USERNAME=<ecoflow account username (email address)>
 EF_PASSWORD=<ecoflow account password>
 HOMIE_MQTT=<mqtt server ip/hostname>
 HOMIE_MQTT_PORT=<mqtt server port>
+HOMIE_MQTT_USERNAME=<mqtt username if your mqtt broker needs credentials>
+HOMIE_MQTT_PASSWORD=<mqtt password if your mqtt broker needs credentials>
 ```
 
 3. Create `config.json` in `configs` subfolder
