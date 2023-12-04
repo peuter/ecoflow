@@ -28,7 +28,10 @@ class Connector(EventEmitter):
         self.mqtt_settings = {
             "MQTT_BROKER": os.getenv("HOMIE_MQTT"),
             "MQTT_PORT": int(os.getenv("HOMIE_MQTT_PORT")) if os.getenv("HOMIE_MQTT_PORT") is not None else 1883,
-            "MQTT_SHARE_CLIENT": True
+            "MQTT_SHARE_CLIENT": True,
+            "MQTT_USERNAME": os.getenv("HOMIE_MQTT_USERNAME"),
+            "MQTT_PASSWORD": os.getenv("HOMIE_MQTT_PASSWORD"),
+            "MQTT_CLIENT_ID": os.getenv("HOMIE_MQTT_CLIENT_ID")
         }
 
         try:
