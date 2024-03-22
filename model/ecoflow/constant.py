@@ -31,11 +31,14 @@ class FeedPriority(IntEnum):
 class CmdIds(IntEnum):
     # powerstream
     HEARTBEAT = 1
+    HEARTBEAT2 = 4
     SET_PERMANENT_WATTS = 129
     SET_SUPPLY_PRIORITY = 130
     SET_BAT_LOWER = 132
     SET_BAT_UPPER = 133
     SET_BRIGHTNESS = 135
+    SET_UNKNOWN_136 = 136
+    SET_UNKNOWN_138 = 138
     SET_FEED_PRIORITY = 143
 
     # smart plug
@@ -47,6 +50,7 @@ class CmdIds(IntEnum):
     SET_UNKNOWN_135 = 135
     SET_MAX_WATTS = 137
     SET_MESH_ENABLE = 138
+    INCLUDE_PLUG = 142
 
     # cmd_func 254
     ENERGY_TOTAL_REPORT = 32

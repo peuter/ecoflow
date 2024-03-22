@@ -29,13 +29,17 @@ class Ecoflow_Powerstream(EcoflowDevice):
 
         self.connector = Connector(self.device_sn, "powerstream", name="Powerstream", screen=stdscr)
         proto_message = powerstream.InverterHeartbeat()
+        proto_message2 = powerstream.InverterHeartbeat2()
         self.connector.set_proto_message(proto_message)
         self.connector.on("set_request", self.on_set_request)
-        self.connector.init_screen([x.name for x in proto_message.DESCRIPTOR.fields])
+        fields = [x.name for x in proto_message.DESCRIPTOR.fields]
+        for x in proto_message2.DESCRIPTOR.fields:
+            fields.append(x.name)
+        self.connector.init_screen(fields)
         self.customize_homie()
         self.connector.start()
         self.default_cmd_func = CmdFuncs.POWERSTREAM
-        self.add_cmd_id_handler(self.handle_heartbeat, [CmdIds.HEARTBEAT])
+        self.add_cmd_id_handler(self.handle_heartbeat, [CmdIds.HEARTBEAT, CmdIds.HEARTBEAT2])
         self.add_cmd_id_handler(self.handle_energy_total_report, [CmdIds.ENERGY_TOTAL_REPORT], CmdFuncs.REPORTS)
 
     def init_subscriptions(self):        

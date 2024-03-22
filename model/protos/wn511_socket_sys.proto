@@ -79,8 +79,7 @@ message time_task_config {
 }
 
 message time_task_config_post {
-  optional int32 index = 1;
-  optional time_task_config task_config = 2;
+  repeated time_task_config task_config = 1;
 }
 
 message PowerItem {
@@ -109,3 +108,7 @@ message mesh_ctrl_pack {
 message ret_pack {
   optional bool ret_sta = 1;
 }
+
+message include_plug {
+	optional bool include_plug = 1;
+  }

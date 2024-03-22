@@ -39,21 +39,25 @@ class EcoflowDevice:
         self.pdata_messages = {
             CmdFuncs.SMART_PLUG: {
                 CmdIds.PLUG_HEARTBEAT: wn511.plug_heartbeat_pack(),
-                CmdIds.TIME_TASK_CONFIG: wn511.time_task_config(),
+                CmdIds.TIME_TASK_CONFIG: wn511.time_task_config_post(),
                 CmdIds.SET_PLUG_SWITCH: wn511.plug_switch_message(),
                 CmdIds.SET_PLUG_BRIGHTNESS: wn511.brightness_pack(),
                 CmdIds.SET_UNKNOWN_135: powerstream.SetValue(),
                 CmdIds.SET_MAX_WATTS: wn511.max_watts_pack(),
                 CmdIds.SET_MESH_ENABLE: wn511.mesh_ctrl_pack(),
-                CmdIds.PLUG_POWER_PACK: wn511.PowerPack()
+                CmdIds.PLUG_POWER_PACK: wn511.PowerPack(),
+                CmdIds.INCLUDE_PLUG: wn511.include_plug()
             },
             CmdFuncs.POWERSTREAM: {
                 CmdIds.HEARTBEAT: powerstream.InverterHeartbeat(),
+                CmdIds.HEARTBEAT2: powerstream.InverterHeartbeat2(),
                 CmdIds.SET_PERMANENT_WATTS: wn511.permanent_watts_pack(),
                 CmdIds.SET_SUPPLY_PRIORITY: powerstream.SetValue(),
                 CmdIds.SET_BAT_LOWER: wn511.bat_lower_pack(),
                 CmdIds.SET_BAT_UPPER: wn511.bat_upper_pack(),
-                CmdIds.SET_PLUG_BRIGHTNESS: wn511.brightness_pack()
+                CmdIds.SET_PLUG_BRIGHTNESS: wn511.brightness_pack(),
+                CmdIds.SET_UNKNOWN_136: powerstream.SetValue(),
+                CmdIds.SET_UNKNOWN_138: powerstream.SetValue(),
             },
             32: {
                 11: powerstream.SetValue(),
@@ -71,6 +75,7 @@ class EcoflowDevice:
         self._set_reply_topic = f"/app/{user_id}/{self.device_sn}/thing/property/set_reply"
         self._get_topic = f"/app/{user_id}/{self.device_sn}/thing/property/get"
         self._get_reply_topic = f"/app/{user_id}/{self.device_sn}/thing/property/get_reply"
+        self._all_topics = f"/app/{user_id}/{self.device_sn}/#"
 
         self.init_subscriptions()
 
