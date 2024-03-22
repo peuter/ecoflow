@@ -1,6 +1,6 @@
 from model.ecoflow.base_device import EcoflowDevice
 from model.connector import Connector
-from model.protos.wn511_socket_sys_pb2 import plug_switch_message, plug_heartbeat_pack, brightness_pack, max_watts_pack
+from model.protos.wn511_socket_sys_pb2 import plug_switch_message, plug_heartbeat_pack, brightness_pack, max_watts_pack, plug_ack_message
 from model.protos.powerstream_pb2 import SendHeaderMsg 
 from model.ecoflow.constant import *
 import logging
@@ -65,7 +65,7 @@ class Ecoflow_Smartplug(EcoflowDevice):
         self.client.publish(self._set_topic, message.SerializeToString())
 
 
-class Simulated_Ecoflow_Smartplug(Ecoflow_Smartplug):
+class Simulated_Ecoflow_Smartplug(Ecoflow_Smartplug):    
     def __init__(self, serial: str, user_id: str, stdscr=None):
         super().__init__(serial, user_id, stdscr=stdscr, is_simulated=True)
 
@@ -105,10 +105,26 @@ class Simulated_Ecoflow_Smartplug(Ecoflow_Smartplug):
             setattr(pdata, name, value)
         self.send_heartbeat(pdata)
 
+    def on_set_request(self, id, value):
+        if id == "watts":
+            self.set_watts(value)
+        else:
+            super().on_set_request(id, value)
+
     def set_watts(self, watts):
         if self._states["watts"] != watts:
             self._states["watts"] = watts * 10            
             self._changed.append("watts")
+
+    def set_plug_switch(self, on: bool):
+        pdata = plug_ack_message()
+        pdata.ack = 1
+        new_val = 1 if on else 0
+        if self._states["switch"] != new_val:
+            self._states["switch"] = new_val
+            self._changed.append("switch")
+
+        self.client.publish(self._set_topic, pdata.SerializeToString())
 
     def flush_changes(self):
         pdata = plug_heartbeat_pack()
