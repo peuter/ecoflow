@@ -25,7 +25,7 @@ class Ecoflow_Smartplug(EcoflowDevice):
         if id == "switch":
             self.set_plug_switch(value)
         elif id == "max-watts":
-            self.set_brightness(value)
+            self.set_max_watts(value)
         elif id == "brightness":
             self.set_brightness(value)
 
@@ -35,13 +35,14 @@ class Ecoflow_Smartplug(EcoflowDevice):
 
     def set_brightness(self, value):
         pdata = brightness_pack()
-        pdata.lower_limit = max(0, min(100, value))
+        value = max(0, min(100, value))
+        pdata.brightness = int(value * 10.23)
         self.send_set(pdata, CmdIds.SET_PLUG_BRIGHTNESS)
 
     def set_max_watts(self, value):
         pdata = max_watts_pack()
         pdata.max_watts = max(0, min(PLUG_MAX_WATTS_LIMIT, value))
-        self.send_set(pdata, CmdIds.SET_PLUG_BRIGHTNESS)        
+        self.send_set(pdata, CmdIds.SET_MAX_WATTS)        
 
     def set_plug_switch(self, on: bool):
         pdata = plug_switch_message()
