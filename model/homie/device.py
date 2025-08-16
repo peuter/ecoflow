@@ -160,9 +160,6 @@ class Property_Number_Boolean(Property_Boolean):
         else:
             return None
 
-    def get_payload_from_value(self, value):  # convert value to a payload for homie
-        return value and "1" or "0"
-
 class Json_Device(Mapped_Device):
      
      def initialize(self, device_config):
@@ -221,7 +218,7 @@ class Json_Device(Mapped_Device):
                             property = Property_Integer(*args, **kwargs)
 
                     node.add_property(property)
-                    _LOGGER.debug(f"property {property.name} has been added to node {node.name}")
+                    _LOGGER.debug(f"property {property.name} [{property.data_type}] has been added to node {node.name}")
                 else:
                     _LOGGER.error(f"node {descriptor['node']} does not exists field {descriptor['name']} will not be mapped to homie!")
 
