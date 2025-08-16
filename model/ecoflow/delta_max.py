@@ -6,6 +6,8 @@ import math
 import os
 import json
 
+from model.ecoflow.constant import CmdIds
+
 _LOGGER = logging.getLogger(__name__)
 
 class Ecoflow_DeltaMax(EcoflowDevice):
@@ -17,6 +19,7 @@ class Ecoflow_DeltaMax(EcoflowDevice):
         self.connector = Connector(self.device_sn, "delta-max", name="Delta Max", screen=stdscr)
         self.connector.col_width = 38
         self.connector.show_filter = lambda name : name[0:3] in ["bms", "ems", "pd."] and name[0:7] != "pd.icon"
+        self.connector.on("set_request", self.on_set_request)
         self.config_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'protos', 'delta-max.json')
         self.config = None
         with open(self.config_file) as f:
@@ -115,3 +118,32 @@ class Ecoflow_DeltaMax(EcoflowDevice):
             "divisor": divisor,
             "special_handler": special_handler
         }
+    
+    def on_set_request(self, id, value):
+        _LOGGER.debug(f"received set-request for {id} with value: {value}")
+        if id == "dc-out-state":            
+            self.set_out(value, CmdIds.USB_OUT_CFG)
+        elif id == "car-state":            
+            self.set_out(value, CmdIds.CAR_OUT_CFG)
+        elif id == "cfg-ac-enabled":
+            self.set_out(value, CmdIds.AC_OUT_CFG)
+        elif id == "cfg-ac-xboost":
+            self.set_out(value, CmdIds.AC_OUT_CFG, name="xboost")
+        else:
+            _LOGGER.error(f"unhandled set_request for {id}")
+
+    def set_out(self, power, cmdId, name="enabled"):
+        params = {
+            "id": cmdId
+        }
+        params[name] = 1 if power is True else 0
+        data = {
+            "from": "Android",
+            "isMatter": 0,
+            "id": "%s" % self.generate_seq(),
+            "moduleType": 0,
+            "operateType": "TCP",
+            "params": params,
+            "version": "1.1"
+        }        
+        self.client.publish(self._set_topic, json.dumps(data))

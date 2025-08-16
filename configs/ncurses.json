@@ -92,10 +92,25 @@
             "y": 5,
             "name": "AC An"
         },
-        "inv.outputWatts": {
+        "inv.cfgAcXboost": {
             "x": 0,
             "y": 6,
+            "name": "AC XBoost"
+        },
+        "inv.outputWatts": {
+            "x": 0,
+            "y": 7,
             "name": "AC Ausgang"
+        },
+        "pd.dcOutState": {
+            "x": 0,
+            "y": 8,
+            "name": "USB An"
+        },
+        "mppt.carState": {
+            "x": 0,
+            "y": 9,
+            "name": "12V An"
         }
     }
 }

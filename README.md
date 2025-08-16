@@ -6,7 +6,7 @@ Connect to ecoflow MQTT server to communicate with an ecoflow device (currently 
 
 1. Create virtual environment and install dependencies
 ```shell
-python -m venv .venv
+python -m venv venv
 . venv/bin/activate
 pip install -r requirements.txt
 ```

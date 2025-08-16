@@ -556,7 +556,9 @@
             "divisor": 1,
             "unit": "",
             "node": "inv",
-            "name": "cfgAcEnabled"
+            "name": "cfgAcEnabled",
+            "settable": true,
+            "type": "number-boolean"
         },
         "inv.cfgAcOutFreq": {
             "divisor": 1,
@@ -580,7 +582,9 @@
             "divisor": 1,
             "unit": "",
             "node": "inv",
-            "name": "cfgAcXboost"
+            "name": "cfgAcXboost",
+            "settable": true,
+            "type": "number-boolean"
         },
         "inv.cfgFastChgWatts": {
             "divisor": 1,
@@ -718,7 +722,9 @@
             "divisor": 1,
             "unit": "",
             "node": "mppt",
-            "name": "carState"
+            "name": "carState",
+            "settable": true,
+            "type": "number-boolean"
         },
         "mppt.carTemp": {
             "divisor": 1,
@@ -906,7 +912,9 @@
             "divisor": 1,
             "unit": "",
             "node": "pd",
-            "name": "dcOutState"
+            "name": "dcOutState",
+            "settable": true,
+            "type": "number-boolean"
         },
         "pd.dsgPowerAc": {
             "divisor": 1000,

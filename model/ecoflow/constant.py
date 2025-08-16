@@ -54,3 +54,8 @@ class CmdIds(IntEnum):
 
     # cmd_func 254
     ENERGY_TOTAL_REPORT = 32
+
+    # delta max
+    CAR_OUT_CFG = 81
+    USB_OUT_CFG = 34
+    AC_OUT_CFG = 66

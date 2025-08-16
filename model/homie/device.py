@@ -141,6 +141,27 @@ class Proto_Device(Mapped_Device):
                 node.get_property(property_name).value = value    
 
 
+class Property_Number_Boolean(Property_Boolean):
+    def validate_value(self, value):
+        if isinstance(value, bool):
+            return True
+        int_val = int(value)
+        return int_val == 0 or int_val == 1
+
+    def get_value_from_payload(self, payload):
+        if payload == "true":
+            return True
+        elif payload == "false":
+            return False
+        elif int(payload) == 1:
+            return True
+        elif int(payload) == 0:
+            return False
+        else:
+            return None
+
+    def get_payload_from_value(self, value):  # convert value to a payload for homie
+        return value and "1" or "0"
 
 class Json_Device(Mapped_Device):
      
@@ -178,6 +199,8 @@ class Json_Device(Mapped_Device):
                     if "type" in descriptor:
                         if descriptor["type"] == "boolean":                        
                             property = Property_Boolean(*args, **kwargs)
+                        elif descriptor["type"] == "number-boolean":                        
+                            property = Property_Number_Boolean(*args, **kwargs)
                         elif descriptor["type"] == "number":
                             if descriptor["divisor"] > 1:
                                 # must be a float
