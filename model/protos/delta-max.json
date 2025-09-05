@@ -110,7 +110,7 @@
             "node": "bmsMaster",
             "name": "maxMosTemp"
         },
-        "bmsmaster.maxVolDiff": {
+        "bmsMaster.maxVolDiff": {
             "divisor": 1,
             "unit": "mV",
             "node": "bmsMaster",
