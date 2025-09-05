@@ -110,6 +110,12 @@
             "node": "bmsMaster",
             "name": "maxMosTemp"
         },
+        "bmsmaster.maxVolDiff": {
+            "divisor": 1,
+            "unit": "mV",
+            "node": "bmsMaster",
+            "name": "maxVolDiff"
+        },
         "bmsMaster.minCellTemp": {
             "divisor": 1,
             "unit": "\u00b0C",
@@ -163,7 +169,8 @@
             "divisor": 1,
             "unit": "%",
             "node": "bmsMaster",
-            "name": "soc"
+            "name": "soc",
+            "type": "battery"
         },
         "bmsMaster.soh": {
             "divisor": 1,
@@ -279,6 +286,12 @@
             "node": "bmsSlave1",
             "name": "maxMosTemp"
         },
+        "bmsSlave1.maxVolDiff": {
+            "divisor": 1,
+            "unit": "mV",
+            "node": "bmsSlave1",
+            "name": "maxVolDiff"
+        },
         "bmsSlave1.minCellTemp": {
             "divisor": 1,
             "unit": "\u00b0C",
@@ -332,7 +345,8 @@
             "divisor": 1,
             "unit": "%",
             "node": "bmsSlave1",
-            "name": "soc"
+            "name": "soc",
+            "type": "battery"
         },
         "bmsSlave1.soh": {
             "divisor": 1,
@@ -1333,7 +1347,8 @@
             "divisor": 1,
             "unit": "%",
             "node": "pd",
-            "name": "soc"
+            "name": "soc",
+            "type": "battery"
         },
         "pd.standByMode": {
             "divisor": 1,

@@ -34,6 +34,7 @@ class Ecoflow_DeltaMax(EcoflowDevice):
         self.connector.start()
 
         self.add_cmd_id_handler(self.handle_heartbeat, [0, "latestQuotas", "params"])
+        self.merged_data = {}
 
     def init_subscriptions(self):        
         super().init_subscriptions()
@@ -77,6 +78,9 @@ class Ecoflow_DeltaMax(EcoflowDevice):
 
         
         if data_map is not None:
+            if self.message_logger is not None:
+                self.merged_data = self.merged_data | data_map
+                self.message_logger.log_message(dict(sorted(self.merged_data.items())), prefix=f"{self.device_sn}-data", title=self.device_sn)
             for name, val in data_map.items():
                 if val is not None:
                     [unit, divisor, special_handler] = self.get_param_settings(name).values()

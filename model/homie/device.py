@@ -9,6 +9,7 @@ from homie.node.property.property_float import Property_Float
 from homie.node.property.property_boolean import Property_Boolean
 from homie.node.property.property_enum import Property_Enum
 from homie.node.property.property_string import Property_String
+from homie.node.property.property_battery import Property_Battery
 from model.utils.event_emitter import EventEmitter
 
 _LOGGER = logging.getLogger(__name__)
@@ -209,6 +210,8 @@ class Json_Device(Mapped_Device):
                             property = Property_Float(*args, **kwargs)
                         elif descriptor["type"] == "string":
                             property = Property_String(*args, **kwargs)
+                        elif descriptor["type"] == "battery":
+                            property = Property_Battery(*args, **kwargs)
                     else:
                         if descriptor["divisor"] > 1:
                             # must be a float
