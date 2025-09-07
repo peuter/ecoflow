@@ -3,6 +3,7 @@ from homie.node.node_base import Node_Base
 import model.protos.options_pb2 as options
 import logging
 import re
+import json
 
 from homie.node.property.property_integer import Property_Integer
 from homie.node.property.property_float import Property_Float
@@ -160,6 +161,26 @@ class Property_Number_Boolean(Property_Boolean):
             return False
         else:
             return None
+        
+class Property_Json(Property_String):
+    def validate_value(self, value):
+        try:
+            json.dumps(value)
+            return True
+        except:
+            return False
+
+    def get_value_from_payload(self, payload):
+        try:
+            return json.loads(payload)
+        except:
+            return None
+        
+    def get_payload_from_value(self, value):
+        try:            
+            return json.dumps(value)
+        except:
+            return None
 
 class Json_Device(Mapped_Device):
      
@@ -212,6 +233,8 @@ class Json_Device(Mapped_Device):
                             property = Property_String(*args, **kwargs)
                         elif descriptor["type"] == "battery":
                             property = Property_Battery(*args, **kwargs)
+                        elif descriptor["type"] == "json":
+                            property = Property_Json(*args, **kwargs)
                     else:
                         if descriptor["divisor"] > 1:
                             # must be a float

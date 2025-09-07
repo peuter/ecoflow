@@ -62,6 +62,13 @@
             "node": "bmsMaster",
             "name": "cycles"
         },
+        "bmsMaster.cellVol": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsMaster",
+            "name": "cellVol",
+            "type": "json"
+        },
         "bmsMaster.designCap": {
             "divisor": 1,
             "unit": "mAh",
@@ -111,8 +118,8 @@
             "name": "maxMosTemp"
         },
         "bmsMaster.maxVolDiff": {
-            "divisor": 1,
-            "unit": "mV",
+            "divisor": 1000,
+            "unit": "V",
             "node": "bmsMaster",
             "name": "maxVolDiff"
         },
@@ -232,6 +239,13 @@
             "node": "bmsSlave1",
             "name": "cellId"
         },
+        "bmsSlave1.cellVol": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsSlave1",
+            "name": "cellVol",
+            "type": "json"
+        },
         "bmsSlave1.cycles": {
             "divisor": 1,
             "unit": "",
@@ -287,8 +301,8 @@
             "name": "maxMosTemp"
         },
         "bmsSlave1.maxVolDiff": {
-            "divisor": 1,
-            "unit": "mV",
+            "divisor": 1000,
+            "unit": "V",
             "node": "bmsSlave1",
             "name": "maxVolDiff"
         },
