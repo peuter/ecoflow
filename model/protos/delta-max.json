@@ -94,7 +94,7 @@
             "name": "fullCap"
         },
         "bmsMaster.inputWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "bmsMaster",
             "name": "inputWatts"
@@ -154,7 +154,7 @@
             "name": "openBmsIdx"
         },
         "bmsMaster.outputWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "bmsMaster",
             "name": "outputWatts"
@@ -277,7 +277,7 @@
             "name": "fullCap"
         },
         "bmsSlave1.inputWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "bmsSlave1",
             "name": "inputWatts"
@@ -337,7 +337,7 @@
             "name": "openBmsIdx"
         },
         "bmsSlave1.outputWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "bmsSlave1",
             "name": "outputWatts"
@@ -741,7 +741,7 @@
             "name": "carOutVol"
         },
         "mppt.carOutWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "mppt",
             "name": "carOutWatts"
@@ -815,7 +815,7 @@
             "name": "dcdc12vVol"
         },
         "mppt.dcdc12vWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "mppt",
             "name": "dcdc12vWatts"
@@ -839,7 +839,7 @@
             "name": "inVol"
         },
         "mppt.inWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "mppt",
             "name": "inWatts"
@@ -863,7 +863,7 @@
             "name": "outVol"
         },
         "mppt.outWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "mppt",
             "name": "outWatts"
@@ -906,7 +906,7 @@
             "converter": "minutes"
         },
         "pd.carWatts": {
-            "divisor": 10,
+            "divisor": 1,
             "unit": "W",
             "node": "pd",
             "name": "carWatts"
