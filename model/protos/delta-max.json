@@ -11,6 +11,11 @@
             "type": "bmsSlave1"
         },
         {
+            "id": "bmsSlave2",
+            "name": "Slave2 BMS",
+            "type": "bmsSlave2"
+        },
+        {
             "id": "mppt",
             "name": "MPPT",
             "type": "mppt"
@@ -398,6 +403,189 @@
             "node": "bmsSlave1",
             "name": "vol"
         },
+         "bmsSlave2.amp": {
+            "divisor": 1000,
+            "unit": "A",
+            "node": "bmsSlave2",
+            "name": "amp"
+        },
+        "bmsSlave2.bmsFault": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsSlave2",
+            "name": "bmsFault"
+        },
+        "bmsSlave2.bqSysStatReg": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsSlave2",
+            "name": "bqSysStatReg"
+        },
+        "bmsSlave2.cellId": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsSlave2",
+            "name": "cellId"
+        },
+        "bmsSlave2.cellVol": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsSlave2",
+            "name": "cellVol",
+            "type": "json"
+        },
+        "bmsSlave2.cycles": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsSlave2",
+            "name": "cycles"
+        },
+        "bmsSlave2.designCap": {
+            "divisor": 1,
+            "unit": "mAh",
+            "node": "bmsSlave2",
+            "name": "designCap"
+        },
+        "bmsSlave2.errCode": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsSlave2",
+            "name": "errCode"
+        },
+        "bmsSlave2.f32ShowSoc": {
+            "divisor": 1,
+            "unit": "%",
+            "node": "bmsSlave2",
+            "name": "f32ShowSoc"
+        },
+        "bmsSlave2.fullCap": {
+            "divisor": 1,
+            "unit": "mAh",
+            "node": "bmsSlave2",
+            "name": "fullCap"
+        },
+        "bmsSlave2.inputWatts": {
+            "divisor": 1,
+            "unit": "W",
+            "node": "bmsSlave2",
+            "name": "inputWatts"
+        },
+        "bmsSlave2.maxCellTemp": {
+            "divisor": 1,
+            "unit": "\u00b0C",
+            "node": "bmsSlave2",
+            "name": "maxCellTemp"
+        },
+        "bmsSlave2.maxCellVol": {
+            "divisor": 1000,
+            "unit": "V",
+            "node": "bmsSlave2",
+            "name": "maxCellVol"
+        },
+        "bmsSlave2.maxMosTemp": {
+            "divisor": 1,
+            "unit": "\u00b0C",
+            "node": "bmsSlave2",
+            "name": "maxMosTemp"
+        },
+        "bmsSlave2.maxVolDiff": {
+            "divisor": 1000,
+            "unit": "V",
+            "node": "bmsSlave2",
+            "name": "maxVolDiff"
+        },
+        "bmsSlave2.minCellTemp": {
+            "divisor": 1,
+            "unit": "\u00b0C",
+            "node": "bmsSlave2",
+            "name": "minCellTemp"
+        },
+        "bmsSlave2.minCellVol": {
+            "divisor": 1000,
+            "unit": "V",
+            "node": "bmsSlave2",
+            "name": "minCellVol"
+        },
+        "bmsSlave2.minMosTemp": {
+            "divisor": 1,
+            "unit": "\u00b0C",
+            "node": "bmsSlave2",
+            "name": "minMosTemp"
+        },
+        "bmsSlave2.num": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsSlave2",
+            "name": "num"
+        },
+        "bmsSlave2.openBmsIdx": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsSlave2",
+            "name": "openBmsIdx"
+        },
+        "bmsSlave2.outputWatts": {
+            "divisor": 1,
+            "unit": "W",
+            "node": "bmsSlave2",
+            "name": "outputWatts"
+        },
+        "bmsSlave2.remainCap": {
+            "divisor": 1,
+            "unit": "mAh",
+            "node": "bmsSlave2",
+            "name": "remainCap"
+        },
+        "bmsSlave2.remainTime": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsSlave2",
+            "name": "remainTime",
+            "converter": "minutes"
+        },
+        "bmsSlave2.soc": {
+            "divisor": 1,
+            "unit": "%",
+            "node": "bmsSlave2",
+            "name": "soc",
+            "type": "battery"
+        },
+        "bmsSlave2.soh": {
+            "divisor": 1,
+            "unit": "%",
+            "node": "bmsSlave2",
+            "name": "soh"
+        },
+        "bmsSlave2.sysVer": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsSlave2",
+            "name": "sysVer"
+        },
+        "bmsSlave2.tagChgAmp": {
+            "divisor": 1000,
+            "unit": "A",
+            "node": "bmsSlave2",
+            "name": "tagChgAmp"
+        },
+        "bmsSlave2.temp": {
+            "divisor": 1,
+            "unit": "\u00b0C",
+            "node": "bmsSlave2",
+            "name": "temp"
+        },
+        "bmsSlave2.type": {
+            "divisor": 1,
+            "unit": "",
+            "node": "bmsSlave2",
+            "name": "type"
+        },
+        "bmsSlave2.vol": {
+            "divisor": 1000,
+            "unit": "V",
+            "node": "bmsSlave2",
+            "name": "vol"
+        },
         "ems.bms0Online": {
             "divisor": 1,
             "unit": "",
@@ -681,7 +869,7 @@
             "name": "fanState"
         },
         "inv.inputWatts": {
-            "divisor": 1,
+            "divisor": 10,
             "unit": "W",
             "node": "inv",
             "name": "inputWatts"
@@ -717,7 +905,7 @@
             "name": "outTemp"
         },
         "inv.outputWatts": {
-            "divisor": 1,
+            "divisor": 10,
             "unit": "W",
             "node": "inv",
             "name": "outputWatts"
@@ -839,7 +1027,7 @@
             "name": "inVol"
         },
         "mppt.inWatts": {
-            "divisor": 1,
+            "divisor": 10,
             "unit": "W",
             "node": "mppt",
             "name": "inWatts"
@@ -863,7 +1051,7 @@
             "name": "outVol"
         },
         "mppt.outWatts": {
-            "divisor": 1,
+            "divisor": 10,
             "unit": "W",
             "node": "mppt",
             "name": "outWatts"
